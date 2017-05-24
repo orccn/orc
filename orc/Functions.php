@@ -44,10 +44,7 @@ function I($name, $all = false)
             return '';
     }
     
-    $filter = config('input_filter') ? config('input_filter') : [
-        'trim',
-        'htmlspecialchars'
-    ];
+    $filter = config('input_filter') ? config('input_filter') : ['trim','htmlspecialchars'];
     if ($all) {
         return array_map_recursive($filter, $input);
     }
@@ -90,6 +87,16 @@ function config($key, $value = null)
 function lang($key = '', $value = null)
 {
     return Lang::get($key, $value);
+}
+
+function gvar($key, $value = null)
+{
+    static $vars = [];
+    if ($value !== null) {
+        $vars[$key] = $value;
+    } else {
+        return isset($vars[$key]) ? $vars[$key] : null;
+    }
 }
 
 function cache($key)
