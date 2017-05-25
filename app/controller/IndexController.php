@@ -1,22 +1,29 @@
 <?php
 namespace Controller;
 
+use orc\library\Tree;
+
 class IndexController extends AdminBase
 {
 
     function index()
     {
+//         print_pre(array_merge(array('a'=>1,'b'=>1,'c'=>1),array_filter(array('a'=>null))));
+//         exit;
         $arr = array(
-            ['id'=>1,'name'=>'a','parent_id'=>0,'level'=>1],
-            ['id'=>2,'name'=>'b','parent_id'=>0,'level'=>1],
-            ['id'=>3,'name'=>'c','parent_id'=>0,'level'=>1],
-            ['id'=>4,'name'=>'d','parent_id'=>1,'level'=>2],
-            ['id'=>5,'name'=>'e','parent_id'=>1,'level'=>2],
-            ['id'=>6,'name'=>'f','parent_id'=>4,'level'=>3],
-            ['id'=>7,'name'=>'g','parent_id'=>2,'level'=>2],
-            ['id'=>8,'name'=>'h','parent_id'=>3,'level'=>2],
+            ['id'=>1,'name'=>'a','parent'=>0],
+            ['id'=>2,'name'=>'b','parent'=>0],
+            ['id'=>3,'name'=>'c','parent'=>0],
+            ['id'=>4,'name'=>'aa','parent'=>1],
+            ['id'=>5,'name'=>'ab','parent'=>1],
+            ['id'=>6,'name'=>'aaa','parent'=>4],
+            ['id'=>11,'name'=>'aaa','parent'=>6],
+            ['id'=>7,'name'=>'aab','parent'=>4],
+            ['id'=>8,'name'=>'ba','parent'=>2],
+            ['id'=>9,'name'=>'bb','parent'=>2],
+            ['id'=>10,'name'=>'ca','parent'=>3],
         );
-        print_pre($this->treeList($arr));
+        echo Tree::single()->treeSelect($arr);
         exit;
         $conn = oci_connect('system', 'lpy123456', 'LIUPENGYU');
         if (!$conn) {
@@ -33,7 +40,7 @@ class IndexController extends AdminBase
     {
         $treeList = [];
         foreach ($arr as $v){
-            if ($v['parent_id']==$parentId){
+            if ($v['parent']==$parentId){
                 $childList = $this->treeList($arr,$v['id']);
                 $treeList = array_merge($treeList,array($v),$childList);
             }
