@@ -36,9 +36,9 @@ class Controller
      * @param array $vars            
      * @return null
      */
-    protected function show($file = '', $pageType = PAGE_TYPE)
+    protected function show($file = '')
     {
-        Response::output($this->fetch($file, $pageType));
+        Response::output($this->fetch($file));
     }
 
     /**

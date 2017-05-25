@@ -6,8 +6,6 @@
  */
 namespace orc\cache;
 
-use orc\Cache;
-
 class Redis extends Driver
 {
 
