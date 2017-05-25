@@ -3,14 +3,20 @@ namespace Controller;
 
 use orc\Controller;
 use Orc\Library\Util\Validator;
+use orc\Response;
 
 class AdminBase extends Controller
 {
 
-    protected function fetch($file = '')
+    protected function fetchFrame($file = '')
     {
-        $this->assign('page_content', parent::fetch($file));
-        return parent::fetch('frame');
+        $this->assign('page_content', $this->fetch($file));
+        return $this->fetch('frame');
+    }
+    
+    protected function showFrame($file = '')
+    {
+        Response::output($this->fetchFrame($file));
     }
 
     /**
