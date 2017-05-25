@@ -63,24 +63,4 @@ class View
         $content = ob_get_clean();
         return $content;
     }
-
-    /**
-     * json及jsonp返回
-     *
-     * @param string $cb            
-     * @param string $jsonpHandler            
-     * @return string
-     */
-    public function json($cb = null, $jsonpHandler = '')
-    {
-        $vars = $this->vars ? $this->vars : null;
-        if ($cb) {
-            $vars = $cb($vars);
-        }
-        $json = json_encode($vars);
-        if ($jsonpHandler) {
-            $jsonpHandler && $json = $jsonpHandler . "(" . $json . ");";
-        }
-        return $json;
-    }
 }
