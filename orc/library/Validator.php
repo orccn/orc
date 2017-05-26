@@ -8,6 +8,8 @@ namespace orc\library;
 
 class Validator
 {
+    use \orc\traits\Instance;
+    
     protected $name = '';
     
     protected $data = null;
