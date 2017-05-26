@@ -76,7 +76,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <label class="control-label visible-ie8 visible-ie9">密码</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password" /> </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn red btn-block uppercase">登录</button>
+                    <button id="submit" type="button" class="btn red btn-block uppercase">登录</button>
                 </div>
             </form>
             <!-- END LOGIN FORM -->
@@ -104,7 +104,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="/assets/pages/scripts/login.min.js" type="text/javascript"></script>
+        <script src="/js/login.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->

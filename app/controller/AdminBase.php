@@ -3,6 +3,8 @@ namespace Controller;
 
 use orc\Controller;
 use orc\Response;
+use orc\traits\Instance;
+use library\Validator;
 
 class AdminBase extends Controller
 {
@@ -35,7 +37,15 @@ class AdminBase extends Controller
      * @param unknown $config            
      * @return string|NULL
      */
-    function validate($config)
+    public function responseValidate($config)
+    {
+        $errmsg = $this->validate($config);
+        if ($errmsg) {
+            $this->error($errmsg);
+        }
+    }
+    
+    public function validate($config)
     {
         foreach ($config as $field => $rules) {
             list ($name, $nameCN) = explode(':', $field);
@@ -44,11 +54,9 @@ class AdminBase extends Controller
                 $nameCN = $name;
             }
             if (! is_array($rules)) {
-                $rules = array(
-                    $rules
-                );
+                $rules = (array) $rules;
             }
-            $validator = new Validator($data, $nameCN);
+            $validator = Validator::instance($data, $nameCN);
             foreach ($rules as $k => $v) {
                 if (is_string($k)) {
                     $ruleAndParams = $k;
@@ -74,4 +82,5 @@ class AdminBase extends Controller
         }
         return null;
     }
+    
 }
