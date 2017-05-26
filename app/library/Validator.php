@@ -6,9 +6,7 @@
  */
 namespace library;
 
-use orc\library\Validator;
-
-class Validator extends Validator
+class Validator extends \orc\library\Validator
 {
     
 }

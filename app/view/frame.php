@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="/assets/global/css/google.css" rel="stylesheet" type="text/css" />
+        <link href="/css/google.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
