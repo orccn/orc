@@ -2,7 +2,6 @@
 namespace Controller;
 
 use orc\Controller;
-use Orc\Library\Util\Validator;
 use orc\Response;
 
 class AdminBase extends Controller

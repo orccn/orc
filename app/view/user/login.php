@@ -59,7 +59,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN LOGIN -->
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
-            <form class="login-form" action="index.html" method="post">
+            <form class="login-form">
                 <div class="form-title">
                     <span class="form-title">欢迎</span>
                     <span class="form-subtitle">请登录系统</span>

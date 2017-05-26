@@ -5,7 +5,12 @@ class UserController extends AdminBase
 {
     function login()
     {
-        $this->show();
+        if (!I('submit')){
+            return $this->show();
+        }
+        $username = I('username');
+        $password = I('password');
+        
     }
     
 }
