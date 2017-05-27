@@ -1,2 +1,6 @@
 <?php
-return [];
+return [
+    'loginWhiteList' => [
+        'user/login'
+    ]
+];

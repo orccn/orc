@@ -2,6 +2,7 @@
 namespace Controller;
 
 use model\UserModel;
+
 class UserController extends AdminBase
 {
 
@@ -12,13 +13,14 @@ class UserController extends AdminBase
         }
         $this->responseValidate([
             'username:用户名' => 'maxLen:30',
-            'password:密码' => 'maxLen:30',
+            'password:密码' => 'maxLen:30'
         ]);
-        $username = I('username');
-        $password = I('password');
-        $user = UserModel::single()->where(['username'=>$username,'passwd'=>$password])->getRow();
-        print_r($user);
-        exit;
+        $user = UserModel::single()->checkPassword(I('username'), I('password'));
+        if (! $user) {
+            $this->error('用户名或密码错误');
+        }
+        $_SESSION['user'] = $user;
+        $this->success();
     }
 }
 
