@@ -6,6 +6,8 @@
  */
 namespace orc;
 
+use library\Response;
+
 class Controller
 {
 
@@ -51,7 +53,7 @@ class Controller
     protected function fetch($file = '')
     {
         if (! $file) {
-            if (MOUDLE_NAME){
+            if (MOUDLE_NAME) {
                 $file .= MOUDLE_NAME . '/';
             }
             $file .= strtolower(CONTROLLER_NAME) . '/' . ACTION_NAME;
@@ -61,25 +63,12 @@ class Controller
 
     protected function error($msg, $code = 1)
     {
-        $data = [
-            'code' => $code,
-            'msg' => $msg
-        ];
-        $this->exitJson($data);
+        Response::error($msg, $msg);
     }
 
     protected function success($data = null, $more = null)
     {
-        $msg = is_string($more) ? $more : 'ok';
-        $data = [
-            'code' => 0,
-            'msg' => $msg,
-            'data' => $data
-        ];
-        if (is_array($more)) {
-            $data = array_merge($data, $more);
-        }
-        $this->exitJson($data);
+        Response::success($data, $more);
     }
 
     protected function exitJson($data)

@@ -54,12 +54,34 @@ class Response
         self::outputJson($data);
         exit();
     }
-    
+
+    public static function error($msg, $code = 1)
+    {
+        $data = [
+            'code' => $code,
+            'msg' => $msg
+        ];
+        self::exitJson($data);
+    }
+
+    public static function success($data = null, $more = null)
+    {
+        $msg = is_string($more) ? $more : 'ok';
+        $data = [
+            'code' => 0,
+            'msg' => $msg,
+            'data' => $data
+        ];
+        if (is_array($more)) {
+            $data = array_merge($data, $more);
+        }
+        self::exitJson($data);
+    }
+
     public static function show404()
     {
         echo "this page is not found.";
         // header('HTTP/1.1 404 Not Found');
         exit();
     }
-    
 }
