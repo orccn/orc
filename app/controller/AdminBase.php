@@ -5,38 +5,13 @@ use orc\Controller;
 use orc\Response;
 use orc\traits\Instance;
 use library\Validator;
-use model\UserModel;
 
 class AdminBase extends Controller
 {
-
-    public function __construct()
-    {
-        $this->checkLogin();
-    }
     
     protected function redirect($url, $delay = 0)
     {
         Response::redirect($url, $delay);
-    }
-
-    protected function checkLogin()
-    {
-        $whiteList = config('loginWhiteList');
-//         $url = CONTROLLER_NAME.'/'.ACTION_NAME;
-        
-        if (config('loginWhiteList')){
-            
-        }
-        
-        $isLogin = UserModel::single()->checkLogin();
-        if (! $isLogin) {
-            if (IS_AJAX) {
-                $ontLoginCode = 100;
-                $this->error('请登录',$ontLoginCode);
-            }
-            $this->redirect('/user/login');
-        }
     }
 
     protected function fetchFrame($file = '')
