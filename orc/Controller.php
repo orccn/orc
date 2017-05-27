@@ -6,8 +6,6 @@
  */
 namespace orc;
 
-use library\Response;
-
 class Controller
 {
 
