@@ -93,8 +93,9 @@ class Router
             Response::show404();
         }
         
-        Hook::trigger('controllerBefore');
+        Hook::trigger('ctlInsBefore');
         $ctlObject = $controller->newInstance();
+        Hook::trigger('ctlInsAfter');
         
         // check action
         $action = $this->getActionName();
@@ -115,7 +116,7 @@ class Router
         Hook::trigger('actionBefore');
         $content = $method->invoke($ctlObject);
         Hook::trigger('actionAfter');
-        Hook::trigger('controllerAfter');
+        
         return $content;
     }
 
