@@ -20,7 +20,7 @@ class Dependency
      */
     protected $config = [];
 
-    private $expandConfig = [];
+    protected $expandConfig = [];
 
     public function __construct($config = [])
     {
