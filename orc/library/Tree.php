@@ -4,11 +4,11 @@
  * @date 2017-05-25
  * @desc 树形
  */
-namespace orc\library;
+namespace library;
 
 class Tree
 {
-    use \orc\traits\Instance;
+    use \traits\Instance;
 
     private $fields = [
         'idField' => 'id',

@@ -4,7 +4,7 @@
  * @date 2017-05-21
  * @desc 创建对象
  */
-namespace orc\traits;
+namespace traits;
 
 trait Instance
 {

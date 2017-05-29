@@ -107,7 +107,7 @@ function cache($key)
         if (! $config) {
             E("cache.{$key} not exists");
         }
-        $class = "orc\\cache\\" . ucfirst($config['type']);
+        $class = "cache\\" . ucfirst($config['type']);
         if (class_exists($class)) {
             $instances[$key] = new $class($config['servers']);
         } else {

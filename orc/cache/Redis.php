@@ -4,7 +4,7 @@
  * @date 2016-05-25
  * @desc redis缓存驱动
  */
-namespace orc\cache;
+namespace cache;
 
 class Redis extends Driver
 {
