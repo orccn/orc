@@ -10,7 +10,7 @@ class Tree
 {
     use \orc\traits\Instance;
 
-    private $fields = [
+    protected $fields = [
         'idField' => 'id',
         'parentField' => 'parent',
         'childField' => 'child',
