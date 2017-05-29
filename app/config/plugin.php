@@ -1,4 +1,4 @@
 <?php
 return [
-    'actionBefore' => ['plugin\AdminPlugin']
+    //'actionBefore' => ['plugin\AdminPlugin']
 ];

@@ -16,7 +16,7 @@ class AdminBase extends Controller
 
     protected function fetchFrame($file = '')
     {
-        $this->assign('page_content', $this->fetch($file));
+        $this->assign('pageContent', $this->fetch($file));
         return $this->fetch('frame');
     }
 

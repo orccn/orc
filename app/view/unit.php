@@ -6,28 +6,28 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Column Reordering </div>
+                    <i class="fa fa-globe"></i>分析单元 </div>
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
                 <table class="table table-striped table-bordered table-hover" id="datatable">
                     <thead>
                         <tr>
-                            <th> Rendering engine </th>
-                            <th> Browser </th>
-                            <th> Platform(s) </th>
-                            <th> Engine version </th>
-                            <th> CSS grade </th>
+                            <th> 单元编码 </th>
+                            <th> 单元名称 </th>
+                            <th> 拼音码 </th>
+                            <th> 单元类型 </th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($arr as $v){?>
                         <tr>
-                            <td> Trident </td>
-                            <td> Internet Explorer 4.0 </td>
-                            <td> Win 95+ </td>
-                            <td> 4 </td>
-                            <td> X </td>
+                            <td> <?= $v['unit_code']?> </td>
+                            <td> <?= $v['unit_name']?> </td>
+                            <td> <?= $v['spell_code']?> </td>
+                            <td> <?= $v['unit_type']?> </td>
                         </tr>
+                        <?php }?>
                     </tbody>
                 </table>
             </div>

@@ -6,6 +6,11 @@ use model\UserModel;
 class UserController extends AdminBase
 {
 
+    function index()
+    {
+        $this->showFrame();
+    }
+    
     function login()
     {
         if (REQUEST_METHOD != 'post') {

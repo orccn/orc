@@ -52,14 +52,7 @@ class Oracle extends Driver
     public function connect()
     {
         if (! $this->conn) {
-            $this->conn = oci_connect($this->config['username'], $this->config['password'], $this->config['dbname']);
-//             $stid = oci_parse($conn, strtoupper("select * from test"));
-//             $rs = oci_execute($stid);
-//             var_dump(oci_fetch_array($stid,OCI_BOTH));
-            
-//             $dsn = "{$this->config['type']}:host={$this->config['host']};dbname={$this->config['dbname']}";
-//             $this->conn = new PDO($dsn, $this->config['username'], $this->config['password']);
-//             $this->execute("set names {$this->config['charset']}");
+            $this->conn = oci_connect($this->config['username'], $this->config['password'], $this->config['dbname'],$this->config['charset']);
         }
         return $this->conn;
     }

@@ -11,6 +11,7 @@ class UserModel extends Model
     public function checkPassword($username, $password)
     {
         return array(
+            'id' => 1,
             'username' => 'lpy',
             'passwd' => 1111
         );

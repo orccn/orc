@@ -1,8 +1,6 @@
 <?php
 namespace Controller;
 
-use orc\library\Tree;
-
 class IndexController extends AdminBase
 {
 
@@ -23,18 +21,9 @@ class IndexController extends AdminBase
             ['id'=>9,'name'=>'bb','parent'=>2],
             ['id'=>10,'name'=>'ca','parent'=>3],
         );
-        echo Tree::single()->treeSelect($arr);
-        exit;
-        $conn = oci_connect('system', 'lpy123456', 'LIUPENGYU');
-        if (!$conn) {
-            $e = oci_error();
-            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-        }
-        $stid = oci_parse($conn, strtoupper("select * from test"));
-        $rs = oci_execute($stid);
-        var_dump(oci_fetch_array($stid,OCI_BOTH));
-        
-        //return $this->fetch();
+//         echo Tree::single()->treeSelect($arr);
+//         exit;
+        return $this->fetchFrame();
     }
     private function treeList($arr,$parentId = 0)
     {
