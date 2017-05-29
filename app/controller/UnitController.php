@@ -11,8 +11,9 @@ class UnitController extends AdminBase
     {
         $unitList = UnitModel::single()->select();
         $unitList = Tree::instance(['idField' => 'unit_code','parentField' => 'unit_ancer','levelField' => 'unit_level'])->getList($unitList,'00');
-        $treeList = Tree::instance(['idField' => 'unit_code','parentField' => 'unit_ancer','levelField' => 'unit_level'])->getTree($unitList,'00');
-        print_pre($treeList);
+//         $treeList = Tree::instance(['idField' => 'unit_code','parentField' => 'unit_ancer','textField' => 'unit_name'])->getTree($unitList,'00');
+//         print_pre($treeList);
+        print_pre($unitList);
         exit;
         $this->assign('arr', $unitList);
         $this->showFrame('unit');
