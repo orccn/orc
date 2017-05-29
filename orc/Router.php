@@ -8,7 +8,7 @@ namespace orc;
 
 class Router
 {
-    use \traits\Instance;
+    use traits\Instance;
     
     private $pathinfo = '';
 

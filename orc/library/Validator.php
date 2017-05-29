@@ -4,11 +4,11 @@
  * @date 2016-05-25
  * @desc 验证类
  */
-namespace library;
+namespace orc\library;
 
 class Validator
 {
-    use \traits\Instance;
+    use \orc\traits\Instance;
     
     protected $name = '';
     
