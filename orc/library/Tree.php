@@ -72,8 +72,8 @@ class Tree
     {
         $treeList = [];
         foreach ($data as $v) {
-            if ($v['parent_id'] == $parentId) {
-                $childList = $this->getList($data, $v['id']);
+            if ($v[$this->fields['parentField']] == $parentId) {
+                $childList = $this->getList($data, $v[$this->fields['idField']]);
                 $treeList = array_merge($treeList, array(
                     $v
                 ), $childList);
