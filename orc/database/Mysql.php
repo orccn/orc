@@ -4,7 +4,7 @@
  * @date 2016-05-25
  * @desc mysql数据库驱动
  */
-namespace database;
+namespace orc\database;
 
 use PDO;
 

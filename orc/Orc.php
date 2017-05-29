@@ -29,9 +29,8 @@ define('REQUEST_METHOD', isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER
 
 // 自动加载类
 Loader::rigist([
-    APP_DIR,
-    BASE_DIR . DS,
-    dirname(BASE_DIR) . DS
+    dirname(BASE_DIR) . DS,
+    APP_DIR
 ]);
 
 // 加载配置文件路径
@@ -40,8 +39,8 @@ Config::addPath([
     CONFIG_DIR . ENV . DS
 ]);
 
-// 预加载配置文件
-if (is_array(config('preload'))) {
+//预加载配置文件
+if (is_array(config('preload'))){
     foreach (config('preload') as $file) {
         Config::load($file);
     }
