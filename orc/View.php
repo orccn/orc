@@ -8,7 +8,7 @@ namespace orc;
 
 class View
 {
-    use traits\Instance;
+    use \traits\Instance;
 
     protected $vars = [];
 

@@ -4,7 +4,7 @@
  * @date 2016-05-25
  * @desc Base64 加密实现类
  */
-namespace orc\library;
+namespace library;
 
 class Crypt
 {

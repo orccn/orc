@@ -4,11 +4,11 @@
  * @date 2016-05-25
  * @desc redis缓存驱动
  */
-namespace orc\cache;
+namespace cache;
 
 abstract class Driver
 {
-    use \orc\traits\Instance;
+    use \traits\Instance;
 
     protected $handler = null;
 

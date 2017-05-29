@@ -8,7 +8,7 @@ namespace orc;
 
 class Model
 {
-    use traits\Instance;
+    use \traits\Instance;
 
     protected $dbKey = 'default';
 

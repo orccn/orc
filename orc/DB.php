@@ -28,7 +28,7 @@ class DB
         }
         if (! isset(self::$instances[$key])) {
             $config = self::getConfigItem($key);
-            $class = "orc\\database\\" . ucfirst($config['type']);
+            $class = "database\\" . ucfirst($config['type']);
             if (class_exists($class)) {
                 self::$instances[$key] = new $class($config);
             } else {

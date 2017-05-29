@@ -4,7 +4,7 @@
  * @date 2016-09-05
  * @desc 依赖处理类
  */
-namespace orc\library;
+namespace library;
 
 class Dependency
 {
