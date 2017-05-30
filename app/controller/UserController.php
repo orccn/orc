@@ -2,13 +2,23 @@
 namespace Controller;
 
 use model\UserModel;
+use orc\Response;
 
 class UserController extends AdminBase
 {
 
     function index()
     {
+        $userList = UserModel::single()->select();
+        $this->assign('userList',$userList);
+//         print_pre($userList);
         $this->showFrame();
+    }
+    
+    function ls()
+    {
+        $userList = UserModel::single()->getUserByUnit(I('unit_code'));
+        Response::outputJson(['data'=>$userList]);
     }
     
     function login()

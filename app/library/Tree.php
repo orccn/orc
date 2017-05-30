@@ -28,7 +28,7 @@ class Tree extends \orc\library\Tree
                 if ($child) {
                     $item['children'] = $child;
                 }
-                $tree[$id] = $item;
+                $tree[] = $item;
             }
         }
         return $tree;

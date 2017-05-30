@@ -6,7 +6,7 @@ use orc\Model;
 class UserModel extends Model
 {
 
-    protected $tableName = 'admin_user';
+    protected $tableName = 'user_dict';
 
     public function checkPassword($username, $password)
     {
@@ -30,5 +30,20 @@ class UserModel extends Model
         define('UID', $_SESSION['user']['id']);
         define('UNAME', $_SESSION['user']['username']);
         return true;
+    }
+    
+    public function getUserByUnit($unitCode)
+    {
+        $where = [];
+        if (intval($unitCode)) {
+            $where['unit_code']['like'] = "$unitCode%";
+        }
+        return $this->where($where)->select();
+    }
+    
+    public function select($key='')
+    {
+        $this->where(['status'=>'Y']);
+        return parent::select();    
     }
 }

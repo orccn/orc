@@ -7,4 +7,5 @@ class UnitModel extends Model
 {
 
     protected $tableName = 'unit_list';
+    
 }
