@@ -70,10 +70,7 @@ $('#unit-tree').initUnitTree().bind('click.jstree',function(e){
 		return
 	}
 	dblclick.callback(function() { 
-		dt.fnClearTable();
-		dt.fnDestroy();
-		option.ajax.url = '/user/ls?unit_code='+$(e.target).parents('li').attr('id');
-		dt = $('.datatable').initDT(option);
+		dt.api().ajax.url('/user/ls?unit_code='+$(e.target).parents('li').attr('id')).load();
     })
 }).bind('dblclick.jstree',function(e){
 	

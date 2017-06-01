@@ -49,8 +49,7 @@ $('.datatable>tbody>tr').each(function(){
 			$(this).css('cursor','pointer');
 		});
 		$('td:first',this).click(function(){
-			var isRight = $('i.fa',this).hasClass('fa-caret-right');
-			if(isRight){
+			if($('i.fa',this).hasClass('fa-caret-right')){
 				$('i.fa',this).removeClass('fa-caret-right').addClass('fa-caret-down')
 			}else{
 				$('i.fa',this).removeClass('fa-caret-down').addClass('fa-caret-right')

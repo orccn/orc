@@ -9,14 +9,6 @@
                 <div class="caption">
                     <i class="fa fa-globe"></i>功能模块</div>
                 <div class="tools"> </div>
-                <div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <label class="btn btn-transparent dark btn-outline btn-circle btn-sm active">
-                            <input type="radio" name="options" class="toggle" id="option1">Actions</label>
-                        <label class="btn btn-transparent dark btn-outline btn-circle btn-sm">
-                            <input type="radio" name="options" class="toggle" id="option2">Settings</label>
-                    </div>
-                </div>
             </div>
             <div class="portlet-body">
                 <table class="datatable table table-striped table-bordered table-hover table-condensed">
@@ -49,6 +41,12 @@
 var option = {
 	paging:false,
 	ordering:false,
+	buttons:[{
+        text: '添加',
+        className: 'btn red',
+        action: function ( e, dt, node, config ) {
+        }
+    }]
 }
 var dt = $('.datatable').initDT(option)
 
