@@ -31,9 +31,9 @@ var dblclick = {
 }
 $.fn.initDT = function(option) {
 	option = option || {}
+	option.buttons = option.buttons || []
 	var d = {
 		"language" : admin.dtLang,
-		"buttons" : [],
 	}
 	// 分页
 	if (option.need_page === false) {
@@ -52,9 +52,8 @@ $.fn.initDT = function(option) {
 	} else {
 		d.order = [ [ 0, 'asc' ] ]
 	}
-	if (option) {
-		for (i in option)
-			d[i] = option[i]
+	for (i in option){
+		d[i] = option[i]
 	}
 	return this.dataTable(d)
 }
