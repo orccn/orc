@@ -36,6 +36,15 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
+<div id="edit" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="true" data-attention-animation="false">
+    <div class="modal-body">
+        <p> Would you like to continue with some arbitrary task? </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn green">Continue Task</button>
+    </div>
+</div>
 <?php ob_start();?>
 <script type="text/javascript">
 var option = {
