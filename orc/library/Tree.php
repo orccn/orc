@@ -76,7 +76,7 @@ class Tree
             if ($v[$this->fields['parentField']] == $parentId) {
                 $childList = $this->getList($data, $v[$this->fields['idField']]);
                 if ($this->fields['isLeafField']) {
-                    $v[$this->fields['isLeafField']] = intval(! empty($childList));
+                    $v[$this->fields['isLeafField']] = empty($childList);
                 }
                 $treeList = array_merge($treeList, array(
                     $v
