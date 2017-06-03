@@ -13,8 +13,6 @@ class MenuController extends AdminBase
         $option = [
             'idField' => 'door_code',
             'parentField' => 'door_parent',
-            'levelField' => 'door_level',
-            'textField' => 'door_name'
         ];
         $menuList = Tree::instance($option)->getList($menuList, 0);
         print_pre($menuList);
