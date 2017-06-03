@@ -16,6 +16,7 @@
                         <tr>
                             <th>功能名称 </th>
                             <th>功能编码 </th>
+                            <th>上级功能 </th>
                             <th>功能路径</th>
                             <th>操作</th>
                         </tr>
@@ -24,6 +25,7 @@
                         <?php foreach ($menuList as $v){?>
                         <tr id="door-<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['end_flag']?>">
                             <td><?= $v['door_name']?></td>
+                            <td><?= $v['door_code']?></td>
                             <td><?= $v['door_code']?></td>
                             <td><?= $v['sys_windows']?></td>
                             <td></td>
@@ -37,12 +39,35 @@
     </div>
 </div>
 <div id="edit" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="true" data-attention-animation="false">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">添加/修改功能</h4>
+    </div>
     <div class="modal-body">
-        <p> Would you like to continue with some arbitrary task? </p>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-md-3 control-label">功能名称</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control"> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">功能路径</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control"> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">上级功能</label>
+                <div class="col-md-9">
+                    <input type="password" class="form-control"> 
+                </div>
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
-        <button type="button" data-dismiss="modal" class="btn green">Continue Task</button>
+        <button type="button" data-dismiss="modal" class="btn btn-outline dark">取消</button>
+        <button type="button" data-dismiss="modal" class="btn green">提交</button>
     </div>
 </div>
 <?php ob_start();?>
@@ -54,11 +79,11 @@ var option = {
         text: '添加',
         className: 'btn red',
         action: function ( e, dt, node, config ) {
+            $("#edit").modal();
         }
     }]
 }
 var dt = $('.datatable').initDT(option)
-
 $('.datatable>tbody>tr').each(function(){
 	var str = '';
 	var id = $(this).prop('id');

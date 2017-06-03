@@ -12,11 +12,13 @@ class MenuController extends AdminBase
         $menuList = MenuModel::single()->select();
         $option = [
             'idField' => 'door_code',
-            'parentField' => 'door_ancer',
+            'parentField' => 'door_parent',
             'levelField' => 'door_level',
             'textField' => 'door_name'
         ];
-        $menuList = Tree::instance($option)->getList($menuList, '00');
+        $menuList = Tree::instance($option)->getList($menuList, 0);
+        print_pre($menuList);
+        exit;
         $this->assign('menuList', $menuList);
         $this->showFrame('menu');
     }
