@@ -14,7 +14,8 @@ class Tree
         'idField' => 'id',
         'parentField' => 'parent',
         'childField' => 'child',
-        'levelField' => 'level'
+        'levelField' => 'level',
+        'isLeafField' => 'is_leaf'
     ];
 
     public function __construct($option = [])
@@ -74,6 +75,9 @@ class Tree
         foreach ($data as $v) {
             if ($v[$this->fields['parentField']] == $parentId) {
                 $childList = $this->getList($data, $v[$this->fields['idField']]);
+                if ($this->fields['isLeafField']) {
+                    $v[$this->fields['isLeafField']] = intval(! empty($childList));
+                }
                 $treeList = array_merge($treeList, array(
                     $v
                 ), $childList);
