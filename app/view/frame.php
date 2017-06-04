@@ -185,7 +185,7 @@
                 <!-- BEGIN CONTENT -->
                 <div class="page-content-wrapper">
                     <!-- BEGIN CONTENT BODY -->
-                    <div class="page-content">
+                    <div id = "page-content" class="page-content">
                         <?php echo $pageContent;?>
                     </div>
                     <!-- END CONTENT BODY -->
@@ -213,6 +213,7 @@
         <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
         <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
@@ -225,6 +226,7 @@
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="/js/vue.min.js" type="text/javascript"></script>
         <script src="/js/admin.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <?php if(gvar('js')){echo gvar('js');}?>

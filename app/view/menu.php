@@ -7,8 +7,13 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>功能模块</div>
-                <div class="tools"> </div>
+                    <i class="fa fa-globe"></i>功能模块
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default"  @click="test" href="javascript:;">
+                        <i class="icon-plus"></i>
+                    </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <table class="datatable table table-striped table-bordered table-hover table-condensed">
@@ -23,11 +28,11 @@
                     </thead>
                     <tbody>
                         <?php foreach ($menuList as $v){?>
-                        <tr id="door-<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['end_flag']?>">
+                        <tr id="door-<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['is_leaf']?>">
                             <td><?= $v['door_name']?></td>
                             <td><?= $v['door_code']?></td>
                             <td><?= $v['door_code']?></td>
-                            <td><?= $v['sys_windows']?></td>
+                            <td><?= $v['door_url']?></td>
                             <td></td>
                         </tr>
                         <?php }?>
@@ -38,7 +43,7 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
-<div id="edit" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="true" data-attention-animation="false">
+<div id="edit" class="modal fade" tabindex="-1" data-keyboard="true" data-attention-animation="false">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         <h4 class="modal-title">添加/修改功能</h4>
@@ -48,19 +53,35 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">功能名称</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control"> 
+                    <input type="text" class="form-control" :value="row.door_name"> 
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">功能路径</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control"> 
+                    <input type="text" class="form-control" :value="row.door_url"> 
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">上级功能</label>
                 <div class="col-md-9">
-                    <input type="password" class="form-control"> 
+                    <select id="single" class="form-control select2">
+                        <option value="AK">Alaska</option>
+                        <option value="HI" disabled="disabled">Hawaii</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                    <label class="mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" value="option1"> 设为菜单
+                        <span></span>
+                    </label>
+                    <label class="mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" value="option2"> 验证权限
+                        <span></span>
+                    </label>
                 </div>
             </div>
         </form>
@@ -75,13 +96,14 @@
 var option = {
 	paging:false,
 	ordering:false,
-	buttons:[{
-        text: '添加',
-        className: 'btn red',
-        action: function ( e, dt, node, config ) {
-            $("#edit").modal();
-        }
-    }]
+// 	buttons:[{
+//         text: '添加',
+//         className: 'btn red',
+//         action: function ( e, dt, node, config ) {
+//             $(".select2").select2({width: null})
+//             $("#edit").modal();
+//         }
+//     }]
 }
 var dt = $('.datatable').initDT(option)
 $('.datatable>tbody>tr').each(function(){
@@ -106,5 +128,22 @@ $('.datatable>tbody>tr').each(function(){
 	}
 	$(this).find('td:first').prepend(str);
 });
+var app = new Vue({
+  el: '#page-content',
+  data: {
+    row:{
+        'door_name' : 'fff',
+        'door_code' : '',
+        'door_parent' : '',
+        'door_url' : '',
+    },
+    aa:1
+  },
+  methods : {
+	  test:function(){
+		  $("#edit").modal();
+	  }
+  }
+})
 </script>
 <?php gvar('js',ob_get_clean());?>

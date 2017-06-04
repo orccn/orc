@@ -15,8 +15,6 @@ class MenuController extends AdminBase
             'parentField' => 'door_parent',
         ];
         $menuList = Tree::instance($option)->getList($menuList, 0);
-        print_pre($menuList);
-        exit;
         $this->assign('menuList', $menuList);
         $this->showFrame('menu');
     }
