@@ -10,7 +10,7 @@ class MenuModel extends Model
  
     public function where($where)
     {
-        $where['valid_flag'] = 'Y';
+        $where['is_delete'] = 0;
         return parent::where($where);
     }
 }

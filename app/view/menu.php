@@ -131,13 +131,7 @@ $('.datatable>tbody>tr').each(function(){
 var app = new Vue({
   el: '#page-content',
   data: {
-    row:{
-        'door_name' : 'fff',
-        'door_code' : '',
-        'door_parent' : '',
-        'door_url' : '',
-    },
-    aa:1
+    row:{},
   },
   methods : {
 	  test:function(){
