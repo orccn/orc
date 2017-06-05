@@ -31,6 +31,35 @@ class MenuController extends AdminBase
             $this->error('不存在此功能');
         }
     }
+    
+    
+    function edit()
+    {
+        $validation = [
+            'door_name:功能名称' => 'maxLen:100',
+        ];
+        $this->responseValidate($validation);
+        
+        $arr = [];
+        $code = intval(I('door_code'));
+        $arr['door_name'] = I('door_name');
+        $arr['door_url'] = I('door_url');
+        $arr['door_parent'] = $parent = intval(I('door_parent'));
+        $arr['door_level'] = $parent ? 2:1;
+        $arr['is_menu'] = intval(I('is_menu')) ? 1 :0;
+        $arr['need_auth'] = intval(I('need_auth')) ? 1 :0;
+        
+        //修改
+        if ($code){
+            if ($code==$parent){
+                $this->error('不能选择自己作为上级');
+            }
+            MenuModel::single()->update($arr,['door_code'=>$code]);
+        }else{
+            
+        }
+        
+    }
 }
 
 

@@ -10,7 +10,7 @@
                     <i class="fa fa-globe"></i>功能模块
                 </div>
                 <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default"  @click="test" href="javascript:;">
+                    <a class="btn btn-circle btn-icon-only btn-default"  @click="edit" href="javascript:;">
                         <i class="icon-plus"></i>
                     </a>
                 </div>
@@ -33,7 +33,9 @@
                             <td><?= $v['door_code']?></td>
                             <td><?= $v['door_code']?></td>
                             <td><?= $v['door_url']?></td>
-                            <td></td>
+                            <td>
+                                <a href="javascript:;" class="btn btn-xs red" @click="edit(<?= $v['door_code']?>)">编辑</a>
+                            </td>
                         </tr>
                         <?php }?>
                     </tbody>
@@ -53,21 +55,23 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">功能名称</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" :value="row.door_name"> 
+                    <input type="text" class="form-control" v-model="row.door_name"> 
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">功能路径</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" :value="row.door_url"> 
+                    <input type="text" class="form-control" v-model="row.door_url"> 
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">上级功能</label>
                 <div class="col-md-9">
-                    <select id="single" class="form-control select2">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
+                    <select id="single" class="form-control select2" v-model="row.door_parent">
+                        <option value="0">顶级</option>
+                        <?php foreach ($menuList as $v){ if ($v['door_parent']) continue;?>
+                        <option value="<?=$v['door_code']?>"><?=$v['door_name']?></option>
+                        <?php }?>
                     </select>
                 </div>
             </div>
@@ -75,11 +79,11 @@
                 <label class="col-md-3 control-label"></label>
                 <div class="col-md-9">
                     <label class="mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" value="option1"> 设为菜单
+                        <input type="checkbox" v-model="row.is_menu"> 设为菜单
                         <span></span>
                     </label>
                     <label class="mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" value="option2"> 验证权限
+                        <input type="checkbox" v-model="row.need_auth"> 验证权限
                         <span></span>
                     </label>
                 </div>
@@ -88,7 +92,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-outline dark">取消</button>
-        <button type="button" data-dismiss="modal" class="btn green">提交</button>
+        <button type="button" class="btn green" @click="doEdit">提交</button>
     </div>
 </div>
 <?php ob_start();?>
@@ -134,8 +138,20 @@ var app = new Vue({
     row:{},
   },
   methods : {
-	  test:function(){
+	  edit:function(code){
+		  var t = this;
 		  $("#edit").modal();
+		  $.getJSON('/menu/detail',{code:code},function(d){
+			  t.row = d.data
+		  })
+	  },
+	  doEdit:function(){
+		  var t = this;
+		  $.post('/menu/edit',t.row,function(d){
+			  if(d.code){
+				  alert(d.msg);
+			  }
+		  },'json')
 	  }
   }
 })

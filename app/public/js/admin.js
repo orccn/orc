@@ -88,7 +88,3 @@ $.fn.initUnitTree = function(option) {
 	}
 	return this.jstree(d)
 }
-
-function JQPost(url, data, fn) {
-	$.post(url, data, fn, 'json')
-}

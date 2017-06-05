@@ -67,29 +67,9 @@ class Oracle extends Driver
     protected function parseSet($data)
     {
         foreach ($data as $key => $val) {
-            $set[] = $this->parseKey($key) . '=' . (is_array($val) && 'exp' == $val[0] ? $val[1] : $this->bindParam($val));
+            $set[] = $this->parseKey($key) . '=' . $this->parseValue($val);
         }
         return ' SET ' . implode(',', $set);
-    }
-
-    /**
-     * 参数绑定
-     *
-     * @access protected
-     * @param string $name
-     *            绑定参数名
-     * @param mixed $value
-     *            绑定值
-     * @return string
-     */
-    protected function bindParam($name, $value=null)
-    {
-        if ($value === null) {
-            list ($name, $value) = [count($this->bind),$name];
-        }
-        $name = ':' . $name;
-        $this->bind[$name] = $value;
-        return $name;
     }
 
     /**
@@ -355,18 +335,6 @@ class Oracle extends Driver
     }
 
     /**
-     * 参数绑定分析
-     *
-     * @access protected
-     * @param array $bind            
-     * @return array
-     */
-    protected function parseBind($bind)
-    {
-        $this->bind = array_merge($this->bind, $bind);
-    }
-
-    /**
      * 替换SQL语句中表达式
      *
      * @access public
@@ -434,7 +402,6 @@ class Oracle extends Driver
         if (empty($options['where'])) {
             return false;
         }
-        $this->parseBind(! empty($options['bind']) ? $options['bind'] : []);
         $table = $this->parseTable($options['table']);
         $where = $this->parseWhere($options['where']);
         $sql = "DELETE FROM {$table} {$where}";
@@ -446,7 +413,6 @@ class Oracle extends Driver
         if (empty($options['where'])) {
             return false;
         }
-        $this->parseBind(! empty($options['bind']) ? $options['bind'] : []);
         $table = $this->parseTable($options['table']);
         $where = $this->parseWhere($options['where']);
         $set = $this->parseSet($data);
@@ -456,7 +422,6 @@ class Oracle extends Driver
 
     function select($options)
     {
-        $this->parseBind(! empty($options['bind']) ? $options['bind'] : []);
         $sql = $this->parseSql($this->selectSql, $options);
         $result = $this->query($sql, ! empty($options['fetch_sql']));
         return $result;
@@ -464,34 +429,14 @@ class Oracle extends Driver
 
     function execute($sql, $fetch = false)
     {
-        if (! empty($this->bind)) {
-            $obj = $this;
-            $this->sql = strtr($sql, array_map(function ($val) use($obj) {
-                return '\'' . $obj->escapeString($val) . '\'';
-            }, $this->bind));
-        }
         if ($fetch) {
             return $this->sql;
         }
-        
-        $this->sth = $this->conn->prepare($sql);
-        foreach ($this->bind as $k => $v) {
-            if (is_array($v)) {
-                $this->sth->bindValue($k, $v[0], $v[1]);
-            } else {
-                $this->sth->bindValue($k, $v);
-            }
-        }
-        $result = $this->sth->execute();
-        
-        if (false === $result) return false;
-        
-        if (preg_match("/^\s*(INSERT\s+INTO|REPLACE\s+INTO)\s+/i", $sql)) {
-            $this->lastInsertID = $this->conn->lastInsertId();
-            return $this->lastInsertID;
-        } else {
-            $this->sth->rowCount();
-        }
+        $stid = oci_parse($this->conn, $this->sql);
+        $result = oci_execute($stid);
+        var_dump($result);
+        exit;
+        return $result;
     }
 
     function query($sql, $fetch = false)
