@@ -61,7 +61,7 @@ class Controller
 
     protected function error($msg, $code = 1)
     {
-        Response::error($msg, $msg);
+        Response::error($msg, $code);
     }
 
     protected function success($data = null, $more = null)
