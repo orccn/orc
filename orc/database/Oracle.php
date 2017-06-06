@@ -52,7 +52,7 @@ class Oracle extends Driver
     public function connect()
     {
         if (! $this->conn) {
-            $this->conn = oci_connect($this->config['username'], $this->config['password'], $this->config['dbname'],$this->config['charset']);
+            $this->conn = \oci_connect($this->config['username'], $this->config['password'], $this->config['dbname'],$this->config['charset']);
         }
         return $this->conn;
     }
@@ -389,10 +389,9 @@ class Oracle extends Driver
                 $values[] = $val[1];
             } else { 
                 $fields[] = $this->parseKey($key);
-                $values[] = $this->bindParam($val);
+                $values[] = $this->parseValue($val);
             }
         }
-        
         $sql = ($replace ? 'REPLACE' : 'INSERT') . ' INTO ' . $this->parseTable($options['table']) . ' (' . implode(',', $fields) . ') VALUES (' . implode(',', $values) . ')';
         return $this->execute($sql, ! empty($options['fetch_sql']) ? true : false);
     }
@@ -429,13 +428,13 @@ class Oracle extends Driver
 
     function execute($sql, $fetch = false)
     {
+        $this->sql = $sql;
         if ($fetch) {
             return $this->sql;
         }
         $stid = oci_parse($this->conn, $this->sql);
-        $result = oci_execute($stid);
-        var_dump($result);
-        exit;
+        $result = oci_execute($stid,OCI_COMMIT_ON_SUCCESS);
+        oci_free_statement($stid);
         return $result;
     }
 
