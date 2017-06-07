@@ -119,7 +119,7 @@ $('.datatable>tbody>tr').each(function(){
 	var level = $(this).data('level');
 	for(i=1;i<level;i++){ str += '&nbsp;&nbsp;&nbsp;';}
 	if(!$(this).data('end')){
-		str += '<i class="fa fa-caret-right" :class={"fa-caret-right":caretIsRight,"fa-caret-down":!caretIsRight}>&nbsp;</i>';
+		str += '<i class="fa" :class={"fa-caret-right":caret2Right,"fa-caret-down":!caret2Right}>&nbsp;</i>';
 	}
 	$(this).find('td:first').prepend(str);
 });
@@ -127,14 +127,14 @@ var app = new Vue({
   el: '#page-content',
   data: {
     row:{},
-    caretIsRight : true
+    caret2Right : true
   },
   methods : {
 	  mouseoverTd:function(e){
 		  $(e.target).css('cursor','pointer');
 	  },
 	  clickCaret:function(pid,e){
-          this.caretIsRight = $('i.fa',e.target).hasClass('fa-caret-right');
+		  this.caret2Right = !$('i.fa',e.target).hasClass('fa-caret-right');
           $(e.target).parent().siblings('.pid-'+pid).toggle('fast');
 	  },
 	  edit:function(code){
