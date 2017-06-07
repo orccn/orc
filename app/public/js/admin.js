@@ -88,3 +88,10 @@ $.fn.initUnitTree = function(option) {
 	}
 	return this.jstree(d)
 }
+function editError(msg){
+	var str = '<div class="alert alert-danger display-hide"><button class="close" data-close="alert"></button><span></span></div>';
+	if($('.alert','.modal-body').length==0){
+		$('.modal-body').prepend(str);
+	}
+	$('.alert','.modal-body').show().find('span').html(msg);
+}

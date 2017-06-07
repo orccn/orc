@@ -10,7 +10,7 @@
 					<i class="fa fa-globe"></i>功能模块
 				</div>
 				<div class="actions">
-                    <a href="javascript:;" class="<?=config('titleAddClass')?>" @click="detail(0)">
+                    <a href="javascript:;" class="<?=config('titleAddClass')?>" @click="showAdd(0)">
                         <i class="fa fa-plus"></i> 添加
                     </a>
                 </div>
@@ -36,7 +36,11 @@
 							<td><?= $v['door_code']?></td>
 							<td><?= $v['door_parent'] ? $menuList[$v['door_parent']]['door_name'] : '顶级'?></td>
 							<td><?= $v['door_url']?></td>
-							<td><a href="javascript:;" class="<?=config('tdEditClass')?>" @click="detail(<?= $v['door_code']?>)">编辑</a></td>
+							<td>
+							     <a href="javascript:;" class="<?=config('tdEditClass')?>" @click="showEdit(<?= $v['door_code']?>)">编辑</a>
+							     <a href="javascript:;" class="<?=config('tdDelClass')?>" @click="del(<?= $v['door_code']?>)">删除</a>
+							     <a href="javascript:;" v-if="!<?=intval($v['door_parent'])?>" class="<?=config('tdAddClass')?>" @click="showAdd(<?= $v['door_code']?>)">添加</a>
+							</td>
 						</tr>
                         <?php }?>
                     </tbody>
@@ -46,7 +50,7 @@
 		<!-- END EXAMPLE TABLE PORTLET-->
 	</div>
 </div>
-<div id="edit" class="modal" tabindex="-1" data-keyboard="true"
+<div id="edit" class="modal" data-keyboard="true"
 	data-attention-animation="false">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal"
@@ -122,12 +126,11 @@ $('.datatable>tbody>tr').each(function(){
 	}
 	$(this).find('td:first').prepend(str);
 });
-
 var app = new Vue({
   el: '#page-content',
   data: {
     row:{},
-    caret2Right : true
+    caret2Right : true,
   },
   methods : {
 	  mouseoverTd:function(e){
@@ -137,32 +140,41 @@ var app = new Vue({
 		  this.caret2Right = !$('i.fa',e.target).hasClass('fa-caret-right');
           $(e.target).parent().siblings('.pid-'+pid).toggle('fast');
 	  },
-	  detail:function(code){
+	  showEdit:function(code){
 		  var t = this;
-		  $(".select2").select2({width: null})
-		  $("#edit").modal();
-		  if(code){
-			  $.getJSON('/menu/detail',{code:code},function(d){
-				  if(d.code){
-					  alert(d.msg);
-				  }else{
-					  t.row = d.data
-				  }
-			  })
-		  }else{
-			  t.row = {}
-		  }
+		  $.getJSON('/menu/detail',{code:code},function(d){
+			  if(d.code){
+				  return editError(d.msg);
+			  }
+			  t.row = d.data
+			  $("#edit").modal().find('.alert').hide();
+		  })
+	  },
+	  showAdd:function(pid)
+	  {
+		  this.row = {door_parent:pid,need_auth:'true'}
+		  $("#edit").modal().find('.alert').hide();
 	  },
 	  edit:function(){
 		  var t = this;
 		  $.post('/menu/edit',t.row,function(d){
 			  if(d.code){
-				  alert(d.msg);
-			  }else{
-				  $("#edit").modal('hide');
-				  window.location.href = location.href;
+				  return editError(d.msg);
 			  }
+			  $("#edit").modal('hide');
+			  window.location.href = location.href;
 		  },'json')
+	  },
+	  del:function(code){
+		  if(!confirm('确定删除？')){
+			  return 
+	      }
+		  $.getJSON('/menu/del',{code:code},function(d){
+			  if(d.code){
+				  return alert(d.msg);
+			  }
+			  window.location.href = location.href;
+		  })
 	  }
   }
 })

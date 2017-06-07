@@ -69,7 +69,7 @@ class AdminBase extends Controller
                     $ruleAndParams = $v;
                     $errorMsg = null;
                 }
-                list ($rule, $params) = explode(':', $ruleAndParams);
+                @list ($rule, $params) = explode(':', $ruleAndParams);
                 $params = $params !== null ? explode(',', $params) : array();
                 if ($errorMsg) {
                     $validator->setError($rule, $errorMsg);
