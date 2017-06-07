@@ -9,7 +9,8 @@ class MenuController extends AdminBase
 
     function index()
     {
-        $menuList = MenuModel::single()->select('door_code');
+        $menuList = array();
+//         $menuList = MenuModel::single()->select('door_code');
         $option = [
             'idField' => 'door_code',
             'parentField' => 'door_parent'

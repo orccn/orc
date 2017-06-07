@@ -4,16 +4,16 @@
 <div class="row">
 	<div class="col-md-12">
 		<!-- BEGIN EXAMPLE TABLE PORTLET-->
-		<div class="portlet box green">
+		<div class="portlet box <?=config('portletClass')?>">
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="fa fa-globe"></i>功能模块
 				</div>
 				<div class="actions">
-					<a class="btn btn-circle btn-icon-only btn-default"
-						@click="edit(0)" href="javascript:;"> <i class="icon-plus"></i>
-					</a>
-				</div>
+                    <a href="javascript:;" class="<?=config('titleAddClass')?>" @click="detail(0)">
+                        <i class="fa fa-plus"></i> 添加
+                    </a>
+                </div>
 			</div>
 			<div class="portlet-body">
 				<table
@@ -36,8 +36,7 @@
 							<td><?= $v['door_code']?></td>
 							<td><?= $v['door_parent'] ? $menuList[$v['door_parent']]['door_name'] : '顶级'?></td>
 							<td><?= $v['door_url']?></td>
-							<td><a href="javascript:;" class="btn btn-xs red"
-								@click="edit(<?= $v['door_code']?>)">编辑</a></td>
+							<td><a href="javascript:;" class="<?=config('tdEditClass')?>" @click="detail(<?= $v['door_code']?>)">编辑</a></td>
 						</tr>
                         <?php }?>
                     </tbody>
@@ -95,7 +94,7 @@
 	<div class="modal-footer">
 		<button type="button" data-dismiss="modal"
 			class="btn btn-outline dark">取消</button>
-		<button type="button" class="btn green" @click="doEdit">提交</button>
+		<button type="button" class="btn green" @click="edit">提交</button>
 	</div>
 </div>
 <?php ob_start();?>
@@ -105,7 +104,7 @@ var option = {
 	ordering:false,
 // 	buttons:[{
 //         text: '添加',
-//         className: 'btn red',
+//         className: 'add btn red',
 //         action: function ( e, dt, node, config ) {
 //             $(".select2").select2({width: null})
 //             $("#edit").modal();
@@ -123,6 +122,7 @@ $('.datatable>tbody>tr').each(function(){
 	}
 	$(this).find('td:first').prepend(str);
 });
+
 var app = new Vue({
   el: '#page-content',
   data: {
@@ -137,8 +137,9 @@ var app = new Vue({
 		  this.caret2Right = !$('i.fa',e.target).hasClass('fa-caret-right');
           $(e.target).parent().siblings('.pid-'+pid).toggle('fast');
 	  },
-	  edit:function(code){
+	  detail:function(code){
 		  var t = this;
+		  $(".select2").select2({width: null})
 		  $("#edit").modal();
 		  if(code){
 			  $.getJSON('/menu/detail',{code:code},function(d){
@@ -152,7 +153,7 @@ var app = new Vue({
 			  t.row = {}
 		  }
 	  },
-	  doEdit:function(){
+	  edit:function(){
 		  var t = this;
 		  $.post('/menu/edit',t.row,function(d){
 			  if(d.code){
