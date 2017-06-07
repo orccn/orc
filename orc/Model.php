@@ -107,8 +107,8 @@ class Model
 
     public function count()
     {
-        $row = $this->fields('count(1) num')->getRow();
-        return intval($row['num']);
+        $row = $this->fields('count(1) num')->select();
+        return intval($row[0]['num']);
     }
 
     public function getField($valueField, $keyField = '')
