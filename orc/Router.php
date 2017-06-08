@@ -93,13 +93,9 @@ class Router
             Response::show404();
         }
         
-        Hook::trigger('ctlInsBefore');
-        $ctlObject = $controller->newInstance();
-        Hook::trigger('ctlInsAfter');
-        
         // check action
         $action = $this->getActionName();
-        if (! method_exists($ctlObject, $action)) {
+        if (! method_exists($className, $action)) {
             Response::show404();
         }
         $method = $controller->getMethod($action);
@@ -112,6 +108,10 @@ class Router
         define('CONTROLLER_NAME', $this->getControllerName());
         define('ACTION_NAME', $this->getActionName());
         define('PAGE_TYPE', $this->getExt() ? $this->getExt() : config('defaultViewType'));
+        
+        Hook::trigger('ctlInsBefore');
+        $ctlObject = $controller->newInstance();
+        Hook::trigger('ctlInsAfter');
         
         Hook::trigger('actionBefore');
         $content = $method->invoke($ctlObject);
