@@ -15,8 +15,8 @@ class MenuController extends AdminBase
             'parentField' => 'door_parent'
         ];
         $sortMenu = Tree::instance($option)->getList($menuList, 0);
-        $this->assign('menuList', $menuList);
         $this->assign('sortMenu', $sortMenu);
+        $this->assign('menuList', $menuList);
         $this->showFrame('menu');
     }
 
@@ -65,11 +65,10 @@ class MenuController extends AdminBase
                 $this->error("[{$arr['door_name']}]下含有子功能，不能进行此操作");
             }
             MenuModel::single()->update($arr,['door_code'=>$code]);
-            $this->success();
         }else{
             MenuModel::single()->insert($arr);
-            $this->success();
         }
+        $this->success();
     }
     
     function del()
