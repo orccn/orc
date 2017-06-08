@@ -14,14 +14,6 @@ class MenuModel extends Model
         $this->where(['is_delete'=>0]);
     }
     
-//     public function where($where)
-//     {
-//         if (! isset($where['is_delete'])) {
-//             $where['is_delete'] = 0;
-//         }
-//         return parent::where($where);
-//     }
-    
     public function delete($code)
     {
         return $this->where(['door_code'=>$code])->update(['is_delete'=>1]);
