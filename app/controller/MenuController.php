@@ -50,8 +50,8 @@ class MenuController extends AdminBase
         $arr['door_url'] = I('door_url');
         $arr['door_parent'] = $parent = intval(I('door_parent'));
         $arr['door_level'] = $parent ? 2:1;
-        $arr['is_menu'] = I('is_menu')=='true' ? 1 :0;
-        $arr['need_auth'] = I('need_auth')=='true' ? 1 :0;
+        $arr['is_menu'] = I('is_menu')=='true'||I('is_menu')==1 ? 1 :0;
+        $arr['need_auth'] = I('need_auth')=='true'||I('need_auth')==1 ? 1 :0;
         
         //修改
         if ($code){

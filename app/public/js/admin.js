@@ -95,3 +95,4 @@ function editError(msg){
 	}
 	$('.alert','.modal-body').show().find('span').html(msg);
 }
+$('li.open','.page-sidebar-menu').parents('li').addClass('active open').find('a').append('<span class="selected"></span>');
