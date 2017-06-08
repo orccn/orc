@@ -13,7 +13,7 @@ class Controller
 
     public function __construct()
     {
-        $this->view = View::instance();
+        $this->view = View::ins();
     }
 
     /**

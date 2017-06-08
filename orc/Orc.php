@@ -58,7 +58,7 @@ if (config('plugin.')) {
 
 // URL路由、请求分发
 $pathInfo = parse_url(URL::getCurrentURL(), PHP_URL_PATH);
-Response::output(Router::instance($pathInfo)->dispatch());
+Response::output(Router::ins($pathInfo)->dispatch());
 
 
 
