@@ -13,7 +13,7 @@ trait Instance
      *
      * @return static
      */
-    public static function instance()
+    public static function ins()
     {
         return (new \ReflectionClass(get_called_class()))->newInstanceArgs(func_get_args());
     }
@@ -27,7 +27,7 @@ trait Instance
         static $arr = array();
         $className = get_called_class();
         if (! isset($arr[$className])) {
-            $arr[$className] = call_user_func_array('self::instance', func_get_args());
+            $arr[$className] = call_user_func_array('self::ins', func_get_args());
         }
         return $arr[$className];
     }
