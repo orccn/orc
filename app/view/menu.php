@@ -170,9 +170,6 @@ var app = new Vue({
 			  return 
 	      }
 		  $.getJSON('/menu/del',{code:code},function(d){
-			  if(d.code){
-				  return alert(d.msg);
-			  }
 			  window.location.href = location.href;
 		  })
 	  }
