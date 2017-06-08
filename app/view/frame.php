@@ -140,10 +140,10 @@
                                 </div>
                             </li>
                             <!-- END SIDEBAR TOGGLER BUTTON -->
-                            
+                            <?=$leftMenu?>
                             <li class="nav-item start ">
                                 <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-layers"></i>
                                     <span class="title">Dashboard</span>
                                     <span class="arrow"></span>
                                 </a>

@@ -17,7 +17,7 @@ class UnitController extends AdminBase
             'levelField' => 'unit_level',
             'textField' => 'unit_name'
         ];
-        $unitList = Tree::instance($option)->getList($unitList, '00');
+        $unitList = Tree::ins($option)->getList($unitList, '00');
         $this->assign('unitList', $unitList);
         $this->showFrame('unit');
     }
@@ -31,7 +31,7 @@ class UnitController extends AdminBase
             'levelField' => 'unit_level',
             'textField' => 'unit_name'
         ];
-        $tree = Tree::instance($option)->getJSTreeData($unitList, '00');
+        $tree = Tree::ins($option)->getJSTreeData($unitList, '00');
         array_unshift($tree, ['id'=>'00','text'=>'全院']);
         Response::outputJson($tree);
     }

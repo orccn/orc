@@ -9,12 +9,12 @@ class MenuController extends AdminBase
 
     function index()
     {
-        $menuList = MenuModel::single()->select('door_code');
+        $menuList = MenuModel::ins()->select('door_code');
         $option = [
             'idField' => 'door_code',
             'parentField' => 'door_parent'
         ];
-        $sortMenu = Tree::instance($option)->getList($menuList, 0);
+        $sortMenu = Tree::ins($option)->getList($menuList, 0);
         $this->assign('sortMenu', $sortMenu);
         $this->assign('menuList', $menuList);
         $this->showFrame('menu');
@@ -23,7 +23,7 @@ class MenuController extends AdminBase
     function detail()
     {
         $code = I('code');
-        $row = MenuModel::single()->where([
+        $row = MenuModel::ins()->where([
             'door_code' => $code
         ])->getRow();
         if ($row) {
@@ -58,15 +58,15 @@ class MenuController extends AdminBase
             if ($code==$parent){
                 $this->error('不能选择自己作为上级');
             }
-            $count = MenuModel::single()->where([
+            $count = MenuModel::ins()->where([
                 'door_parent'=>$code
             ])->count();
             if ($parent&&$count){
                 $this->error("[{$arr['door_name']}]下含有子功能，不能进行此操作");
             }
-            MenuModel::single()->update($arr,['door_code'=>$code]);
+            MenuModel::ins()->update($arr,['door_code'=>$code]);
         }else{
-            MenuModel::single()->insert($arr);
+            MenuModel::ins()->insert($arr);
         }
         $this->success();
     }
@@ -79,7 +79,7 @@ class MenuController extends AdminBase
                 'notExists:MenuModel,door_parent' => '此功能下含有子功能，不能进行此操作'
             ],
         ]);
-        $rs = MenuModel::single()->delete(intval(I('code')));
+        $rs = MenuModel::ins()->delete(intval(I('code')));
         $this->success();
     }
 }

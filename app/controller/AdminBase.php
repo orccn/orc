@@ -4,9 +4,35 @@ namespace Controller;
 use orc\Controller;
 use orc\Response;
 use library\Validator;
+use model\MenuModel;
+use model\UserModel;
 
 class AdminBase extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        if (!IS_AJAX){
+            $this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
+        }
+    }
+    
+    private function checkLogin()
+    {
+        $whiteList = config('loginWhiteList');
+        $url = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
+        if (in_array($url, $whiteList)){
+            return;
+        }
+        
+        if (! UserModel::single()->checkLogin()) {
+            if (IS_AJAX) {
+                $ontLoginCode = 100;
+                $this->error('请登录',$ontLoginCode);
+            }
+            $this->redirect('/user/login');
+        }
+    }
     
     protected function redirect($url, $delay = 0)
     {
@@ -60,7 +86,7 @@ class AdminBase extends Controller
             if (! is_array($rules)) {
                 $rules = (array) $rules;
             }
-            $validator = Validator::instance($data, $nameCN);
+            $validator = Validator::ins($data, $nameCN);
             foreach ($rules as $k => $v) {
                 if (is_string($k)) {
                     $ruleAndParams = $k;
