@@ -34,7 +34,7 @@ class Tree
                 if ($child) {
                     $v[$this->fields['childField']] = $child;
                 }
-                $tree[$id] = $v;
+                $tree[] = $v;
             }
         }
         return $tree;
