@@ -54,7 +54,7 @@ class Model
                 $this->getPk() => $where
             ]);
         }
-        $rs = $this->db()->delete($where);
+        $rs = $this->db()->delete($this->getOptions());
         return $rs;
     }
 
