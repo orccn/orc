@@ -72,19 +72,20 @@ $.fn.initUnitTree = function(option) {
 		},
 		"types" : {
 			"default" : {
-				"icon" : "fa fa-folder icon-state-success icon-lg"
+				"icon" : "fa fa-folder icon-state-info icon-lg"
 			},
 			"file" : {
-				"icon" : "fa fa-file icon-state-success icon-lg"
+				"icon" : "fa fa-file icon-state-info icon-lg"
 			}
 		},
 		"state" : {
 			"key" : "demo2"
 		},
-		"plugins" : [ "contextmenu", "dnd", "state", "types" ]
+		"plugins" : ["dnd", "state", "types"]
 	}
 	if (option.url) {
 		d.core.data.url = option.url
+		d.plugins = option.plugins
 	}
 	return this.jstree(d)
 }

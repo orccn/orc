@@ -37,6 +37,12 @@ class UserController extends AdminBase
         $_SESSION['user'] = $user;
         $this->success();
     }
+    
+    function del()
+    {
+//         $rs = UserModel::ins()->delete(intval(I('field_code')));
+        $this->success();
+    }
 }
 
 

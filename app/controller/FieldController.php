@@ -18,7 +18,7 @@ class FieldController extends AdminBase
         $this->responseValidate([
             'field_enname:字段英文名称' => 'maxLen:100',
             'field_zhname:字段中文名称' => 'maxLen:100',
-            'door_code:功能编码' => ['exists:FieldModel,door_code'],
+            'door_code:功能编码' => ['exists:MenuModel,door_code'],
         ]);
         $arr = [];
         $arr['field_enname'] = I('field_enname');

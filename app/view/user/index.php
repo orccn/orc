@@ -1,8 +1,6 @@
-<?php ob_start();?>
-<?php gvar('css',ob_get_clean());?>
 <div class="row">
     <div class="col-md-4">
-        <div class="portlet green box">
+        <div class="portlet box <?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-cogs"></i>分析单元 
@@ -15,7 +13,7 @@
     </div>
     <div class="col-md-8">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box green">
+        <div class="portlet box <?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>人员列表  </div>
@@ -44,8 +42,22 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
+
+<div id="field-modal" class="modal" data-width="760" data-keyboard="true" data-attention-animation="false">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+		<h4 class="modal-title">可查看的分析单元</h4>
+	</div>
+	<div class="modal-body">
+	   <div class="unit-tree"></div>
+	</div>
+</div>
+
 <?php ob_start();?>
 <script type="text/javascript">
+var tdBtns = '<a href="javascript:;" class="<?=config('tdDelClass')?>">删除</a>';
+tdBtns += '<a href="javascript:;" class="<?=config('tdDetailClass')?>">详情</a>';
+tdBtns += '<a href="javascript:;" class="td-unit btn btn-xs purple btn-outline">单元</a>';
 var option = {
     ajax: {"url" : "/user/ls"},
     columns: [
@@ -57,7 +69,7 @@ var option = {
         { data: "unit_code" },
         { data: "idno" },
         { data: "title" },
-        { data: null, defaultContent: ""}
+        { data: null, defaultContent: tdBtns}
     ],
     scrollY:        300,
     deferRender:    true,

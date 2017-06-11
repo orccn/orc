@@ -44,17 +44,18 @@ $('.datatable>tbody>tr').each(function(){
 	var level = $(this).data('level');
 	for(i=1;i<level;i++){ str += '&nbsp;&nbsp;&nbsp;';}
 	if($(this).data('end')=='N'){
-		str += '<i class="fa fa-caret-right">&nbsp;</i>';
+		str += '<i class="fa fa-caret-down">&nbsp;</i>';
 		$('td:first',this).mouseover(function(){
 			$(this).css('cursor','pointer');
 		});
 		$('td:first',this).click(function(){
 			if($('i.fa',this).hasClass('fa-caret-right')){
 				$('i.fa',this).removeClass('fa-caret-right').addClass('fa-caret-down')
+				$(this).parent().siblings('[id^="'+id+'"]').show();
 			}else{
 				$('i.fa',this).removeClass('fa-caret-down').addClass('fa-caret-right')
+				$(this).parent().siblings('[id^="'+id+'"]').hide();
 			}
-			$(this).parent().siblings('[id^="'+id+'"]').toggle('fast');
 		});
 	}
 	$(this).find('td:first').prepend(str);
