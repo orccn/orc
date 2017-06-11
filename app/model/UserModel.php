@@ -1,9 +1,7 @@
 <?php
 namespace model;
 
-use orc\Model;
-
-class UserModel extends Model
+class UserModel extends BaseModel
 {
 
     protected $tableName = 'user_dict';

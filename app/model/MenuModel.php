@@ -1,13 +1,14 @@
 <?php
 namespace model;
 
-use orc\Model;
 use library\Tree;
 
-class MenuModel extends Model
+class MenuModel extends BaseModel
 {
 
     protected $tableName = 'door_dict';
+    
+    protected $pk = 'door_code';
     
     protected $suburl = '';
 
@@ -18,9 +19,14 @@ class MenuModel extends Model
         $this->where(['is_delete'=>0]);
     }
     
+    public function insert($data, $replace = false)
+    {
+        return parent::insertIncrField($data, $this->getPk(), $replace);
+    }
+    
     public function delete($code)
     {
-        return $this->where(['door_code'=>$code])->update(['is_delete'=>1]);
+        return $this->where([$this->getPk()=>$code])->update(['is_delete'=>1]);
     }
     
     public function getMenuTree()

@@ -150,7 +150,7 @@
                 <!-- BEGIN CONTENT -->
                 <div class="page-content-wrapper">
                     <!-- BEGIN CONTENT BODY -->
-                    <div id = "page-content" class="page-content">
+                    <div class="page-content">
                         <?php echo $pageContent;?>
                     </div>
                     <!-- END CONTENT BODY -->

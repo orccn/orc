@@ -22,13 +22,11 @@ class MenuController extends AdminBase
 
     function detail()
     {
-        $code = I('code');
-        $row = MenuModel::ins()->where([
-            'door_code' => $code
-        ])->getRow();
+        $row = MenuModel::ins()->getRow(I('door_code'));
         if ($row) {
             $row['is_menu'] = intval($row['is_menu']);
             $row['need_auth'] = intval($row['need_auth']);
+            $row['has_field'] = intval($row['has_field']);
             $this->success($row);
         } else {
             $this->error('不存在此功能');
@@ -45,15 +43,16 @@ class MenuController extends AdminBase
         ]);
         
         $arr = [];
-        $code = intval(I('door_code'));
         $arr['door_name'] = I('door_name');
         $arr['door_url'] = I('door_url');
         $arr['door_parent'] = $parent = intval(I('door_parent'));
         $arr['door_level'] = $parent ? 2:1;
         $arr['is_menu'] = I('is_menu')=='true'||I('is_menu')==1 ? 1 :0;
         $arr['need_auth'] = I('need_auth')=='true'||I('need_auth')==1 ? 1 :0;
+        $arr['has_field'] = I('has_field')=='true'||I('has_field')==1 ? 1 :0;
         
         //修改
+        $code = intval(I('door_code'));
         if ($code){
             if ($code==$parent){
                 $this->error('不能选择自己作为上级');
@@ -79,7 +78,7 @@ class MenuController extends AdminBase
                 'notExists:MenuModel,door_parent' => '此功能下含有子功能，不能进行此操作'
             ],
         ]);
-        $rs = MenuModel::ins()->delete(intval(I('code')));
+        $rs = MenuModel::ins()->delete(intval(I('door_code')));
         $this->success();
     }
 }

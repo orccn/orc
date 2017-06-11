@@ -1,9 +1,7 @@
 <?php
 namespace model;
 
-use orc\Model;
-
-class UnitModel extends Model
+class UnitModel extends BaseModel
 {
 
     protected $tableName = 'unit_list';
