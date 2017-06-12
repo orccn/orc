@@ -29,12 +29,13 @@ var dblclick = {
 		dblclick.timer = setTimeout(fn, dblclick.interval)
 	}
 }
-$.fn.initDT = function(option) {
-	option = option || {}
-	option.buttons = option.buttons || []
+$.fn.initDT = function(option) 
+{
 	var d = {
 		"language" : admin.dtLang,
 	}
+	option = option || {}
+	option.buttons = option.buttons || []
 	// 分页
 	if (option.need_page === false) {
 		d.paging = false
@@ -57,8 +58,8 @@ $.fn.initDT = function(option) {
 	}
 	return this.dataTable(d)
 }
-$.fn.initUnitTree = function(option) {
-	option = option || {}
+$.fn.initUnitTree = function(option) 
+{
 	var d = {
 		"core" : {
 			"themes" : {
@@ -67,7 +68,7 @@ $.fn.initUnitTree = function(option) {
 			// so that create works
 			"check_callback" : true,
 			'data' : {
-				'url' : '/unit/tree'
+				'url' : '/unit/tree',
 			}
 		},
 		"types" : {
@@ -81,15 +82,16 @@ $.fn.initUnitTree = function(option) {
 		"state" : {
 			"key" : "demo2"
 		},
-		"plugins" : ["dnd", "state", "types"]
+		"plugins" : ["state", "types"]
 	}
-	if (option.url) {
-		d.core.data.url = option.url
-		d.plugins = option.plugins
+	option = option || {}
+	for (i in option){
+		d[i] = option[i]
 	}
 	return this.jstree(d)
 }
-function editError(msg){
+function editError(msg)
+{
 	var str = '<div class="alert alert-danger display-hide"><button class="close" data-close="alert"></button><span></span></div>';
 	if($('.alert','.modal-body').length==0){
 		$('.modal-body').prepend(str);

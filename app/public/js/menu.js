@@ -30,18 +30,18 @@ function showField(code)
 		  return editError(d.msg)
 	  }
 	  var data = d.data;
-	  $(".dragsort").html('');
+	  $("#field-list").html('');
 	  if(Object.keys(data).length>0){
 		  for(var i in data){
 			  var newtr = fieldtpl.clone().attr('data-id',data[i].field_code) 
 			  newtr.find('.en').html(data[i].field_enname)
 			  newtr.find('.zh').html(data[i].field_zhname)
 			  newtr.find('.td-save').addClass('td-edit').html('编辑').removeClass('td-save')
-			  $(".dragsort").append(newtr)
+			  $("#field-list").append(newtr)
 		  }
 	  }
 	  addFieldTd()
-	  $(".dragsort").dragsort({ dragSelector: ".en,.zh"})
+	  $("#field-list").dragsort({ dragSelector: ".en,.zh"})
 	  if($("#field-modal:visible").length==0){
 		  $("#field-modal").data('door_code',code).modal();
 	  }
@@ -50,18 +50,20 @@ function showField(code)
 
 function addFieldTd()
 {
-	if($(".dragsort tr").length==$(".dragsort tr[data-id]").length){
-		$(".dragsort").append(fieldtpl.clone());
+	if($("#field-list tr").length==$("#field-list tr[data-id]").length){
+		var newtr = fieldtpl.clone();
+		newtr.find('.td-del').remove();
+		$("#field-list").append(newtr);
 	}
 }
 
-$(".dragsort").on('click',".td-add",function(e){
-	if($(".dragsort tr").length==$(".dragsort tr[data-id]").length){
+$("#field-list").on('click',".td-add",function(e){
+	if($("#field-list tr").length==$("#field-list tr[data-id]").length){
 		$(e.target).parents('tr').after(fieldtpl.clone());
 	}
 })
 
-$(".dragsort").on('click',".td-del",function(){
+$("#field-list").on('click',".td-del",function(){
 	if($(this).parents('tr').data('id')==undefined){
 		return
 	}
@@ -73,7 +75,7 @@ $(".dragsort").on('click',".td-del",function(){
 		if(d.code){
 		    return alert(d.msg)
 		}
-		if($(".dragsort tr").length>1){
+		if($("#field-list tr").length>1){
 			t.parents('tr').remove();
 		}else{
 			showField($('#field-modal').data('door_code'))
@@ -81,7 +83,7 @@ $(".dragsort").on('click',".td-del",function(){
 	})
 })
 
-$(".dragsort").on('click',".td-edit",function(){
+$("#field-list").on('click',".td-edit",function(){
 	var tden = $(this).parent().siblings('.en');
 	var tdzh = $(this).parent().siblings('.zh');
 	tden.html(fieldtpl.find('.en input').clone().val(tden.html()))
@@ -89,7 +91,7 @@ $(".dragsort").on('click',".td-edit",function(){
 	$(this).addClass('td-save').html('保存').removeClass('td-edit')
 })
 
-$(".dragsort").on('click',".td-save",function(){
+$("#field-list").on('click',".td-save",function(){
     var formData = {
 		field_code:$(this).parents('tr').data('id'),
 		door_code:$('#field-modal').data('door_code'),

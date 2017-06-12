@@ -117,7 +117,7 @@
             	</td>
             </tr>
         </table>
-		<table class="dragsort table table-striped table-bordered table-hover table-condensed"></table>
+		<table id="field-list" class="table table-striped table-bordered table-hover table-condensed"></table>
 	</div>
 </div>
 

@@ -20,7 +20,7 @@
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
-                <table class="datatable table table-striped table-bordered table-hover table-condensed">
+                <table id="user-list" class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
                             <th>人员ID </th>
@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<div id="field-modal" class="modal" data-width="760" data-keyboard="true" data-attention-animation="false">
+<div id="unit-modal" class="modal" data-width="760" data-keyboard="true" data-attention-animation="false">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 		<h4 class="modal-title">可查看的分析单元</h4>
@@ -76,7 +76,7 @@ var option = {
     scroller:       true,
     stateSave:      true,
 }
-var dt = $('.datatable').initDT(option)
+var dt = $('#user-list').initDT(option)
 $('#unit-tree').initUnitTree().bind('click.jstree',function(e){
 	if(e.target.nodeName!='A'||dblclick.check()){
 		return
@@ -87,5 +87,11 @@ $('#unit-tree').initUnitTree().bind('click.jstree',function(e){
 }).bind('dblclick.jstree',function(e){
 	
 });
+$("#user-list").on('click',".td-unit",function(){
+	$("#unit-modal").modal();
+	$('#unit-modal .unit-tree').initUnitTree({"plugins" : ["state", "types", "checkbox"]})
+	
+	
+})
 </script>
 <?php gvar('js',ob_get_clean());?>
