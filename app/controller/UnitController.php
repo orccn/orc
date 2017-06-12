@@ -32,7 +32,9 @@ class UnitController extends AdminBase
             'textField' => 'unit_name'
         ];
         $tree = Tree::ins($option)->getJSTreeData($unitList, '00');
-        array_unshift($tree, ['id'=>'00','text'=>'全院']);
+        if (intval(I('flag'))==1){
+            array_unshift($tree, ['id'=>'00','text'=>'全院']);
+        }
         Response::outputJson($tree);
     }
 }

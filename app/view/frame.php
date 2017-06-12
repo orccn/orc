@@ -191,7 +191,6 @@
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
-        <script src="/js/vue.min.js" type="text/javascript"></script>
         <script src="/js/admin.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <?php if(gvar('js')){echo gvar('js');}?>

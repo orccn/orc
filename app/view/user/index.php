@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<div id="unit-modal" class="modal" data-width="760" data-keyboard="true" data-attention-animation="false">
+<div id="unit-modal" class="modal modal-scroll" data-height="760" data-keyboard="true" data-attention-animation="false">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 		<h4 class="modal-title">可查看的分析单元</h4>
@@ -77,7 +77,7 @@ var option = {
     stateSave:      true,
 }
 var dt = $('#user-list').initDT(option)
-$('#unit-tree').initUnitTree().bind('click.jstree',function(e){
+$('#unit-tree').initUnitTree({},'/unit/tree?flag=1').bind('click.jstree',function(e){
 	if(e.target.nodeName!='A'||dblclick.check()){
 		return
 	}

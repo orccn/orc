@@ -16,17 +16,11 @@ class MenuModel extends BaseModel
     {
         parent::__construct($tableName, $dbKey);
         $this->suburl = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
-        $this->where(['is_delete'=>0]);
     }
     
     public function insert($data, $replace = false)
     {
         return parent::insertIncrField($data, $this->getPk(), $replace);
-    }
-    
-    public function delete($code)
-    {
-        return $this->where([$this->getPk()=>$code])->update(['is_delete'=>1]);
     }
     
     public function getMenuTree()

@@ -24,9 +24,9 @@ class MenuController extends AdminBase
     {
         $row = MenuModel::ins()->getRow(I('door_code'));
         if ($row) {
-            $row['is_menu'] = intval($row['is_menu']);
-            $row['need_auth'] = intval($row['need_auth']);
-            $row['has_field'] = intval($row['has_field']);
+            $row['is_menu'] = boolval($row['is_menu']);
+            $row['need_auth'] = boolval($row['need_auth']);
+            $row['has_field'] = boolval($row['has_field']);
             $this->success($row);
         } else {
             $this->error('不存在此功能');
@@ -73,7 +73,7 @@ class MenuController extends AdminBase
     function del()
     {
         $this->responseValidate([
-            'code:功能编码' => [
+            'door_code:功能编码' => [
                 'exists:MenuModel,door_code',
                 'notExists:MenuModel,door_parent' => '此功能下含有子功能，不能进行此操作'
             ],

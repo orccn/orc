@@ -44,8 +44,6 @@ $.fn.initDT = function(option)
 		d.lengthMenu = [ [ 5, 10, 15, 20, -1 ], [ 5, 10, 15, 20, "All" ] ]
 		d.pageLength = 10
 		d.dom = "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>" // horizobtal
-																																											// scrollable
-																																											// datatable
 	}
 	// 排序
 	if (option.need_order === false) {
@@ -58,8 +56,9 @@ $.fn.initDT = function(option)
 	}
 	return this.dataTable(d)
 }
-$.fn.initUnitTree = function(option) 
+$.fn.initUnitTree = function(option,url) 
 {
+	url = url|| '/unit/tree'
 	var d = {
 		"core" : {
 			"themes" : {
@@ -68,7 +67,7 @@ $.fn.initUnitTree = function(option)
 			// so that create works
 			"check_callback" : true,
 			'data' : {
-				'url' : '/unit/tree',
+				'url' : url,
 			}
 		},
 		"types" : {

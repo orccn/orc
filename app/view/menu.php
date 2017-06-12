@@ -1,6 +1,6 @@
 <?php ob_start();?>
 <?php gvar('css',ob_get_clean());?>
-<div id="portlet-wrapper" class="row">
+<div class="row">
 	<div class="col-md-12">
 		<!-- BEGIN EXAMPLE TABLE PORTLET-->
 		<div class="portlet box <?=config('portletClass')?>">
@@ -15,8 +15,7 @@
                 </div>
 			</div>
 			<div class="portlet-body">
-				<table
-					class="datatable table table-striped table-bordered table-hover table-condensed">
+				<table id="menu-list" class="datatable table table-striped table-bordered table-hover table-condensed">
 					<thead>
 						<tr>
 							<th>功能名称</th>
@@ -28,16 +27,20 @@
 					</thead>
 					<tbody>
                         <?php foreach ($sortMenu as $v){?>
-                        <tr class="pid-<?= $v['door_parent']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['is_leaf']?>">
-							<td @click="clickCaret(<?= $v['door_code']?>,$event)"><?= $v['door_name']?></td>
+                        <tr class="pid-<?= $v['door_parent']?>" data-code="<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['is_leaf']?>">
+							<td class="door-name"><?= $v['door_name']?></td>
 							<td><?= $v['door_code']?></td>
 							<td><?= $v['door_parent'] ? $menuList[$v['door_parent']]['door_name'] : '顶级'?></td>
 							<td><?= $v['door_url']?></td>
 							<td>
-							     <a href="javascript:;" class="<?=config('tdDelClass')?>" @click="del(<?= $v['door_code']?>)">删除</a>
-							     <a href="javascript:;" class="<?=config('tdDetailClass')?>" @click="showDetail(<?= $v['door_code']?>)">详情</a>
-							     <a href="javascript:;" v-if="!<?=intval($v['door_parent'])?>" class="<?=config('tdAddClass')?>" @click="showAdd(<?= $v['door_code']?>)">添加</a>
-							     <a href="javascript:;" v-if="<?=intval($v['has_field'])?>" class="td-field btn btn-xs purple btn-outline" @click="showField(<?= $v['door_code']?>)">字段</a>
+							     <a href="javascript:;" class="<?=config('tdDelClass')?>">删除</a>
+							     <a href="javascript:;" class="<?=config('tdDetailClass')?>">详情</a>
+							     <?php if(!intval($v['door_parent'])){?>
+							         <a href="javascript:;" class="<?=config('tdAddClass')?>">添加</a>
+							     <?php }?>
+							     <?php if(intval($v['has_field'])){?>
+							         <a href="javascript:;" class="td-field btn btn-xs purple btn-outline">字段</a>
+							     <?php }?>
 							</td>
 						</tr>
                         <?php }?>
@@ -57,19 +60,20 @@
     			<div class="form-group">
     				<label class="col-md-3 control-label">功能名称</label>
     				<div class="col-md-9">
-    					<input type="text" class="form-control" v-model="row.door_name">
+    					<input type="hidden" name="door_code">
+    					<input type="text" class="form-control" name="door_name">
     				</div>
     			</div>
     			<div class="form-group">
     				<label class="col-md-3 control-label">功能路径</label>
     				<div class="col-md-9">
-    					<input type="text" class="form-control" v-model="row.door_url">
+    					<input type="text" class="form-control" name="door_url">
     				</div>
     			</div>
     			<div class="form-group">
     				<label class="col-md-3 control-label">上级功能</label>
     				<div class="col-md-9">
-    					<select id="single" class="form-control select2" v-model="row.door_parent">
+    					<select id="single" class="form-control select2" name="door_parent">
     						<option value="0">顶级</option>
                             <?php foreach ($menuList as $v){ if ($v['door_parent']) continue;?>
                             <option value="<?=$v['door_code']?>"><?=$v['door_name']?></option>
@@ -81,22 +85,21 @@
     				<label class="col-md-3 control-label"></label>
     				<div class="col-md-9">
     					<label class="mt-checkbox mt-checkbox-outline"> 
-    					   <input type="checkbox" v-model="row.is_menu"> 设为菜单 <span></span>
+    					   <input type="checkbox" name="is_menu"> 设为菜单 <span></span>
     					</label> 
     					<label class="mt-checkbox mt-checkbox-outline"> 
-    					   <input type="checkbox" v-model="row.need_auth"> 验证权限 <span></span>
+    					   <input type="checkbox" name="need_auth"> 验证权限 <span></span>
     					</label>
     					<label class="mt-checkbox mt-checkbox-outline"> 
-    					   <input type="checkbox" v-model="row.has_field"> 字段控制 <span></span>
+    					   <input type="checkbox" name="has_field"> 字段控制 <span></span>
     					</label>
     				</div>
     			</div>
     		</form>
     	</div>
     	<div class="modal-footer">
-    		<button type="button" data-dismiss="modal"
-    			class="btn btn-outline dark">取消</button>
-    		<button type="button" class="btn green" @click="edit">提交</button>
+    		<button type="button" data-dismiss="modal" class="btn btn-outline dark">取消</button>
+    		<button type="button" class="submit btn green">提交</button>
     	</div>
     </div>
 </div>

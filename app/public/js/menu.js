@@ -15,7 +15,7 @@ $('.datatable>tbody>tr').each(function(){
 	var str = '';
 	var id = $(this).prop('id');
 	var level = $(this).data('level');
-	for(i=1;i<level;i++){ str += '&nbsp;&nbsp;&nbsp;';}
+	for(i=1;i<level;i++){ str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}
 	if(!$(this).data('end')){
 		str += '<i class="fa fa-caret-down">&nbsp;</i>';
 	}
@@ -107,56 +107,76 @@ $("#field-list").on('click',".td-save",function(){
     },'json')
 })
 
-var app = new Vue({
-  el: '#portlet-wrapper',
-  data: {
-    row:{},
-  },
-  methods : {
-	  clickCaret:function(pid,e){
-		  if($('i.fa',e.target).hasClass('fa-caret-right')){
-			  $('i.fa',e.target).removeClass('fa-caret-right').addClass('fa-caret-down');
-		  }else{
-			  $('i.fa',e.target).removeClass('fa-caret-down').addClass('fa-caret-right');
-		  }
-          $(e.target).parent().siblings('.pid-'+pid).toggle();
-	  },
-	  showDetail:function(code){
-		  var t = this;
-		  $.getJSON('/menu/detail',{door_code:code},function(d){
-			  if(d.code){
-				  return editError(d.msg);
-			  }
-			  t.row = d.data
-			  $("#edit-modal").modal().find('.alert').hide();
-		  })
-	  },
-	  showAdd:function(pid)
-	  {
-		  this.row = {door_parent:pid,need_auth:'true'}
-		  $("#edit-modal").modal().find('.alert').hide();
-	  },
-	  edit:function(){
-		  var t = this;
-		  $.post('/menu/edit',t.row,function(d){
-			  if(d.code){
-				  return editError(d.msg);
-			  }
-			  $("#edit-modal").modal('hide');
-			  window.location.href = location.href;
-		  },'json')
-	  },
-	  del:function(code){
-		  if(!confirm('确定删除？')){
-			  return 
-	      }
-		  $.getJSON('/menu/del',{door_code:code},function(d){
-			  window.location.href = location.href;
-		  })
-	  },
-	  showField:function(code)
-	  {
-		  showField(code)
+$(".door-name").click(function(){
+	var pid = $(this).parents('tr').data('code')
+	if($('i.fa',this).hasClass('fa-caret-right')){
+		$('i.fa',this).removeClass('fa-caret-right').addClass('fa-caret-down');
+	}else{
+		$('i.fa',this).removeClass('fa-caret-down').addClass('fa-caret-right');
+	}
+	$(this).parent().siblings('.pid-'+pid).toggle();
+});
+
+$("#menu-list .td-detail").on('click',function(){
+	var door_code = $(this).parents('tr').data('code')
+	$.getJSON('/menu/detail',{door_code:door_code},function(d){
+	  if(d.code){
+		  return editError(d.msg);
 	  }
-  }
+	  data = d.data;
+	  $('#edit-modal [name="door_code"]').val(door_code);
+	  $('#edit-modal [name="door_name"]').val(data.door_name);
+	  $('#edit-modal [name="door_url"]').val(data.door_url);
+	  $('#edit-modal [name="door_parent"]').val(data.door_parent);
+	  $('#edit-modal [name="is_menu"]').prop('checked',data.is_menu);
+	  $('#edit-modal [name="need_auth"]').prop('checked',data.need_auth);
+	  $('#edit-modal [name="has_field"]').prop('checked',data.has_field);
+	  $("#edit-modal").modal().find('.alert').hide();
+	})
+})
+function showMenuAdd(code)
+{
+	 $('#edit-modal').find('input').val('')
+	 $('#edit-modal').find('[type="checkbox"]').prop('checked',false)
+	 $('#edit-modal').find('[name="need_auth"]').prop('checked',true)
+	 $('#edit-modal [name="door_parent"]').val(code);
+	 $("#edit-modal").modal().find('.alert').hide();
+}
+$("#menu-list .td-add").on('click',function(){
+	 showMenuAdd($(this).parents('tr').data('code'))
+})
+$(".title-add").on('click',function(){
+	showMenuAdd(0)
+})
+$("#menu-list .td-del").on('click',function(){
+	if(!confirm('确定删除？')){
+		return 
+    }
+	$.getJSON('/menu/del',{door_code:$(this).parents('tr').data('code')},function(d){
+		if(d.code){
+			return alert(d.msg);
+		}
+		window.location.href = location.href;
+	})
+})
+$("#menu-list .td-field").on('click',function(){
+	showField($(this).parents('tr').data('code'))
+})
+$("#edit-modal .submit").on('click',function(){
+	  var data = {
+		  door_code:$('#edit-modal [name="door_code"]').val(),
+		  door_name:$('#edit-modal [name="door_name"]').val(),
+		  door_url:$('#edit-modal [name="door_url"]').val(),
+		  door_parent:$('#edit-modal [name="door_parent"]').val(),
+		  is_menu:$('#edit-modal [name="is_menu"]').prop('checked'),
+		  need_auth:$('#edit-modal [name="need_auth"]').prop('checked'),
+		  has_field:$('#edit-modal [name="has_field"]').prop('checked')
+	  }
+	  $.post('/menu/edit',data,function(d){
+		  if(d.code){
+			  return editError(d.msg);
+		  }
+		  $("#edit-modal").modal('hide');
+		  window.location.href = location.href;
+	  },'json')
 })
