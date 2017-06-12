@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-4">
-        <div class="portlet box <?=config('portletClass')?>">
+        <div id="user-left" class="portlet box <?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-cogs"></i>分析单元 
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-8">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box <?=config('portletClass')?>">
+        <div id="user-right" class="portlet box <?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>人员列表  </div>
@@ -71,7 +71,7 @@ var option = {
         { data: "title" },
         { data: null, defaultContent: tdBtns}
     ],
-    scrollY:        300,
+    scrollY:        600,
     deferRender:    true,
     scroller:       true,
     stateSave:      true,
@@ -90,8 +90,6 @@ $('#unit-tree').initUnitTree({},'/unit/tree?flag=1').bind('click.jstree',functio
 $("#user-list").on('click',".td-unit",function(){
 	$("#unit-modal").modal();
 	$('#unit-modal .unit-tree').initUnitTree({"plugins" : ["state", "types", "checkbox"]})
-	
-	
 })
 </script>
 <?php gvar('js',ob_get_clean());?>
