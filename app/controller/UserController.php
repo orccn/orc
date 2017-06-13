@@ -11,7 +11,6 @@ class UserController extends AdminBase
     {
         $userList = UserModel::single()->select();
         $this->assign('userList',$userList);
-//         print_pre($userList);
         $this->showFrame();
     }
     
