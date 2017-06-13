@@ -1,6 +1,3 @@
-var tdBtns = '<a href="javascript:;" class="<?=config('tdDelClass')?>">删除</a>';
-tdBtns += '<a href="javascript:;" class="<?=config('tdDetailClass')?>">详情</a>';
-tdBtns += '<a href="javascript:;" class="td-unit btn btn-xs purple btn-outline">单元</a>';
 var option = {
     ajax: {"url" : "/user/ls"},
     columns: [
@@ -18,6 +15,9 @@ var option = {
     deferRender:    true,
     scroller:       true,
     stateSave:      true,
+    createdRow: function ( row, data, index ) {
+    	$(row).attr('data-userid',data.user_id);
+    }
 }
 var dt = $('#user-list').initDT(option)
 $('#unit-tree').initUnitTree({},'/unit/tree?flag=1').bind('click.jstree',function(e){
@@ -34,20 +34,39 @@ $("#user-list").on('click',".td-unit",function(){
 	$("#unit-modal").modal();
 	$('#unit-modal .unit-tree').initUnitTree({"plugins" : ["state", "types", "checkbox"]})
 })
-$("#menu-list .td-detail").on('click',function(){
-	var door_code = $(this).parents('tr').data('code')
-	$.getJSON('/menu/detail',{door_code:door_code},function(d){
+
+function showUserAdd(userid)
+{
+	 $('#edit-modal').find('input').val('')
+	 
+	 $('#edit-modal').find('[type="checkbox"]').prop('checked',false)
+	 $('#edit-modal').find('[name="need_auth"]').prop('checked',true)
+	 
+	 $("#edit-modal").modal().find('.alert').hide();
+}
+
+$("#menu-list").on('click',".td-add",function(){
+	 showMenuAdd($(this).parents('tr').data('code'))
+})
+$(".title-add").on('click',function(){
+	 showMenuAdd(0)
+})
+$("#user-list").on('click',".td-detail",function(){
+	var userid = $(this).parents('tr').data('userid')
+	$("#edit-modal").modal().find('.alert').hide();
+	$.getJSON('/user/detail',{userid:userid},function(d){
 	  if(d.code){
-		  return editError(d.msg);
+		  return alert(d.msg);
 	  }
 	  data = d.data;
-	  $('#edit-modal [name="door_code"]').val(door_code);
-	  $('#edit-modal [name="door_name"]').val(data.door_name);
-	  $('#edit-modal [name="door_url"]').val(data.door_url);
-	  $('#edit-modal [name="door_parent"]').val(data.door_parent);
-	  $('#edit-modal [name="is_menu"]').prop('checked',data.is_menu);
-	  $('#edit-modal [name="need_auth"]').prop('checked',data.need_auth);
-	  $('#edit-modal [name="has_field"]').prop('checked',data.has_field);
+	  $('#edit-modal [name="user_id"]').val(userid);
+	  $('#edit-modal [name="name"]').val(data.name);
+	  $('#edit-modal [name="role"]').val(data.role);
+	  $('#edit-modal [name="user_code"]').val(data.user_code);
+	  $('#edit-modal [name="sex"]').val(data.sex);
+	  $('#edit-modal [name="idno"]').val(data.idno);
+	  $('#edit-modal [name="certificate_no"]').val(data.certificate_no);
+	  $('#edit-modal [name="title"]').val(data.title);
 	  $("#edit-modal").modal().find('.alert').hide();
 	})
 })

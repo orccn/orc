@@ -117,7 +117,7 @@ $(".door-name").click(function(){
 	$(this).parent().siblings('.pid-'+pid).toggle();
 });
 
-$("#menu-list .td-detail").on('click',function(){
+$("#menu-list").on('click',".td-detail",function(){
 	var door_code = $(this).parents('tr').data('code')
 	$.getJSON('/menu/detail',{door_code:door_code},function(d){
 	  if(d.code){
@@ -142,13 +142,13 @@ function showMenuAdd(code)
 	 $('#edit-modal [name="door_parent"]').val(code);
 	 $("#edit-modal").modal().find('.alert').hide();
 }
-$("#menu-list .td-add").on('click',function(){
+$("#menu-list").on('click',".td-add",function(){
 	 showMenuAdd($(this).parents('tr').data('code'))
 })
 $(".title-add").on('click',function(){
 	showMenuAdd(0)
 })
-$("#menu-list .td-del").on('click',function(){
+$("#menu-list").on('click',".td-del",function(){
 	if(!confirm('确定删除？')){
 		return 
     }
@@ -159,10 +159,10 @@ $("#menu-list .td-del").on('click',function(){
 		window.location.href = location.href;
 	})
 })
-$("#menu-list .td-field").on('click',function(){
+$("#menu-list").on('click',".td-field",function(){
 	showField($(this).parents('tr').data('code'))
 })
-$("#edit-modal .submit").on('click',function(){
+$("#edit-modal").on('click',".submit",function(){
 	  var data = {
 		  door_code:$('#edit-modal [name="door_code"]').val(),
 		  door_name:$('#edit-modal [name="door_name"]').val(),

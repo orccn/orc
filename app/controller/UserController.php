@@ -20,6 +20,16 @@ class UserController extends AdminBase
         Response::outputJson(['data'=>$userList]);
     }
     
+    function detail()
+    {
+        $row = UserModel::ins()->getRow(I('userid'));
+        if ($row) {
+            $this->success($row);
+        } else {
+            $this->error('不存在此用户');
+        }
+    }
+    
     function login()
     {
         if (REQUEST_METHOD != 'post') {

@@ -5,6 +5,8 @@ class UserModel extends BaseModel
 {
 
     protected $tableName = 'user_dict';
+    
+    protected $pk = 'user_id';
 
     public function checkPassword($username, $password)
     {
