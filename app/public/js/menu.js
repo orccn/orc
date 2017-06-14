@@ -123,7 +123,7 @@ $("#menu-list").on('click',".td-detail",function(){
 	  if(d.code){
 		  return editError(d.msg);
 	  }
-	  data = d.data;
+	  var data = d.data;
 	  $('#edit-modal [name="door_code"]').val(door_code);
 	  $('#edit-modal [name="door_name"]').val(data.door_name);
 	  $('#edit-modal [name="door_url"]').val(data.door_url);

@@ -59,7 +59,7 @@ $("#user-list").on('click',".td-detail",function(){
 	  if(d.code){
 		  return alert(d.msg);
 	  }
-	  data = d.data;
+	  var data = d.data;
 	  $('#edit-modal [name="user_id"]').val(userid);
 	  $('#edit-modal [name="name"]').val(data.name);
 	  $('#edit-modal [name="role"]').val(data.role);

@@ -36,17 +36,36 @@
 var tree = $('#menu-tree').initJSTree({"plugins" : ["types", "checkbox"]},'/menu/tree').bind("loaded.jstree", function (event, data) {
 	tree.jstree('deselect_all')
 }).bind('click.jstree',function(e){
+	var active_role = $('#roles li.active');
+	if(active_role.length==0){
+		return alert('请选择一个角色')
+	}	
 	var door_codes = tree.jstree('get_selected').join(',')
-	$.getJSON('/role/setauth',{door_codes:door_codes},function(d){
+	var roleid = active_role.find('a').data('role')
+	$.getJSON('/role/setauth',{roleid:roleid,door_codes:door_codes},function(d){
 		if(d.code){
 			return alert(d.msg);
 	    }
-	    data = d.data;
+	    var data = d.data;
 	})
 })
 
 $("#roles a").on('click',function(){
-	console.log($(this).data('role'))
+	$(this).parent().addClass('active').siblings().removeClass('active');
+	var roleid = $(this).data('role')
+	$.getJSON('/role/detail',{roleid:roleid},function(d){
+		if(d.code){
+			return alert(d.msg);
+	    }
+		tree.jstree('deselect_all')
+	    if(!d.data.menus){
+		    return 
+	    }
+	    var roleids = d.data.menus.split(',');
+	    for(var i in roleids){
+	    	tree.jstree('select_node','#'+roleids[i])
+	    }
+	})
 })
 </script>
 <?php gvar('js',ob_get_clean());?>
