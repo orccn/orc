@@ -86,7 +86,11 @@ $.fn.initJSTree = function(option,url)
 	for (i in option){
 		d[i] = option[i]
 	}
-	return this.jstree(d)
+	var tree = this.jstree(d)
+	tree.bind("loaded.jstree", function (event, data) {
+		tree.jstree("open_all");
+	})
+	return tree;
 }
 function editError(msg)
 {

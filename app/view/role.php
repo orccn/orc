@@ -33,7 +33,18 @@
 </div>
 <?php ob_start();?>
 <script type="text/javascript">
-$('#menu-tree').initJSTree({"plugins" : ["state", "types", "checkbox"]},'/menu/tree')
+var tree = $('#menu-tree').initJSTree({"plugins" : ["types", "checkbox"]},'/menu/tree').bind("loaded.jstree", function (event, data) {
+	tree.jstree('deselect_all')
+}).bind('click.jstree',function(e){
+	var door_codes = tree.jstree('get_selected').join(',')
+	$.getJSON('/role/setauth',{door_codes:door_codes},function(d){
+		if(d.code){
+			return alert(d.msg);
+	    }
+	    data = d.data;
+	})
+})
+
 $("#roles a").on('click',function(){
 	console.log($(this).data('role'))
 })

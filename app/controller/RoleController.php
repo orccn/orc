@@ -8,6 +8,11 @@ class RoleController extends AdminBase
     {
         $this->showFrame('role');
     }
+    
+    function setauth()
+    {
+        $doorCodes = I('door_codes');
+    }
 }
 
 
