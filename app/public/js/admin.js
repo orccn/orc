@@ -56,9 +56,8 @@ $.fn.initDT = function(option)
 	}
 	return this.dataTable(d)
 }
-$.fn.initUnitTree = function(option,url) 
+$.fn.initJSTree = function(option,url) 
 {
-	url = url|| '/unit/tree'
 	var d = {
 		"core" : {
 			"themes" : {

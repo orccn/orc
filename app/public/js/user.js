@@ -20,19 +20,20 @@ var option = {
     }
 }
 var dt = $('#user-list').initDT(option)
-$('#unit-tree').initUnitTree({},'/unit/tree?flag=1').bind('click.jstree',function(e){
-	if(e.target.nodeName!='A'||dblclick.check()){
+$('#unit-tree').initJSTree({},'/unit/tree?flag=1').bind('click.jstree',function(e){
+//	if(e.target.nodeName!='A'||dblclick.check()){
+	if(e.target.nodeName!='A'){
 		return
 	}
-	dblclick.callback(function() { 
-		dt.api().ajax.url('/user/ls?unit_code='+$(e.target).parents('li').attr('id')).load();
-    })
+//	dblclick.callback(function() { 
+	dt.api().ajax.url('/user/ls?unit_code='+$(e.target).parents('li').attr('id')).load();
+//    })
 }).bind('dblclick.jstree',function(e){
 	
 });
 $("#user-list").on('click',".td-unit",function(){
 	$("#unit-modal").modal();
-	$('#unit-modal .unit-tree').initUnitTree({"plugins" : ["state", "types", "checkbox"]})
+	$('#unit-modal .unit-tree').initJSTree({"plugins" : ["state", "types", "checkbox"]},'/unit/tree')
 })
 
 function showUserAdd(userid)

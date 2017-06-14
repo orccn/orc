@@ -3,6 +3,7 @@ namespace Controller;
 
 use library\Tree;
 use model\MenuModel;
+use orc\Response;
 
 class MenuController extends AdminBase
 {
@@ -33,6 +34,17 @@ class MenuController extends AdminBase
         }
     }
     
+    function tree()
+    {
+        $unitList = MenuModel::single()->select();
+        $option = [
+            'idField' => 'door_code',
+            'parentField' => 'door_parent',
+            'textField' => 'door_name'
+        ];
+        $tree = Tree::ins($option)->getJSTreeData($unitList, 0);
+        Response::outputJson($tree);
+    }
     
     function edit()
     {
