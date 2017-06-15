@@ -31,10 +31,39 @@ $('#unit-tree').initJSTree({},'/unit/tree?flag=1').bind('click.jstree',function(
 }).bind('dblclick.jstree',function(e){
 	
 });
+
 $("#user-list").on('click',".td-unit",function(){
 	$("#unit-modal").modal();
-	$('#unit-modal .unit-tree').initJSTree({"plugins" : ["state", "types", "checkbox"]},'/unit/tree')
+	var userid = $(this).parents('tr').data('userid');
+	$('#unit-modal .unit-tree').jstree('destroy')
+	var tree = $('#unit-modal .unit-tree').initJSTree({"plugins" : ["state", "types", "checkbox"]},'/unit/tree')
+	tree.bind("loaded.jstree", function (event, data) {
+		tree.jstree('deselect_all')
+		$.getJSON('/user/detail',{userid:userid},function(d){
+			if(d.code){
+				return alert(d.msg);
+		    }
+			tree.jstree('deselect_all')
+		    if(!d.data.units){
+			    return 
+		    }
+		    var units = d.data.units.split(',');
+		    for(var i in units){
+		    	tree.jstree('select_node','#'+units[i])
+		    }
+		})
+	})
+	tree.bind('click.jstree',function(e){
+		var units = tree.jstree('get_selected').join(',')
+		$.getJSON('/user/setunit',{userid:userid,units:units},function(d){
+			if(d.code){
+				return alert(d.msg);
+		    }
+		    var data = d.data;
+		})
+	})
 })
+
 
 function showUserAdd(userid)
 {

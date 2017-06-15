@@ -30,6 +30,14 @@ class UserController extends AdminBase
         }
     }
     
+    function setunit()
+    {
+        $userid = intval(I('userid'));
+        $units = I('units');
+        UserModel::ins()->update(['units'=>$units],$userid);
+        $this->success();
+    }
+    
     function login()
     {
         if (REQUEST_METHOD != 'post') {

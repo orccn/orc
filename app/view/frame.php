@@ -192,6 +192,10 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
         <script src="/js/admin.js" type="text/javascript"></script>
+        <script src="/js/admin.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        var user_role = <?=$_SESSION['role']?>
+        </script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <?php if(gvar('js')){echo gvar('js');}?>
     </body>

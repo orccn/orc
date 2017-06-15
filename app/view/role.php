@@ -33,8 +33,10 @@
 </div>
 <?php ob_start();?>
 <script type="text/javascript">
-var tree = $('#menu-tree').initJSTree({"plugins" : ["types", "checkbox"]},'/menu/tree').bind("loaded.jstree", function (event, data) {
+var tree = $('#menu-tree').initJSTree({"plugins" : ["types", "checkbox"]},'/menu/tree')
+tree.bind("loaded.jstree", function (event, data) {
 	tree.jstree('deselect_all')
+	$("#roles a[data-role='3']").trigger('click');
 }).bind('click.jstree',function(e){
 	var active_role = $('#roles li.active');
 	if(active_role.length==0){
@@ -64,6 +66,15 @@ $("#roles a").on('click',function(){
 	    var roleids = d.data.menus.split(',');
 	    for(var i in roleids){
 	    	tree.jstree('select_node','#'+roleids[i])
+	    }
+	    if(roleid==2&&user_role!=1||roleid==3&&(user_role!=1&&user_role!=2)){
+	    	$("#menu-tree li").each(function(){
+		    	tree.jstree('disable_node',$(this))
+			})
+	    }else{
+	    	$("#menu-tree li").each(function(){
+		    	tree.jstree('enable_node',$(this))
+			})
 	    }
 	})
 })
