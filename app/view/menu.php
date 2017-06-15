@@ -22,6 +22,8 @@
 							<th>功能编码</th>
 							<th>上级功能</th>
 							<th>功能路径</th>
+							<th>是否菜单</th>
+							<th>权限验证</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -32,6 +34,8 @@
 							<td><?= $v['door_code']?></td>
 							<td><?= $v['door_parent'] ? $menuList[$v['door_parent']]['door_name'] : '顶级'?></td>
 							<td><?= $v['door_url']?></td>
+							<td class="font-<?= $v['is_menu']?'green':'red'?>"><?= $v['is_menu']?'是':'否'?></td>
+							<td class="font-<?= $v['need_auth']?'green':'red'?>"><?= $v['need_auth']?'验证':'不验'?></td>
 							<td>
 							     <a href="javascript:;" class="<?=config('tdDelClass')?>">删除</a>
 							     <a href="javascript:;" class="<?=config('tdDetailClass')?>">详情</a>

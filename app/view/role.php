@@ -38,6 +38,9 @@ tree.bind("loaded.jstree", function (event, data) {
 	tree.jstree('deselect_all')
 	$("#roles a[data-role='3']").trigger('click');
 }).bind('click.jstree',function(e){
+	if(e.target.nodeName!='A'){
+		return
+	}
 	var active_role = $('#roles li.active');
 	if(active_role.length==0){
 		return alert('请选择一个角色')

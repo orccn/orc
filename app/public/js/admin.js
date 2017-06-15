@@ -80,7 +80,7 @@ $.fn.initJSTree = function(option,url)
 		"state" : {
 			"key" : "demo2"
 		},
-		"plugins" : ["state", "types"]
+		"plugins" : ["types"]
 	}
 	option = option || {}
 	for (i in option){

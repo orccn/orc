@@ -38,6 +38,13 @@ class UserController extends AdminBase
         $this->success();
     }
     
+    function reset_password()
+    {
+        $userid = intval(I('userid'));
+        UserModel::ins()->update(['door_pass'=>''],$userid);
+        $this->success();
+    }
+    
     function login()
     {
         if (REQUEST_METHOD != 'post') {
