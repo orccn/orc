@@ -1,7 +1,10 @@
 <?php
 return [
     'loginWhiteList' => [
-        'user/login'
+        'slef/login',
+        'slef/logout',
+        'slef/init_password',
+        'slef/update_password',
     ],
     'portletClass' => 'portlet light',
     'titleAddClass'=> 'title-add btn btn-sm green',

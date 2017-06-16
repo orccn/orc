@@ -13,7 +13,15 @@ class AdminBase extends Controller
     {
         parent::__construct();
         if (!IS_AJAX){
-            $this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
+            //$this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
+            $this->assign('leftMenu','');    
+        }
+    }
+    
+    private function checkEmptyPassword()
+    {
+        if ($_SESSION['user']['door_pass']){
+            $this->redirect('/self/init_password');
         }
     }
     
@@ -30,7 +38,7 @@ class AdminBase extends Controller
                 $ontLoginCode = 100;
                 $this->error('请登录',$ontLoginCode);
             }
-            $this->redirect('/user/login');
+            $this->redirect('/self/login');
         }
     }
     

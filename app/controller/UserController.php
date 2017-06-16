@@ -38,27 +38,10 @@ class UserController extends AdminBase
         $this->success();
     }
     
-    function reset_password()
+    function resetPassword()
     {
         $userid = intval(I('userid'));
         UserModel::ins()->update(['door_pass'=>''],$userid);
-        $this->success();
-    }
-    
-    function login()
-    {
-        if (REQUEST_METHOD != 'post') {
-            return $this->show();
-        }
-        $this->responseValidate([
-            'username:用户名' => 'notRequired|maxLen:30',
-            'password:密码' => 'maxLen:30'
-        ]);
-        $user = UserModel::single()->checkPassword(I('username'), I('password'));
-        if (! $user) {
-            $this->error('用户名或密码错误');
-        }
-        $_SESSION['user'] = $user;
         $this->success();
     }
     
