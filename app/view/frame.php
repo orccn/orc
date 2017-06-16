@@ -194,7 +194,7 @@
         <script src="/js/admin.js" type="text/javascript"></script>
         <script src="/js/admin.js" type="text/javascript"></script>
         <script type="text/javascript">
-        var user_role = <?=$_SESSION['role']?>
+        var user_role = <?=$_SESSION['user']['role']?>
         </script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <?php if(gvar('js')){echo gvar('js');}?>

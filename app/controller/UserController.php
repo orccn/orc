@@ -51,7 +51,7 @@ class UserController extends AdminBase
             return $this->show();
         }
         $this->responseValidate([
-            'username:用户名' => 'maxLen:30',
+            'username:用户名' => 'notRequired|maxLen:30',
             'password:密码' => 'maxLen:30'
         ]);
         $user = UserModel::single()->checkPassword(I('username'), I('password'));
@@ -62,9 +62,9 @@ class UserController extends AdminBase
         $this->success();
     }
     
-    function del()
+    function lock()
     {
-//         $rs = UserModel::ins()->delete(intval(I('field_code')));
+        return UserModel::ins()->update(['status'=>'Y'],intval(I('userid')));
         $this->success();
     }
 }

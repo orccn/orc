@@ -6,6 +6,11 @@ use orc\Model;
 class BaseModel extends Model
 {
 
+    public function __construct($tableName = '', $dbKey = '')
+    {
+        parent::__construct($tableName, $dbKey);
+    }
+    
     public function getMax($field)
     {
         $rs = $this->fields("max($field) as max_val")->select();

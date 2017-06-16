@@ -8,6 +8,11 @@ class UserModel extends BaseModel
     
     protected $pk = 'user_id';
 
+    public function __construct($tableName = '', $dbKey = '')
+    {
+        parent::__construct($tableName, $dbKey);
+    }
+    
     public function checkPassword($username, $password)
     {
         return array(
@@ -27,8 +32,8 @@ class UserModel extends BaseModel
         if (empty($_SESSION['user'])) {
             return false;
         }
-        define('UID', $_SESSION['user']['id']);
-        define('UNAME', $_SESSION['user']['username']);
+        define('UID', $_SESSION['user']['user_id']);
+        define('UNAME', $_SESSION['user']['name']);
         return true;
     }
     
@@ -39,11 +44,5 @@ class UserModel extends BaseModel
             $where['unit_code']['like'] = "$unitCode%";
         }
         return $this->where($where)->select();
-    }
-    
-    public function select($key='')
-    {
-        $this->where(['status'=>'Y']);
-        return parent::select();    
     }
 }
