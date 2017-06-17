@@ -131,6 +131,7 @@
 var tdBtns = '<a href="javascript:;" class="<?=config('tdDelClass')?>">删除</a>';
 tdBtns += '<a href="javascript:;" class="<?=config('tdDetailClass')?>">详情</a>';
 tdBtns += '<a href="javascript:;" class="td-unit btn btn-xs purple btn-outline">单元</a>';
+tdBtns += '<a href="javascript:;" class="td-reset btn btn-xs dark btn-outline">重置密码</a>';
 </script>
 <script src="/js/user.js" type="text/javascript" ></script>
 <?php gvar('js',ob_get_clean());?>

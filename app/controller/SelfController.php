@@ -8,9 +8,27 @@ class SelfController extends AdminBase
 
     function initPassword()
     {
+        if (!empty($_SESSION['user']['door_pass'])){
+            $this->redirect('/');
+        }
         if (REQUEST_METHOD != 'post') {
             return $this->showFrame();
         }
+        $this->update();
+    }
+    
+    private function update()
+    {
+        $this->responseValidate([
+            'pwd1:新密码' => 'minLen:6|maxLen:30',
+        ]);
+        $pwd1 = I('pwd1');
+        if ($pwd1 != I('pwd2')){
+            $this->error('确认密码与新密码不一致');
+        }
+        UserModel::ins()->updatePassword(UID,$pwd1);
+        UserModel::ins()->reloadSesionUser();
+        $this->success();
     }
     
     function updatePassword()
@@ -18,6 +36,14 @@ class SelfController extends AdminBase
         if (REQUEST_METHOD != 'post') {
             return $this->showFrame();
         }
+        $this->responseValidate([
+            'pwd:原密码' => 'minLen:6|maxLen:30',
+        ]);
+        $rs = UserModel::ins()->checkPassword(UID,I('pwd'));
+        if (!$rs){
+            $this->error('原密码不正确');
+        }
+        $this->update();
     }
     
     function login()
@@ -39,7 +65,8 @@ class SelfController extends AdminBase
     
     function logout()
     {
-        unset($_SESSION);
+        session_unset();
+        session_destroy();
         $this->redirect('/self/login');
     }
     

@@ -15,13 +15,19 @@
         			<div class="form-group">
         				<label class="col-md-2 control-label">输入密码</label>
         				<div class="col-md-10">
-        					<input type="text" class="form-control" name="pwd1">
+        					<input type="password" class="form-control" name="pwd1">
         				</div>
         			</div>
         			<div class="form-group">
         				<label class="col-md-2 control-label">密码确认</label>
         				<div class="col-md-10">
-        					<input type="text" class="form-control" name="pwd2">
+        					<input type="password" class="form-control" name="pwd2">
+        				</div>
+        			</div>
+        			<div class="form-group">
+        				<label class="col-md-2 control-label"></label>
+        				<div class="col-md-10">
+        					<button type="button" class="submit btn green">提交</button>
         				</div>
         			</div>
         		</form>
@@ -31,5 +37,15 @@
 </div>
 <?php ob_start();?>
 <script type="text/javascript">
+$('.submit').on('click',function(){
+	var formData = {pwd1:$('[name="pwd1"]').val(),pwd2:$('[name="pwd2"]').val()}
+	$.post('/self/init_password',formData,function(d){
+	    if(d.code){
+	  		return alert(d.msg);
+	    }
+	    window.location = '/'
+	},'json')	
+})
+
 </script>
 <?php gvar('js',ob_get_clean());?>

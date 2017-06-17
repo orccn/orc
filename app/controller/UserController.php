@@ -11,7 +11,7 @@ class UserController extends AdminBase
     {
         $userList = UserModel::single()->select();
         $this->assign('userList',$userList);
-        $this->showFrame();
+        $this->showFrame('user');
     }
     
     function ls()
@@ -41,7 +41,7 @@ class UserController extends AdminBase
     function resetPassword()
     {
         $userid = intval(I('userid'));
-        UserModel::ins()->update(['door_pass'=>''],$userid);
+        $rs = UserModel::ins()->update(['door_pass'=>''],$userid);
         $this->success();
     }
     

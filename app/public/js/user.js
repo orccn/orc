@@ -102,3 +102,16 @@ $("#user-list").on('click',".td-detail",function(){
 	  $("#edit-modal").modal().find('.alert').hide();
 	})
 })
+$("#user-list").on('click',".td-reset",function(){
+	if(!confirm('确定重置此用户密码？')){
+		return;
+	}
+	var userid = $(this).parents('tr').data('userid')
+	$.getJSON('/user/reset_password',{userid:userid},function(d){
+	  if(d.code){
+		  return alert(d.msg);
+	  }else{
+		  alert('重置成功！');
+	  }
+	})
+})

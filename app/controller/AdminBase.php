@@ -9,49 +9,54 @@ use model\UserModel;
 
 class AdminBase extends Controller
 {
+
     protected $suburl = '';
+
     public function __construct()
     {
+        $this->suburl = ltrim(URL_PAHT, '/');
         parent::__construct();
-        $this->suburl = CONTROLLER_NAME.'/'.ACTION_NAME;
-        if (!IS_AJAX){
-            $this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
+        if (! IS_AJAX) {
+            $this->assign('leftMenu', MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));
         }
         $this->checkLogin();
         $this->checkEmptyPassword();
         $this->checkAuth();
     }
-    
+
     private function checkEmptyPassword()
     {
+        if (in_array($this->suburl, config('emptyPwdWhiteList'))) {
+            return;
+        }
         $url = '/self/init_password';
-        if (empty($_SESSION['user']['door_pass']) && $this->suburl!=$url){
+        if (empty($_SESSION['user']['door_pass']) && URL_PAHT != $url) {
             $this->redirect($url);
         }
     }
-    
+
     private function checkLogin()
     {
-        if (in_array($this->suburl, config('loginWhiteList'))){
+        if (in_array($this->suburl, config('loginWhiteList'))) {
             return;
         }
-        //是否登录
+        // 是否登录
         if (! UserModel::single()->checkLogin()) {
             if (IS_AJAX) {
                 $ontLoginCode = 100;
-                $this->error('请登录',$ontLoginCode);
+                $this->error('请登录', $ontLoginCode);
             }
             $this->redirect('/self/login');
         }
     }
-    
+
     private function checkAuth()
     {
-        if (in_array($this->suburl, config('authWhiteList'))){
+        if (in_array($this->suburl, config('authWhiteList'))) {
             return;
         }
     }
-    
+
     protected function redirect($url, $delay = 0)
     {
         Response::redirect($url, $delay);

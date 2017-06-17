@@ -2,11 +2,24 @@
 return [
     'loginWhiteList' => [
         'self/login',
+    ],
+    'emptyPwdWhiteList' => [
+        'self/login',
         'self/logout',
     ],
     'authWhiteList' => [
+        'self/login',
+        'self/logout',
         'self/init_password',
         'self/update_password',
+    ],
+    'sysMenu' => [
+        'menu/edit',
+        'menu/del',
+        'menu/detail',
+        'feild/edit',
+        'feild/del',
+        'feild/ls',
     ],
     'portletClass' => 'portlet light',
     'titleAddClass'=> 'title-add btn btn-sm green',

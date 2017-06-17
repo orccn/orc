@@ -26,10 +26,10 @@ class RoleController extends AdminBase
         if ($roleid==1){
             $this->success();
         }
-        if ($roleid==2&&$_SESSION['role']!=1){
+        if ($roleid==2&&USER_ROLE!=1){
             $this->error('只有超级用户才能修改管理者权限');
         }
-        if ($roleid==2&&($_SESSION['role']!=1||$_SESSION['role']!=2)){
+        if ($roleid==3&&(USER_ROLE!=1||USER_ROLE!=2)){
             $this->error('只有超级用户和管理员才能修改此角色权限');
         }
         $doorCodes = I('door_codes');
