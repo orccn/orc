@@ -13,18 +13,26 @@ class UserModel extends BaseModel
         parent::__construct($tableName, $dbKey);
     }
 
-    public function checkPassword($username, $password)
+    public function checkPassword($userCode, $password)
     {
         $user = $this->where([
-            'user_id' => $username
+            'user_code' => $userCode
         ])->getRow();
-        if (empty($user) || (! password_verify($password, $user['door_pass']) && ! empty($user['door_pass']))) {
+        if (empty($user)) {
             return false;
         }
-        return $user;
+        if (empty($user['door_pass'])&&$userCode==$password){
+            $this->updatePassword($user['user_id'], $password);
+            $user = $this->getRow($user['user_id']);
+            return $user;
+        }
+        if(password_verify($password, $user['door_pass'])){
+            return $user; 
+        }
+        return false;
     }
 
-    private function encrptPassword($password)
+    private function encryptPassword($password)
     {
         return password_hash($password, PASSWORD_DEFAULT);
     }
@@ -32,7 +40,7 @@ class UserModel extends BaseModel
     public function updatePassword($userid, $password)
     {
         return $this->update([
-            'door_pass' => $this->encrptPassword($password)
+            'door_pass' => $this->encryptPassword($password)
         ], $userid);
     }
 
@@ -49,6 +57,7 @@ class UserModel extends BaseModel
         define('UID', $_SESSION['user']['user_id']);
         define('REALNAME', $_SESSION['user']['name']);
         define('USER_ROLE', $_SESSION['user']['role']);
+        define('USER_CODE', $_SESSION['user']['user_code']);
         return true;
     }
 

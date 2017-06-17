@@ -70,13 +70,13 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <label class="control-label visible-ie8 visible-ie9">用户名</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder=用户名 name="username" /> </div>
+                    <label class="control-label visible-ie8 visible-ie9">登录号</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder=登录号 name="user_code" /> </div>
                 <div class="form-group">
                     <label class="control-label visible-ie8 visible-ie9">密码</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="password" placeholder="密码" name="password" /> </div>
                 <div class="form-actions">
-                    <button id="submit" type="button" class="btn red btn-block uppercase">登录</button>
+                    <button id="submit" type="button" onclick="login();" class="btn red btn-block uppercase">登录</button>
                 </div>
             </form>
             <!-- END LOGIN FORM -->
@@ -106,7 +106,12 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script type="text/javascript">
-        $("#submit").click(function(){
+        $(document).on('keydown',function(e){
+            if(e.keyCode==13){
+            	login()
+            }
+        })
+        function login(){
         	$.post('/self/login',$('.login-form').serializeJSON(),function(d){
         		if(d.code){
         			var $alertDanger = $('.alert-danger', $('.login-form'));
@@ -116,7 +121,7 @@ License: You must have a valid license purchased only from themeforest(the above
         			window.location = '/';
         		}
         	},'json');
-        });
+        }
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->

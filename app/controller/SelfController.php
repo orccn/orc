@@ -5,31 +5,6 @@ use model\UserModel;
 
 class SelfController extends AdminBase
 {
-
-    function initPassword()
-    {
-        if (!empty($_SESSION['user']['door_pass'])){
-            $this->redirect('/');
-        }
-        if (REQUEST_METHOD != 'post') {
-            return $this->showFrame();
-        }
-        $this->update();
-    }
-    
-    private function update()
-    {
-        $this->responseValidate([
-            'pwd1:新密码' => 'minLen:6|maxLen:30',
-        ]);
-        $pwd1 = I('pwd1');
-        if ($pwd1 != I('pwd2')){
-            $this->error('确认密码与新密码不一致');
-        }
-        UserModel::ins()->updatePassword(UID,$pwd1);
-        UserModel::ins()->reloadSesionUser();
-        $this->success();
-    }
     
     function updatePassword()
     {
@@ -37,13 +12,20 @@ class SelfController extends AdminBase
             return $this->showFrame();
         }
         $this->responseValidate([
-            'pwd:原密码' => 'minLen:6|maxLen:30',
+            'pwd:原密码' => 'maxLen:30',
+            'pwd1:新密码' => 'minLen:6|maxLen:30',
         ]);
-        $rs = UserModel::ins()->checkPassword(UID,I('pwd'));
+        $pwd1 = I('pwd1');
+        if ($pwd1 != I('pwd2')){
+            $this->error('确认密码与新密码不一致');
+        }
+        $rs = UserModel::ins()->checkPassword(USER_CODE,I('pwd'));
         if (!$rs){
             $this->error('原密码不正确');
         }
-        $this->update();
+        UserModel::ins()->updatePassword(UID,$pwd1);
+        UserModel::ins()->reloadSesionUser();
+        $this->success();
     }
     
     function login()
@@ -52,10 +34,10 @@ class SelfController extends AdminBase
             return $this->show();
         }
         $this->responseValidate([
-            'username:用户名' => 'maxLen:30',
+            'user_code:登录号' => 'maxLen:30',
             'password:密码' => 'notRequired|maxLen:30'
         ]);
-        $user = UserModel::single()->checkPassword(I('username'), I('password'));
+        $user = UserModel::single()->checkPassword(I('user_code'), I('password'));
         if (! $user) {
             $this->error('用户名或密码错误');
         }

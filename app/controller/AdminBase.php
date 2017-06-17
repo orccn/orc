@@ -20,19 +20,7 @@ class AdminBase extends Controller
             $this->assign('leftMenu', MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));
         }
         $this->checkLogin();
-        $this->checkEmptyPassword();
         $this->checkAuth();
-    }
-
-    private function checkEmptyPassword()
-    {
-        if (in_array($this->suburl, config('emptyPwdWhiteList'))) {
-            return;
-        }
-        $url = '/self/init_password';
-        if (empty($_SESSION['user']['door_pass']) && URL_PAHT != $url) {
-            $this->redirect($url);
-        }
     }
 
     private function checkLogin()
