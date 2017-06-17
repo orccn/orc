@@ -9,7 +9,7 @@ namespace orc;
 class Router
 {
     use traits\Instance;
-    
+
     private $pathinfo = '';
 
     private $moudle = '';
@@ -56,7 +56,7 @@ class Router
         if (! class_exists($this->getClassName())) {
             $this->moudle = $pathInfo[0];
             $pathInfo = array_slice($pathInfo, 1);
-            if (! isset($pathInfo[0])){
+            if (! isset($pathInfo[0])) {
                 $pathInfo[0] = $this->default['c'];
             }
             $this->controller = $pathInfo[0];
@@ -70,7 +70,7 @@ class Router
         // set paramseters
         if (isset($pathInfo[2])) {
             $this->params = array_slice($pathInfo, 1);
-            if ($this->params){
+            if ($this->params) {
                 $_GET = array_merge($_GET, $this->params);
             }
         }
@@ -108,6 +108,7 @@ class Router
         define('CONTROLLER_NAME', $this->getControllerName());
         define('ACTION_NAME', $this->getActionName());
         define('PAGE_TYPE', $this->getExt() ? $this->getExt() : config('defaultViewType'));
+        define('URL_PAHT', ($this->moudle ? DS . $this->moudle : '') . DS . $this->controller . DS . $this->action);
         
         Hook::trigger('ctlInsBefore');
         $ctlObject = $controller->newInstance();
@@ -182,7 +183,7 @@ class Router
      */
     public function getParams($index = null)
     {
-        if ($index === null){
+        if ($index === null) {
             return $this->params;
         }
         return $this->params[$index];
