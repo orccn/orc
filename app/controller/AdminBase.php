@@ -9,36 +9,46 @@ use model\UserModel;
 
 class AdminBase extends Controller
 {
+    protected $suburl = '';
     public function __construct()
     {
         parent::__construct();
+        $this->suburl = CONTROLLER_NAME.'/'.ACTION_NAME;
         if (!IS_AJAX){
-            //$this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
-            $this->assign('leftMenu','');    
+            $this->assign('leftMenu',MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));    
         }
+        $this->checkLogin();
+        $this->checkEmptyPassword();
+        $this->checkAuth();
     }
     
     private function checkEmptyPassword()
     {
-        if ($_SESSION['user']['door_pass']){
-            $this->redirect('/self/init_password');
+        $url = '/self/init_password';
+        if (empty($_SESSION['user']['door_pass']) && $this->suburl!=$url){
+            $this->redirect($url);
         }
     }
     
     private function checkLogin()
     {
-        $whiteList = config('loginWhiteList');
-        $url = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
-        if (in_array($url, $whiteList)){
+        if (in_array($this->suburl, config('loginWhiteList'))){
             return;
         }
-        
+        //是否登录
         if (! UserModel::single()->checkLogin()) {
             if (IS_AJAX) {
                 $ontLoginCode = 100;
                 $this->error('请登录',$ontLoginCode);
             }
             $this->redirect('/self/login');
+        }
+    }
+    
+    private function checkAuth()
+    {
+        if (in_array($this->suburl, config('authWhiteList'))){
+            return;
         }
     }
     
@@ -91,9 +101,7 @@ class AdminBase extends Controller
             if (! $nameCN) {
                 $nameCN = $name;
             }
-            if (! is_array($rules)) {
-                $rules = (array) $rules;
-            }
+            $rules = explode('|', $rules);
             $validator = Validator::ins($data, $nameCN);
             foreach ($rules as $k => $v) {
                 if (is_string($k)) {

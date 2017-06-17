@@ -13,9 +13,11 @@ class SelfController extends AdminBase
         }
     }
     
-    function updtePassword()
+    function updatePassword()
     {
-        
+        if (REQUEST_METHOD != 'post') {
+            return $this->showFrame();
+        }
     }
     
     function login()
@@ -24,8 +26,8 @@ class SelfController extends AdminBase
             return $this->show();
         }
         $this->responseValidate([
-            'username:用户名' => 'notRequired|maxLen:30',
-            'password:密码' => 'maxLen:30'
+            'username:用户名' => 'maxLen:30',
+            'password:密码' => 'notRequired|maxLen:30'
         ]);
         $user = UserModel::single()->checkPassword(I('username'), I('password'));
         if (! $user) {
@@ -38,7 +40,7 @@ class SelfController extends AdminBase
     function logout()
     {
         unset($_SESSION);
-        $this->redirect('/user/login');
+        $this->redirect('/self/login');
     }
     
 }

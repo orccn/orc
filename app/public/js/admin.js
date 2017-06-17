@@ -101,3 +101,6 @@ function editError(msg)
 	$('.alert','.modal-body').show().find('span').html(msg);
 }
 $('li.open','.page-sidebar-menu').parents('li').addClass('active open').find('a').append('<span class="selected"></span>');
+$('.form-group').each(function(){
+	$(this).find('.form-control').attr('placeholder',$(this).find('.control-label').html())
+})

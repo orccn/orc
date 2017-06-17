@@ -1,19 +1,21 @@
-<div class="note note-warning">
-    <h4 class="block">请设置密码</h4>
-    <p>你可能是第一次登录,或者密码被管理员重置，请设置密码.</p>
-</div>
 <div class="row">
     <div class="col-md-12">
         <div class="<?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-cogs"></i>请设置密码 
+                    <i class="fa fa-cogs"></i>修改密码
                 </div>
             </div>
             <div class="portlet-body">
                 <form class="form-horizontal" role="form">
         			<div class="form-group">
-        				<label class="col-md-2 control-label">输入密码</label>
+        				<label class="col-md-2 control-label">输入原密码</label>
+        				<div class="col-md-10">
+        					<input type="text" class="form-control" name="pwd">
+        				</div>
+        			</div>
+        			<div class="form-group">
+        				<label class="col-md-2 control-label">输入新密码</label>
         				<div class="col-md-10">
         					<input type="text" class="form-control" name="pwd1">
         				</div>

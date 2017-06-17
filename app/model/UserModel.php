@@ -5,26 +5,23 @@ class UserModel extends BaseModel
 {
 
     protected $tableName = 'user_dict';
-    
+
     protected $pk = 'user_id';
 
     public function __construct($tableName = '', $dbKey = '')
     {
         parent::__construct($tableName, $dbKey);
     }
-    
+
     public function checkPassword($username, $password)
     {
-        return array(
-            'id' => 1,
-            'username' => 'lpy',
-            'passwd' => 1111
-        );
         $user = $this->where([
-            'username' => $username,
-            'passwd' => $password
+            'user_id' => $username
         ])->getRow();
-        return empty($user) ? false : $user;
+        if (empty($user) || ($user['door_pass'] != $password && ! empty($user['door_pass']))) {
+            return false;
+        }
+        return $user;
     }
 
     public function checkLogin()
@@ -33,10 +30,10 @@ class UserModel extends BaseModel
             return false;
         }
         define('UID', $_SESSION['user']['user_id']);
-        define('UNAME', $_SESSION['user']['name']);
+        define('REALNAME', $_SESSION['user']['name']);
         return true;
     }
-    
+
     public function getUserByUnit($unitCode)
     {
         $where = [];
