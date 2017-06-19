@@ -1,5 +1,11 @@
 var option = {
-    ajax: {"url" : "/user/ls"},
+    ajax: {"url" : "/user/index",dataSrc:function(d){
+    	if(d.code){
+    		alert(d.msg);
+    		return [];
+    	}
+    	return d.data;
+    }},
     columns: [
         { data: "user_id" },
         { data: "his_code" },
@@ -29,7 +35,7 @@ leftUnitTree.bind("loaded.jstree", function (event, data) {
 		return
 	}
 //	dblclick.callback(function() { 
-	dt.api().ajax.url('/user/ls?unit_code='+$(e.target).parents('li').attr('id')).load();
+	dt.api().ajax.url('/user/index?ajax=1&unit_code='+$(e.target).parents('li').attr('id')).load();
 //    })
 }).bind('dblclick.jstree',function(e){
 	
@@ -76,11 +82,11 @@ function showUserAdd(userid)
 }
 
 $("#menu-list").on('click',".td-add",function(){
-	 showMenuAdd($(this).parents('tr').data('code'))
+	showUserAdd($(this).parents('tr').data('code'))
 })
 
 $(".title-add").on('click',function(){
-	 showMenuAdd(0)
+	showUserAdd(0)
 })
 
 $("#user-list").on('click',".td-detail",function(){

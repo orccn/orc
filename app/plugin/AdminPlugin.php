@@ -1,27 +1,11 @@
 <?php
 namespace plugin;
 
-use model\UserModel;
-use orc\Response;
-
 class AdminPlugin
 {
-    public function actionBefore()
+
+    public function ctlInsBefore()
     {
-        $whiteList = config('loginWhiteList');
-        $url = strtolower(CONTROLLER_NAME.'/'.ACTION_NAME);
-        if (in_array($url, $whiteList)){
-            return;
-        }
-        
-        $isLogin = UserModel::single()->checkLogin();
-        if (! $isLogin) {
-            if (IS_AJAX) {
-                $ontLoginCode = 100;
-                Response::error('请登录',$ontLoginCode);
-            }
-            Response::redirect('/user/login');
-        }
+        define('URL_PATH_TRIM', ltrim(URL_PAHT, '/'));
     }
-    
 }

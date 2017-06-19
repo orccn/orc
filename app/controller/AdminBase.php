@@ -6,45 +6,53 @@ use orc\Response;
 use library\Validator;
 use model\MenuModel;
 use model\UserModel;
+use library\Comm;
+use library\Auth;
 
 class AdminBase extends Controller
 {
 
-    protected $suburl = '';
-
     public function __construct()
     {
-        $this->suburl = ltrim(URL_PAHT, '/');
         parent::__construct();
-        if (! IS_AJAX) {
-            $this->assign('leftMenu', MenuModel::ins()->getMenuHtml(MenuModel::ins()->getMenuTree()));
+        
+        if (!in_array(URL_PATH_TRIM, config('loginWhiteList'))) {
+            $this->checkLogin();
+            Auth::init();
+            if (! Comm::isAjax()) {
+                $this->assign('leftMenu', Auth::getLeftMenuHtml());
+            }
+            $authRs = Auth::check(URL_PATH_TRIM);
+            if ($authRs !== true) {
+                $this->error($authRs !== false ?  $authRs : '权限不足');
+            }
         }
-        $this->checkLogin();
-        $this->checkAuth();
     }
 
     private function checkLogin()
     {
-        if (in_array($this->suburl, config('loginWhiteList'))) {
-            return;
+        if (UserModel::single()->checkLogin()) {
+            return ;
         }
-        // 是否登录
-        if (! UserModel::single()->checkLogin()) {
-            if (IS_AJAX) {
-                $ontLoginCode = 100;
-                $this->error('请登录', $ontLoginCode);
-            }
+        if (Comm::isAjax()) {
+            $ontLoginCode = 100;
+            $this->error('请登录', $ontLoginCode);
+        }else{
             $this->redirect('/self/login');
         }
     }
 
-    private function checkAuth()
+    protected function error($msg, $code = 1)
     {
-        if (in_array($this->suburl, config('authWhiteList'))) {
-            return;
+        if (Comm::isAjax()){
+            parent::error($msg,$code);
+        }else{
+            $this->assign('msg',$msg);
+            $this->show('common/error');
+            exit;
         }
     }
-
+    
     protected function redirect($url, $delay = 0)
     {
         Response::redirect($url, $delay);
@@ -94,7 +102,9 @@ class AdminBase extends Controller
             if (! $nameCN) {
                 $nameCN = $name;
             }
-            $rules = explode('|', $rules);
+            if (!is_array($rules)){
+                $rules = explode('|', $rules);
+            }
             $validator = Validator::ins($data, $nameCN);
             foreach ($rules as $k => $v) {
                 if (is_string($k)) {

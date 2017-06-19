@@ -3,21 +3,21 @@ namespace Controller;
 
 use model\UserModel;
 use orc\Response;
+use library\Comm;
 
 class UserController extends AdminBase
 {
 
     function index()
     {
-        $userList = UserModel::single()->select();
-        $this->assign('userList',$userList);
-        $this->showFrame('user');
-    }
-    
-    function ls()
-    {
-        $userList = UserModel::single()->getUserByUnit(I('unit_code'));
-        Response::outputJson(['data'=>$userList]);
+        if (Comm::isAjax()){
+            $userList = UserModel::single()->getUserByUnit(I('unit_code'));
+            Response::exitJson(['data'=>$userList]);
+        }else{
+            $userList = UserModel::single()->select();
+            $this->assign('userList',$userList);
+            $this->showFrame('user');
+        }
     }
     
     function detail()
