@@ -9,6 +9,7 @@ namespace orc\library;
 class Dependency
 {
 
+    use \orc\traits\Instance;
     /**
      * $config = [
      * 'lt'=>['int','abc'],
