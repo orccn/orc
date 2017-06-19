@@ -10,18 +10,51 @@ var option = {
 // }
 // }]
 }
-var dt = $('.datatable').initDT(option)
-$('.datatable>tbody>tr').each(function(){
+var dt = $('#menu-list').initDT(option)
+$('#menu-list>tbody>tr').each(function(){
 	var str = '';
 	var id = $(this).prop('id');
 	var level = $(this).data('level');
-	for(i=1;i<level;i++){ str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}
 	if(!$(this).data('end')){
 		str += '<i class="fa fa-caret-down">&nbsp;</i>';
 	}
+	if(level>1){
+		$(this).find('td:first').css('padding-left',(level-1)*30+'px')
+	}
 	$(this).find('td:first').css('cursor','pointer').prepend(str);
+}).find('td:gt(0)').addClass('dragsort-handler');
+
+$(".door-name").click(function(){
+	var pid = $(this).parents('tr').data('code')
+	if($('i.fa',this).hasClass('fa-caret-right')){
+		$('i.fa',this).removeClass('fa-caret-right').addClass('fa-caret-down');
+	}else{
+		$('i.fa',this).removeClass('fa-caret-down').addClass('fa-caret-right');
+	}
+	$(this).parent().siblings('[data-pid='+pid+']').toggle();
 });
 
+$("#menu-list>tbody").dragsort({
+	dragSelector: ".dragsort-handler",
+	dragStart:function(e){
+		var $thistr = $(e.target).parents('tr')
+		$thistr.siblings().each(function(){
+			$(this).attr('data-visible',$(this).is(':visible')?1:0)
+		})
+	},
+	dragEnd:function(){
+		$('#menu-list tr[data-level=1]').each(function(){
+			var child = $(this).siblings('[data-pid='+$(this).data('code')+']')
+			$(this).after(child.clone())
+			child.remove();
+		})
+		$('#menu-list tr').each(function(){
+			if($(this).data('visible')==1){
+				$(this).show();
+			}
+		})
+	},
+})
 var fieldtpl = $('.tpl-wrapper tr');
 function showField(code)
 {
@@ -106,16 +139,6 @@ $("#field-list").on('click',".td-save",function(){
         showField(formData.door_code)
     },'json')
 })
-
-$(".door-name").click(function(){
-	var pid = $(this).parents('tr').data('code')
-	if($('i.fa',this).hasClass('fa-caret-right')){
-		$('i.fa',this).removeClass('fa-caret-right').addClass('fa-caret-down');
-	}else{
-		$('i.fa',this).removeClass('fa-caret-down').addClass('fa-caret-right');
-	}
-	$(this).parent().siblings('.pid-'+pid).toggle();
-});
 
 $("#menu-list").on('click',".td-detail",function(){
 	var door_code = $(this).parents('tr').data('code')

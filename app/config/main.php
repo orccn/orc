@@ -2,6 +2,7 @@
 return [
     'loginWhiteList' => [
         'self/login',
+        'self/logout',
     ],
     'portletClass' => 'portlet light',
     'titleAddClass'=> 'title-add btn btn-sm green',

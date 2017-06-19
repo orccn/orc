@@ -9,13 +9,13 @@
 					<i class="fa fa-globe"></i>功能模块
 				</div>
 				<div class="actions">
-                    <a href="javascript:;" class="<?=config('titleAddClass')?>" @click="showAdd(0)">
+                    <a href="javascript:;" class="<?=config('titleAddClass')?>">
                         <i class="fa fa-plus"></i> 添加
                     </a>
                 </div>
 			</div>
 			<div class="portlet-body">
-				<table id="menu-list" class="datatable table table-striped table-bordered table-hover table-condensed">
+				<table id="menu-list" class="table table-striped table-bordered table-hover table-condensed">
 					<thead>
 						<tr>
 							<th>功能名称</th>
@@ -29,7 +29,7 @@
 					</thead>
 					<tbody>
                         <?php foreach ($sortMenu as $v){?>
-                        <tr class="pid-<?= $v['door_parent']?>" data-code="<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['is_leaf']?>">
+                        <tr data-pid="<?= $v['door_parent']?>" data-code="<?= $v['door_code']?>" data-level="<?= $v['door_level']?>" data-end="<?= $v['is_leaf']?>">
 							<td class="door-name"><?= $v['door_name']?></td>
 							<td><?= $v['door_code']?></td>
 							<td><?= $v['door_parent'] ? $menuList[$v['door_parent']]['door_name'] : '顶级'?></td>
@@ -129,6 +129,6 @@
 
 
 <?php ob_start();?>
-<script src="/js/jquery.dragsort-0.5.2.min.js" type="text/javascript" ></script>
+<script src="/js/jquery.dragsort-0.5.2.js" type="text/javascript" ></script>
 <script src="/js/menu.js" type="text/javascript" ></script>
 <?php gvar('js',ob_get_clean());?>

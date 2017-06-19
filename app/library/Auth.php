@@ -7,6 +7,7 @@ namespace library;
 
 use model\RoleModel;
 use model\MenuModel;
+use orc\library\Dependency;
 
 class Auth
 {
@@ -32,20 +33,26 @@ class Auth
         if (self::$roleid != 1 && in_array($suburl, config('auth.sysMenu'))) {
             return '权限不足，只有超级用户才拥有此权限！';
         }
-        $menuList = RoleModel::ins()->getMenuList(self::$roleid);
-        $urls = array_unique(array_column($menuList, 'door_url'));
-        return in_array($suburl, $urls);
+        return in_array($suburl, self::getAuthURLs());
     }
 
     public static function getAuthURLs()
     {
-        $authURLs = [];
+        $authURLs = $depURLs = [];
         $menuIDs = self::getRoleMenuIDs();
         foreach (self::$menus as $v) {
-            if (! $v['need_auth'] || in_array($v['door_code'], $menuIDs)){
+            if ((! $v['need_auth'] || in_array($v['door_code'], $menuIDs)) && !in_array( $v['door_url'], $authURLs)){
                 $authURLs[] = $v['door_url'];
             }
         }
+        $dependency= Dependency::ins(config('auth.dependency'))->expand();
+        foreach ($authURLs as $v){
+            if (isset($dependency[$v])){
+                $depURLs = array_merge($depURLs,$dependency[$v]);
+            }
+        }
+        $authURLs = array_unique(array_merge($authURLs,$depURLs));
+        return $authURLs;
     }
     
     private static function getRoleMenuIDs()
