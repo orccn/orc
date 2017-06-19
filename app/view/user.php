@@ -19,9 +19,7 @@
                     <i class="fa fa-globe"></i>人员列表  </div>
                 <div class="tools"> </div>
                 <div class="actions">
-                    <a href="javascript:;" class="<?=config('titleAddClass')?>">
-                        <i class="fa fa-plus"></i> 添加
-                    </a>
+                    <div class="tools"> </div>
                 </div>
             </div>
             <div class="portlet-body">

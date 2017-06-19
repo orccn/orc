@@ -22,7 +22,7 @@ class Auth
     {
         self::$roleid = $roleid;
         self::$roles = RoleModel::ins()->select('role_id');
-        self::$menus = MenuModel::ins()->select('door_code');
+        self::$menus = MenuModel::ins()->order('door_sort')->select();
     }
     
     public static function check($suburl)

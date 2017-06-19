@@ -1,3 +1,4 @@
+var date = new Date()
 var option = {
     ajax: {"url" : "/user/index",dataSrc:function(d){
     	if(d.code){
@@ -23,7 +24,27 @@ var option = {
     stateSave:      true,
     createdRow: function ( row, data, index ) {
     	$(row).attr({'data-userid':data.user_id,'data-name':data.name});
-    }
+    },
+    buttons:[
+		{ extend: 'print', className: 'btn default', text: '打印'},
+		{ 
+			extend: 'excel', 
+			className: 'btn default',
+			text: '导出',
+			filename:'用户信息-'+date.getFullYear()+(date.getMonth()+1)+date.getDate(),
+			exportOptions:{
+//				columns:[0,1,2]
+			}
+			
+		},
+		{
+			text: '添加',
+			className: 'title-add btn green',
+			action: function ( e, dt, node, config ) {
+				showUserAdd(0)
+			}
+		}
+    ]
 }
 var dt = $('#user-list').initDT(option)
 var leftUnitTree = $('#unit-tree').initJSTree({},'/unit/tree?flag=1')
@@ -85,9 +106,9 @@ $("#menu-list").on('click',".td-add",function(){
 	showUserAdd($(this).parents('tr').data('code'))
 })
 
-$(".title-add").on('click',function(){
-	showUserAdd(0)
-})
+//$(".title-add").on('click',function(){
+//	showUserAdd(0)
+//})
 
 $("#user-list").on('click',".td-detail",function(){
 	var userid = $(this).parents('tr').data('userid')

@@ -1,14 +1,6 @@
 var option = {
 	paging:false,
 	ordering:false,
-// buttons:[{
-// text: '添加',
-// className: 'add btn red',
-// action: function ( e, dt, node, config ) {
-// $(".select2").select2({width: null})
-// $("#edit-modal").modal();
-// }
-// }]
 }
 var dt = $('#menu-list').initDT(option)
 $('#menu-list>tbody>tr').each(function(){
@@ -48,13 +40,22 @@ $("#menu-list>tbody").dragsort({
 			$(this).after(child.clone())
 			child.remove();
 		})
+		var codes = new Array();
 		$('#menu-list tr').each(function(){
+			codes.push($(this).data('code'))
 			if($(this).data('visible')==1){
 				$(this).show();
 			}
 		})
+		$.post('/menu/sort',{codes:codes.join(',')},function(d){
+			
+		},'json')
+		
 	},
 })
+
+
+
 var fieldtpl = $('.tpl-wrapper tr');
 function showField(code)
 {
