@@ -42,7 +42,7 @@ class Response
     public static function outputJson($data, $jsonp = false)
     {
         header('Content-Type:application/json; charset=utf-8');
-        $json = json_encode($data);
+        $json = json_encode($data,JSON_UNESCAPED_UNICODE);
         if ($jsonp) {
             $json = $jsonp . '(' . $json . ');';
         }

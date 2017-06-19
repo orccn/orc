@@ -24,7 +24,7 @@ class Router
 
     private $default = [
         'm' => '',
-        'c' => 'Index',
+        'c' => 'index',
         'a' => 'index'
     ];
 
