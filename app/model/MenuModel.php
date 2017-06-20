@@ -1,8 +1,6 @@
 <?php
 namespace model;
 
-use library\Tree;
-
 class MenuModel extends BaseModel
 {
 

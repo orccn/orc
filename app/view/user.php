@@ -19,9 +19,7 @@
                     <i class="fa fa-globe"></i>人员列表  </div>
                 <div class="tools"> </div>
                 <div class="actions">
-                    <a href="javascript:;" class="<?=config('titleAddClass')?>">
-                        <i class="fa fa-plus"></i> 添加
-                    </a>
+                    <div class="tools"> </div>
                 </div>
             </div>
             <div class="portlet-body">
@@ -88,7 +86,12 @@
 			<div class="form-group">
 				<label class="col-md-3 control-label">分析单元</label>
 				<div class="col-md-9">
-					<input type="text" class="form-control" name="unit_code">
+				    <select class="form-control" name="unit_code">
+						<option value="0">请选择</option>
+						<?php foreach ($endUnitList as $k=>$v){?>
+						    <option value="<?=$k?>"><?=$v?></option>
+						<?php }?>
+                    </select>
 				</div>
 			</div>
 			<div class="form-group">

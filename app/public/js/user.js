@@ -1,3 +1,4 @@
+var date = new Date()
 var option = {
     ajax: {"url" : "/user/index",dataSrc:function(d){
     	if(d.code){
@@ -23,7 +24,27 @@ var option = {
     stateSave:      true,
     createdRow: function ( row, data, index ) {
     	$(row).attr({'data-userid':data.user_id,'data-name':data.name});
-    }
+    },
+    buttons:[
+		{ extend: 'print', className: 'btn default', text: '打印'},
+		{ 
+			extend: 'excel', 
+			className: 'btn default',
+			text: '导出',
+			filename:'用户信息-'+date.getFullYear()+(date.getMonth()+1)+date.getDate(),
+			exportOptions:{
+//				columns:[0,1,2]
+			}
+			
+		},
+		{
+			text: '添加',
+			className: 'title-add btn green',
+			action: function ( e, dt, node, config ) {
+				showUserAdd(0)
+			}
+		}
+    ]
 }
 var dt = $('#user-list').initDT(option)
 var leftUnitTree = $('#unit-tree').initJSTree({},'/unit/tree?flag=1')
@@ -72,7 +93,6 @@ $("#user-list").on('click',".td-unit",function(){
 	})
 })
 
-
 function showUserAdd(userid)
 {
 	 $('#edit-modal').find('input').val('')
@@ -80,13 +100,26 @@ function showUserAdd(userid)
 	 $('#edit-modal').find('[name="need_auth"]').prop('checked',true)
 	 $("#edit-modal").modal().find('.alert').hide();
 }
-
 $("#menu-list").on('click',".td-add",function(){
 	showUserAdd($(this).parents('tr').data('code'))
 })
-
-$(".title-add").on('click',function(){
-	showUserAdd(0)
+$("#edit-modal").on('click',".submit",function(){
+	  var data = {
+		  door_code:$('#edit-modal [name="door_code"]').val(),
+		  door_name:$('#edit-modal [name="door_name"]').val(),
+		  door_url:$('#edit-modal [name="door_url"]').val(),
+		  door_parent:$('#edit-modal [name="door_parent"]').val(),
+		  is_menu:$('#edit-modal [name="is_menu"]').prop('checked'),
+		  need_auth:$('#edit-modal [name="need_auth"]').prop('checked'),
+		  has_field:$('#edit-modal [name="has_field"]').prop('checked')
+	  }
+	  $.post('/user/edit',data,function(d){
+		  if(d.code){
+			  return editError(d.msg);
+		  }
+		  $("#edit-modal").modal('hide');
+		  window.location.href = location.href;
+	  },'json')
 })
 
 $("#user-list").on('click',".td-detail",function(){

@@ -10,14 +10,14 @@ class MenuController extends AdminBase
 
     function index()
     {
-        $menuList = MenuModel::ins()->select('door_code');
+        $menuList = MenuModel::ins()->order('door_sort')->select();
         $option = [
             'idField' => 'door_code',
             'parentField' => 'door_parent'
         ];
         $sortMenu = Tree::ins($option)->getList($menuList, 0);
         $this->assign('sortMenu', $sortMenu);
-        $this->assign('menuList', $menuList);
+        $this->assign('menuList', array_column($menuList, null, 'door_code'));
         $this->showFrame('menu');
     }
 
@@ -45,52 +45,81 @@ class MenuController extends AdminBase
         $tree = Tree::ins($option)->getJSTreeData($unitList, 0);
         Response::outputJson($tree);
     }
-    
+
     function edit()
     {
         $this->responseValidate([
             'door_name:功能名称' => 'maxLen:100',
-            'door_code:功能编码' => ['notRequired','exists:MenuModel,door_code'],
-            'door_parent:父级功能' => ['notRequired','exists:MenuModel,door_code'],
+            'door_code:功能编码' => [
+                'notRequired',
+                'exists:MenuModel,door_code'
+            ],
+            'door_parent:父级功能' => [
+                'notRequired',
+                'exists:MenuModel,door_code'
+            ]
         ]);
         
         $arr = [];
         $arr['door_name'] = I('door_name');
         $arr['door_url'] = I('door_url');
         $arr['door_parent'] = $parent = intval(I('door_parent'));
-        $arr['door_level'] = $parent ? 2:1;
-        $arr['is_menu'] = I('is_menu')=='true'||I('is_menu')==1 ? 1 :0;
-        $arr['need_auth'] = I('need_auth')=='true'||I('need_auth')==1 ? 1 :0;
-        $arr['has_field'] = I('has_field')=='true'||I('has_field')==1 ? 1 :0;
+        $arr['door_level'] = $parent ? 2 : 1;
+        $arr['is_menu'] = I('is_menu') == 'true' || I('is_menu') == 1 ? 1 : 0;
+        $arr['need_auth'] = I('need_auth') == 'true' || I('need_auth') == 1 ? 1 : 0;
+        $arr['has_field'] = I('has_field') == 'true' || I('has_field') == 1 ? 1 : 0;
         
-        //修改
+        // 修改
         $code = intval(I('door_code'));
-        if ($code){
-            if ($code==$parent){
+        if ($code) {
+            if ($code == $parent) {
                 $this->error('不能选择自己作为上级');
             }
             $count = MenuModel::ins()->where([
-                'door_parent'=>$code
+                'door_parent' => $code
             ])->count();
-            if ($parent&&$count){
+            if ($parent && $count) {
                 $this->error("[{$arr['door_name']}]下含有子功能，不能进行此操作");
             }
-            MenuModel::ins()->update($arr,['door_code'=>$code]);
-        }else{
+            MenuModel::ins()->update($arr, [
+                'door_code' => $code
+            ]);
+        } else {
             MenuModel::ins()->insert($arr);
         }
         $this->success();
     }
-    
+
     function del()
     {
         $this->responseValidate([
             'door_code:功能编码' => [
                 'exists:MenuModel,door_code',
                 'notExists:MenuModel,door_parent' => '此功能下含有子功能，不能进行此操作'
-            ],
+            ]
         ]);
         $rs = MenuModel::ins()->delete(intval(I('door_code')));
+        $this->success();
+    }
+
+    function sort()
+    {
+        $codes = array_map(function ($v) {
+            return intval($v);
+        }, explode(',', I('codes')));
+        $codes = array_filter($codes);
+        if (empty($codes)){
+            $this->success();
+        }
+        $menuMap = array_column(MenuModel::ins()->select(), 'door_sort', 'door_code');
+        $i = 0;
+        foreach ($codes as $code){
+            $i++;
+            if (isset($menuMap[$code]) && $menuMap[$code]==$i){
+                continue;
+            }
+            MenuModel::single()->update(['door_sort'=>$i],$code);
+        }
         $this->success();
     }
 }

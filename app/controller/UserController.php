@@ -4,6 +4,7 @@ namespace Controller;
 use model\UserModel;
 use orc\Response;
 use library\Comm;
+use model\UnitModel;
 
 class UserController extends AdminBase
 {
@@ -15,7 +16,9 @@ class UserController extends AdminBase
             Response::exitJson(['data'=>$userList]);
         }else{
             $userList = UserModel::single()->select();
+            $endUnitList = array_column(UnitModel::ins()->where(['end_flag'=>'Y'])->select(), 'unit_name','unit_code');
             $this->assign('userList',$userList);
+            $this->assign('endUnitList',$endUnitList);
             $this->showFrame('user');
         }
     }
