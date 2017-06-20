@@ -86,7 +86,12 @@
 			<div class="form-group">
 				<label class="col-md-3 control-label">分析单元</label>
 				<div class="col-md-9">
-					<input type="text" class="form-control" name="unit_code">
+				    <select class="form-control" name="unit_code">
+						<option value="0">请选择</option>
+						<?php foreach ($endUnitList as $k=>$v){?>
+						    <option value="<?=$k?>"><?=$v?></option>
+						<?php }?>
+                    </select>
 				</div>
 			</div>
 			<div class="form-group">
