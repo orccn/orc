@@ -33,6 +33,35 @@ class UserController extends AdminBase
         }
     }
     
+    function edit()
+    {
+//         user_id:
+//         name:
+//         role:3
+//         user_code:
+//         sex:1
+//         unit_code:0
+//         idno:
+//         certificate_no:
+//         title:
+        $this->responseValidate([
+            'name:真实名称' => 'maxLen:60',
+            'sex:性别' => 'maxLen:60',
+            'user_code:登录号' => 'maxLen:30',
+            'idno:身份证号' => 'notRequired|maxLen:30',
+            'certificate_no:执业证书编码' => 'notRequired|maxLen:60',
+            'title:职称' => 'notRequired|maxLen:60',
+        ]);
+        
+        $arr = [];
+        $arr['name'] = I('name');
+        $arr['user_code'] = I('user_code');
+        $arr['idno'] = I('idno');
+        $arr['certificate_no'] = I('certificate_no');
+        $arr['title'] = I('title');
+        $arr['sex'] = intval(I('role')) ? 1 : 0;
+    }
+    
     function setunit()
     {
         $userid = intval(I('userid'));
