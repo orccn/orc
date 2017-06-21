@@ -104,15 +104,7 @@ $("#menu-list").on('click',".td-add",function(){
 	showUserAdd($(this).parents('tr').data('code'))
 })
 $("#edit-modal").on('click',".submit",function(){
-	  var data = {
-		  door_code:$('#edit-modal [name="door_code"]').val(),
-		  door_name:$('#edit-modal [name="door_name"]').val(),
-		  door_url:$('#edit-modal [name="door_url"]').val(),
-		  door_parent:$('#edit-modal [name="door_parent"]').val(),
-		  is_menu:$('#edit-modal [name="is_menu"]').prop('checked'),
-		  need_auth:$('#edit-modal [name="need_auth"]').prop('checked'),
-		  has_field:$('#edit-modal [name="has_field"]').prop('checked')
-	  }
+	  var data = $('#edit-modal form').serializeJSON()
 	  $.post('/user/edit',data,function(d){
 		  if(d.code){
 			  return editError(d.msg);
