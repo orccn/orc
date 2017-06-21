@@ -35,31 +35,44 @@ class UserController extends AdminBase
     
     function edit()
     {
-//         user_id:
-//         name:
-//         role:3
-//         user_code:
-//         sex:1
-//         unit_code:0
-//         idno:
-//         certificate_no:
-//         title:
+        $role = intval(I('role'));
+        $unitCode = I('unit_code');
+        if ($role>3 || $role<1){
+            $this->error('此角色不存在');
+        }
+        if (USER_ROLE>=$role){
+            $this->error('没有权限添加角色');
+        }
         $this->responseValidate([
             'name:真实名称' => 'maxLen:60',
             'sex:性别' => 'maxLen:60',
+            'unit_code:所属单元' => ['exists:UnitModel'],
             'user_code:登录号' => 'maxLen:30',
             'idno:身份证号' => 'notRequired|maxLen:30',
             'certificate_no:执业证书编码' => 'notRequired|maxLen:60',
             'title:职称' => 'notRequired|maxLen:60',
         ]);
-        
+        $unit = UnitModel::ins()->where(['end_flag'=>'Y'])->getRow($unitCode);
+        if (! $unit){
+            $this->error('不存在code为{'.$unitCode.'}的末级单元');
+        }
         $arr = [];
         $arr['name'] = I('name');
+        $arr['role'] = $role;
         $arr['user_code'] = I('user_code');
         $arr['idno'] = I('idno');
         $arr['certificate_no'] = I('certificate_no');
         $arr['title'] = I('title');
         $arr['sex'] = intval(I('role')) ? 1 : 0;
+        
+        //修改
+        $userid = intval(I('user_id'));
+        if ($userid){
+            UnitModel::ins()->update($arr,$userid);
+        }else{
+            UnitModel::ins()->insert($arr);
+        }
+        $this->success();
     }
     
     function setunit()

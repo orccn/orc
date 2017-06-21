@@ -18,23 +18,23 @@ class Validator extends \orc\library\Validator
         ]);
     }
 
-    public function exists($model, $pk)
+    public function exists($model, $field = '')
     {
-        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $pk) {
+        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $field) {
             $model = 'model\\' . $model;
             $count = $model::single()->where([
-                $pk => $this->data
+                $field ? $field : $model->getPk() => $this->data
             ])->count();
             return $count > 0;
         });
     }
 
-    public function notExists($model, $pk)
+    public function notExists($model, $field = '')
     {
-        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $pk) {
+        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $field) {
             $model = 'model\\' . $model;
             $count = $model::single()->where([
-                $pk => $this->data
+                $field ? $field : $model->getPk() => $this->data
             ])->count();
             return $count == 0;
         });

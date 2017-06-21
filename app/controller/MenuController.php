@@ -33,7 +33,7 @@ class MenuController extends AdminBase
             $this->error('不存在此功能');
         }
     }
-    
+
     function tree()
     {
         $unitList = MenuModel::single()->select();
@@ -52,11 +52,11 @@ class MenuController extends AdminBase
             'door_name:功能名称' => 'maxLen:100',
             'door_code:功能编码' => [
                 'notRequired',
-                'exists:MenuModel,door_code'
+                'exists:MenuModel'
             ],
             'door_parent:父级功能' => [
                 'notRequired',
-                'exists:MenuModel,door_code'
+                'exists:MenuModel'
             ]
         ]);
         
@@ -81,9 +81,7 @@ class MenuController extends AdminBase
             if ($parent && $count) {
                 $this->error("[{$arr['door_name']}]下含有子功能，不能进行此操作");
             }
-            MenuModel::ins()->update($arr, [
-                'door_code' => $code
-            ]);
+            MenuModel::ins()->update($arr, $code);
         } else {
             MenuModel::ins()->insert($arr);
         }
