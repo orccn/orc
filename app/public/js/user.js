@@ -110,7 +110,7 @@ $("#edit-modal").on('click',".submit",function(){
 			  return editError(d.msg);
 		  }
 		  $("#edit-modal").modal('hide');
-		  window.location.href = location.href;
+		  dt.api().ajax.reload();
 	  },'json')
 })
 
@@ -126,6 +126,7 @@ $("#user-list").on('click',".td-detail",function(){
 	  $('#edit-modal [name="name"]').val(data.name);
 	  $('#edit-modal [name="role"]').val(data.role);
 	  $('#edit-modal [name="user_code"]').val(data.user_code);
+	  $('#edit-modal [name="unit_code"]').val(data.unit_code);
 	  $('#edit-modal [name="sex"]').val(data.sex);
 	  $('#edit-modal [name="idno"]').val(data.idno);
 	  $('#edit-modal [name="certificate_no"]').val(data.certificate_no);

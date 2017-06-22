@@ -13,6 +13,11 @@ class UserModel extends BaseModel
         parent::__construct($tableName, $dbKey);
     }
 
+    public function insert($data, $replace = false)
+    {
+        return parent::insertIncrField($data, $this->getPk(), $replace);
+    }
+    
     public function checkPassword($userCode, $password)
     {
         $user = $this->where([

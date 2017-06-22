@@ -93,12 +93,9 @@ class Oracle extends Driver
      */
     protected function parseValue($value)
     {
-        if (is_numeric($value)){
-            return $value;
-        }
         if (is_array($value)) {
             $value = strtolower($value[0]) == 'exp' ? $value[1] : array_map([$this,'parseValue'], $value);
-        }else if (is_string($value)) {
+        }else {
             $value = "'" . $this->escapeString($value) . "'";
         }
         return $value;

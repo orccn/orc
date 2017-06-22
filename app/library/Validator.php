@@ -20,10 +20,10 @@ class Validator extends \orc\library\Validator
 
     public function exists($model, $field = '')
     {
-        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $field) {
+        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $field = '') {
             $model = 'model\\' . $model;
             $count = $model::single()->where([
-                $field ? $field : $model->getPk() => $this->data
+                ($field ? $field : $model::single()->getPk()) => $this->data
             ])->count();
             return $count > 0;
         });
@@ -31,7 +31,7 @@ class Validator extends \orc\library\Validator
 
     public function notExists($model, $field = '')
     {
-        return $this->routine(__FUNCTION__, func_get_args(), function ($model, $field) {
+        return $this->routine(__FUNCTION__, func_get_args(), function ($model,  $field = '') {
             $model = 'model\\' . $model;
             $count = $model::single()->where([
                 $field ? $field : $model->getPk() => $this->data
