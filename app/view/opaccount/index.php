@@ -25,27 +25,49 @@
 </div>
 <?php ob_start();?>
 <script type="text/javascript">
-var option = {
-// 	language : admin.dtLang,
+// var option = {
+// // 	language : admin.dtLang,
+// 	serverSide: true,
+// // 	paging:true,
+//     ajax: {"url" : "/user/index",dataSrc:function(d){
+//     	if(d.code){
+//     		alert(d.msg);
+//     		return [];
+//     	}
+//     	return d.data;
+//     }},
+//     columns: [
+//         { data: "user_id" },
+//         { data: "his_code" },
+//     ],
+//     "scrollInfinite": true,
+//     "scrollCollapse": true,
+//     scrollY:        200,
+// //     scroller:       true,
+// }
+//https://datatables.net/extensions/scroller/examples/initialisation/server-side_processing.html
+$("#user-list").dataTable({
 	serverSide: true,
-// 	paging:true,
-    ajax: {"url" : "/user/index",dataSrc:function(d){
-    	if(d.code){
-    		alert(d.msg);
-    		return [];
-    	}
-    	return d.data;
-    }},
-    columns: [
-        { data: "user_id" },
-        { data: "his_code" },
-    ],
-    "scrollInfinite": true,
-    "scrollCollapse": true,
-    scrollY:        200,
-//     scroller:       true,
-}
-
-var dt = $('#user-list').dataTable(option)
+    ordering: false,
+    searching: false,
+    "ajax": {
+        "url": "/opaccount/index",
+        "type": "POST"
+    },
+    scroller: {
+        loadingIndicator: true
+    },
+    scrollY: 600,
+    "columns": [
+        {"data": "id"}, 
+        {"data": "name"}, 
+    ]
+});
+// .on('xhr.dt', function ( e, settings, json, xhr ) {
+//     var api = new $.fn.dataTable.Api(settings);
+//     var info = api.page.info();
+//     console.log(api.page.info());
+// });
+//var dt = $('#user-list').dataTable(option)
 </script>
 <?php gvar('js',ob_get_clean());?>
