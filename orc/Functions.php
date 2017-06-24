@@ -73,10 +73,11 @@ function E($msg = '', $code = 0)
     }
 }
 
-function print_pre($var)
+function pre($var)
 {
     echo '<pre>';
     print_r($var);
+    exit;
 }
 
 function config($key, $value = null)
@@ -134,7 +135,7 @@ function array_map_recursive($callback, $data)
     if (is_array($data)) {
         $result = [];
         foreach ($data as $key => $val) {
-            $result[$key] = array_map_recursive($val);
+            $result[$key] = array_map_recursive($callback, $val);
         }
         return $result;
     } else {
