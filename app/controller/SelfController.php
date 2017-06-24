@@ -30,6 +30,9 @@ class SelfController extends AdminBase
     
     function login()
     {
+        if (UserModel::single()->checkLogin()) {
+            $this->redirect('/');
+        }
         if (REQUEST_METHOD != 'post') {
             return $this->show();
         }

@@ -10,10 +10,7 @@
             <div class="portlet-body">
                 <table id="user-list" class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
-                        <tr>
-                            <th>人员ID </th>
-                            <th>人员代码 </th>
-                        </tr>
+                        <?=$tableHeader?>
                     </thead>
                     <tbody>
                     </tbody>
@@ -25,49 +22,32 @@
 </div>
 <?php ob_start();?>
 <script type="text/javascript">
-// var option = {
-// // 	language : admin.dtLang,
-// 	serverSide: true,
-// // 	paging:true,
-//     ajax: {"url" : "/user/index",dataSrc:function(d){
-//     	if(d.code){
-//     		alert(d.msg);
-//     		return [];
-//     	}
-//     	return d.data;
-//     }},
-//     columns: [
-//         { data: "user_id" },
-//         { data: "his_code" },
-//     ],
-//     "scrollInfinite": true,
-//     "scrollCollapse": true,
-//     scrollY:        200,
-// //     scroller:       true,
-// }
-//https://datatables.net/extensions/scroller/examples/initialisation/server-side_processing.html
-$("#user-list").dataTable({
+var option = {
+	language : admin.dtLang,
 	serverSide: true,
-    ordering: false,
+	ordering: true,
     searching: false,
-    "ajax": {
-        "url": "/opaccount/index",
-        "type": "POST"
+    ajax: function ( p, callback, settings ) {
+		$.getJSON('/opaccount/index',p,function(d){
+			if(d.code){
+	    		alert(d.msg);
+	    		return [];
+	    	}
+			callback( {
+                draw: p.draw,
+                data: d.data,
+                recordsTotal: d.all_count,
+                recordsFiltered: d.filter_count
+            } );
+		})
     },
     scroller: {
         loadingIndicator: true
     },
     scrollY: 600,
-    "columns": [
-        {"data": "id"}, 
-        {"data": "name"}, 
-    ]
-});
-// .on('xhr.dt', function ( e, settings, json, xhr ) {
-//     var api = new $.fn.dataTable.Api(settings);
-//     var info = api.page.info();
-//     console.log(api.page.info());
-// });
-//var dt = $('#user-list').dataTable(option)
+    "columns": <?=$tableColumns?>
+}
+var dt = $('#user-list').dataTable(option)
+
 </script>
 <?php gvar('js',ob_get_clean());?>

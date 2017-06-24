@@ -50,11 +50,8 @@ $("#menu-list>tbody").dragsort({
 		$.post('/menu/sort',{codes:codes.join(',')},function(d){
 			
 		},'json')
-		
 	},
 })
-
-
 
 var fieldtpl = $('.tpl-wrapper tr');
 function showField(code)
@@ -68,17 +65,30 @@ function showField(code)
 	  if(Object.keys(data).length>0){
 		  for(var i in data){
 			  var newtr = fieldtpl.clone().attr('data-id',data[i].field_code) 
-			  newtr.find('.en').html(data[i].field_enname)
-			  newtr.find('.zh').html(data[i].field_zhname)
+			  newtr.find('.en').html(data[i].field_en)
+			  newtr.find('.zh').html(data[i].field_zh)
 			  newtr.find('.td-save').addClass('td-edit').html('编辑').removeClass('td-save')
 			  $("#field-list").append(newtr)
 		  }
 	  }
 	  addFieldTd()
-	  $("#field-list").dragsort({ dragSelector: ".en,.zh"})
+	  $("#field-list").dragsort({ 
+		  dragSelector: ".en,.zh",
+		  dragEnd:function(){
+				var field_codes = new Array();
+				$('#field-list tr').each(function(){
+					field_codes.push($(this).data('id'))
+				})
+				$.post('/field/sort',{door_code:code,field_codes:field_codes.join(',')},function(d){
+					
+				},'json')
+			},
+	  })
+	  
 	  if($("#field-modal:visible").length==0){
 		  $("#field-modal").data('door_code',code).modal();
 	  }
+	  $("#field-list input:first").get(0).focus();
   })
 }
 
@@ -125,12 +135,17 @@ $("#field-list").on('click',".td-edit",function(){
 	$(this).addClass('td-save').html('保存').removeClass('td-edit')
 })
 
+$("#field-list").on('keydown',function(e){
+    if(e.keyCode==13){
+    	$(e.target).parents('tr').find('.td-save').trigger('click');
+    }
+})
 $("#field-list").on('click',".td-save",function(){
     var formData = {
 		field_code:$(this).parents('tr').data('id'),
 		door_code:$('#field-modal').data('door_code'),
-		field_enname:$(this).parent().siblings('.en').find('input').val(),
-		field_zhname:$(this).parent().siblings('.zh').find('input').val(),
+		field_en:$(this).parent().siblings('.en').find('input').val(),
+		field_zh:$(this).parent().siblings('.zh').find('input').val(),
     }
     var t = $(this)
     $.post('/field/edit',formData,function(d){

@@ -11,6 +11,7 @@ return [
         'feild/edit',
         'feild/del',
         'feild/ls',
+        'feild/sort',
     ],
     'dependency' => [
         'user/index' => ['unit/tree'],

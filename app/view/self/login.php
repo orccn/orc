@@ -122,6 +122,7 @@ License: You must have a valid license purchased only from themeforest(the above
         		}
         	},'json');
         }
+        $('[name="user_code"]').focus()
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->

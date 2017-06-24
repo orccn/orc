@@ -25,4 +25,6 @@ class Comm
     {
         return IS_AJAX || I($key);
     }
+    
+    
 }

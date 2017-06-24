@@ -17,4 +17,21 @@ class FieldModel extends BaseModel
     {
         return parent::insertIncrField($data, $this->getPk(), $replace);
     }
+    
+    public function getFieldList($doorCode)
+    {
+        return $this->where(['door_code' => $doorCode])->order('rank')->select();
+    }
+    
+    public function getFieldListByUrl($url)
+    {
+        $row = MenuModel::single()->where([
+            'door_url' => $url,
+            'has_field' => 1
+        ])->getRow();
+        if (! $row) {
+            return false;
+        }
+        return $this->getFieldList($row['door_code']);
+    }
 }

@@ -20,4 +20,5 @@ class MenuModel extends BaseModel
     {
         return parent::insertIncrField($data, $this->getPk(), $replace);
     }
+    
 }

@@ -2,20 +2,22 @@
 namespace Controller;
 
 use library\Comm;
-use model\UserModel;
 use orc\Response;
+use model\OpaccountModel;
+use library\DataTable;
 class OpaccountController extends AdminBase
 {
 
     function index()
     {
-        //http://blog.csdn.net/maxoracle/article/details/52535597
+        $fieldList = DataTable::checkFieldList('opaccount/index');
         if (Comm::isAjax()){
-            $userList = UserModel::single()->getUserByUnit(I('unit_code'));
-            Response::exitJson([
-                'data' => $userList
-            ]);
+            $order = DataTable::getOrder(array_column($fieldList, 'field_en'));
+            $accList = OpaccountModel::single()->order($order)->datatable();
+            Response::exitJson($accList);
         }else{
+            $this->assign('tableHeader',DataTable::getHeader($fieldList));
+            $this->assign('tableColumns',DataTable::getColumns($fieldList));
             $this->showFrame();
         }
     }
