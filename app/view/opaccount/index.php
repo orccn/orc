@@ -4,7 +4,7 @@
         <div id="user-right" class="<?=config('portletClass')?>">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>人员列表  </div>
+                    <i class="fa fa-globe"></i>运营核算分析  </div>
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">

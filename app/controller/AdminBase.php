@@ -4,7 +4,6 @@ namespace Controller;
 use orc\Controller;
 use orc\Response;
 use library\Validator;
-use model\MenuModel;
 use model\UserModel;
 use library\Comm;
 use library\Auth;
