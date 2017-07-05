@@ -9,11 +9,13 @@ namespace orc;
 class Config
 {
 
-    private static $config = [];
+    use traits\Instance;
+    
+    private $config = [];
 
-    private static $paths = [];
+    private $paths = [];
 
-    private static $defaultFile = 'main';
+    private $defaultFile = 'main';
 
     /**
      * 添加配置目录
@@ -21,12 +23,12 @@ class Config
      * @param string $path
      *            配置路径
      */
-    public static function addPath($path)
+    public function addPath($path)
     {
         if (is_array($path)) {
-            self::$paths = array_merge(self::$paths, array_map('fmtdir', $path));
+            $this->paths = array_merge($this->paths, array_map('fmtdir', $path));
         } else {
-            self::$paths[] = fmtdir($path);
+            $this->paths[] = fmtdir($path);
         }
     }
 
@@ -39,11 +41,11 @@ class Config
      *            当未获取到配置时的默认值
      * @return mixed
      */
-    public static function get($key, $default = null)
+    public function get($key, $default = null)
     {
         $key = explode('.', $key, 2);
         if (! isset($key[1])) {
-            array_unshift($key, self::$defaultFile);
+            array_unshift($key, $this->defaultFile);
         }
         $data = self::load($key[0]);
         if (! empty($key[1])) {
@@ -58,22 +60,22 @@ class Config
      * @param string $filename            
      * @return mixed
      */
-    public static function load($filename)
+    public function load($filename)
     {
-        if (! isset(self::$config[$filename])) {
-            foreach (self::$paths as $path) {
+        if (! isset($this->config[$filename])) {
+            foreach ($this->paths as $path) {
                 $data = parse_file($path . $filename . ".php");
                 if ($data !== null) {
-                    if (! isset(self::$config[$filename])) {
-                        self::$config[$filename] = [];
+                    if (! isset($this->config[$filename])) {
+                        $this->config[$filename] = [];
                     }
-                    self::$config[$filename] = array_cover_recursive(self::$config[$filename], $data);
+                    $this->config[$filename] = array_cover_recursive($this->config[$filename], $data);
                 }
             }
-            if (! isset(self::$config[$filename])) {
-                self::$config[$filename] = null;
+            if (! isset($this->config[$filename])) {
+                $this->config[$filename] = null;
             }
         }
-        return self::$config[$filename];
+        return $this->config[$filename];
     }
 }

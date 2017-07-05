@@ -28,13 +28,13 @@ define('IS_AJAX', isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVE
 define('REQUEST_METHOD', isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get');
 
 // 自动加载类
-Loader::rigist([
+(new Loader())->rigist([
     dirname(BASE_DIR) . DS,
     APP_DIR
 ]);
 
 // 加载配置文件路径
-Config::addPath([
+Config::single()->addPath([
     CONFIG_DIR,
     CONFIG_DIR . ENV . DS
 ]);
@@ -42,7 +42,7 @@ Config::addPath([
 //预加载配置文件
 if (is_array(config('preload'))){
     foreach (config('preload') as $file) {
-        Config::load($file);
+        Config::single()->load($file);
     }
 }
 

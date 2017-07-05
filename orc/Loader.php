@@ -9,9 +9,9 @@ namespace orc;
 class Loader
 {
 
-    private static $paths = [];
+    private $paths = [];
 
-    public static function rigist($path = null)
+    public function rigist($path = null)
     {
         if ($path) {
             self::addPath($path);
@@ -29,12 +29,12 @@ class Loader
      * @param string $path
      *            配置路径
      */
-    public static function addPath($path)
+    public function addPath($path)
     {
         if (is_array($path)) {
-            self::$paths = array_merge(self::$paths, array_map('fmtdir', $path));
+            $this->paths = array_merge($this->paths, array_map('fmtdir', $path));
         } else {
-            self::$paths[] = fmtdir($path);
+            $this->paths[] = fmtdir($path);
         }
     }
 
@@ -43,9 +43,9 @@ class Loader
      *
      * @param string $class            
      */
-    public static function autoload($class)
+    public function autoload($class)
     {
-        foreach (self::$paths as $filePath) {
+        foreach ($this->paths as $filePath) {
             $filePath .= str_replace('\\', '/', $class) . ".php";
             if (file_exists($filePath)) {
                 require_once $filePath;

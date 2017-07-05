@@ -82,7 +82,7 @@ function pre($var)
 
 function config($key, $value = null)
 {
-    return Config::get($key, $value);
+    return Config::single()->get($key, $value);
 }
 
 function lang($key = '', $value = null)
