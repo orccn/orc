@@ -41,7 +41,7 @@ class BaseModel extends Model
             $len = 1000;
         }
         $obj = clone $this;
-        $data = $this->limit($start, $len)->select();
+        $data = $this->limit($start.','.$len)->select();
         $allCount = $this->count();
         $filterCount = $obj->count();
         $arr = [
