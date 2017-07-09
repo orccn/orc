@@ -13,66 +13,77 @@ class DI
 
     private $singletons = [];
 
-    public function set($name, $value, $setSingleton = false)
+    public function ins()
     {
-        $this->deps[$name] = [
-            'value' => $value,
+        static $instance = null;
+        if (!$instance) {
+            $instance = new self();
+        }
+        return $instance;
+    }
+    
+    public function __get($alias)
+    {
+        if ($this->deps[$alias]['isSingleton']) {
+            return $this->get($alias);
+        }
+        throw new Exception("singleton $alias not exists.");
+    }
+
+    public function __set($alias, $concrete)
+    {
+        $this->singleton($alias, $concrete);
+    }
+
+    public function set($alias, $concrete, $setSingleton = false)
+    {
+        $this->deps[$alias] = [
+            'concrete' => $concrete,
             'isSingleton' => $setSingleton
         ];
     }
 
-    private function getObject($name,$args = [])
+    public function singleton($alias, $concrete)
     {
-        if (is_string($name)){
-            
-        }
+        $this->set($alias, $concrete, true);
     }
-    
-    public function get($name)
+
+    private function getObject($concrete, $args = [])
     {
-        if (empty($this->deps[$name])){
-            return false;
+        if ($concrete instanceof \Closure) {
+            return call_user_func_array($concrete, $args);
         }
-        $args = array_slice(func_get_args(), 1);
-        if ($this->deps[$name]['isSingleton']){
-            if (!isset($this->singletons[$name])){
-                $this->singletons[$name] = $this->getObject($name,$args);
+        if (is_object($concrete)) {
+            return $concrete;
+        }
+        if (is_string($concrete)) {
+            $reflector = new \ReflectionClass($concrete);
+            $constructor = $reflector->getConstructor();
+            if (is_null($constructor) || empty($constructor->getParameters())) {
+                return new $concrete();
+            } else {
+                return $reflector->newInstanceArgs($args);
             }
-            return $this->singletons[$name];
         }
-        
-        
-        
-//         // 如果是匿名函数（Anonymous functions），也叫闭包函数（closures）
-//         if ($className instanceof Closure) {
-//             // 执行闭包函数，并将结果
-//             return $className($this);
-//         }
-        
-//         /** @var ReflectionClass $reflector */
-//         $reflector = new ReflectionClass($className);
-        
-//         // 检查类是否可实例化, 排除抽象类abstract和对象接口interface
-//         if (!$reflector->isInstantiable()) {
-//             throw new Exception("Can't instantiate this.");
-//         }
-        
-//         /** @var ReflectionMethod $constructor 获取类的构造函数 */
-//         $constructor = $reflector->getConstructor();
-        
-//         // 若无构造函数，直接实例化并返回
-//         if (is_null($constructor)) {
-//             return new $className;
-//         }
-        
-//         // 取构造函数参数,通过 ReflectionParameter 数组返回参数列表
-//         $parameters = $constructor->getParameters();
-        
-//         // 递归解析构造函数的参数
-//         $dependencies = $this->getDependencies($parameters);
-        
-//         // 创建一个类的新实例，给出的参数将传递到类的构造函数。
-//         return $reflector->newInstanceArgs($dependencies);
-        
+        throw new Exception("unknown concrete type.");
+    }
+
+    public function get($alias, $args = [])
+    {
+        if (empty($this->deps[$alias])) {
+            throw new Exception("alias $alias not exists.");
+        }
+        $concrete = $this->deps[$alias]['concrete'];
+        if ($this->deps[$alias]['isSingleton']) {
+            if (! isset($this->singletons[$alias])) {
+                $this->singletons[$alias] = $this->getObject($concrete);
+            }
+            return $this->singletons[$alias];
+        } else {
+            if (! is_array($args)) {
+                $args = array_slice(func_get_args(), 1);
+            }
+            return $this->getObject($concrete, $args);
+        }
     }
 }
