@@ -110,13 +110,13 @@ class Router
         define('PAGE_TYPE', $this->getExt() ? $this->getExt() : config('defaultViewType'));
         define('URL_PAHT', ($this->moudle ? DS . $this->moudle : '') . DS . $this->controller . DS . $this->action);
         
-        Hook::trigger('ctlInsBefore');
+        di('hook')->trigger('ctlInsBefore');
         $ctlObject = $controller->newInstance();
-        Hook::trigger('ctlInsAfter');
+        di('hook')->trigger('ctlInsAfter');
         
-        Hook::trigger('actionBefore');
+        di('hook')->trigger('actionBefore');
         $content = $method->invoke($ctlObject);
-        Hook::trigger('actionAfter');
+        di('hook')->trigger('actionAfter');
         
         return $content;
     }

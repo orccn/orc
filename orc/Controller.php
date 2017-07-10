@@ -8,12 +8,14 @@ namespace orc;
 
 class Controller
 {
-
-    private $view = null;
+    protected $view = null;
+    
+    protected $res= null;
 
     public function __construct()
     {
-        $this->view = View::ins();
+        $this->view = di('view');
+        $this->res = di('res');
     }
 
     /**
@@ -38,7 +40,7 @@ class Controller
      */
     protected function show($file = '')
     {
-        Response::output($this->fetch($file));
+        $this->res->output($this->fetch($file));
     }
 
     /**
@@ -61,16 +63,16 @@ class Controller
 
     protected function error($msg, $code = 1)
     {
-        Response::error($msg, $code);
+        $this->res->error($msg, $code);
     }
 
     protected function success($data = null, $more = null)
     {
-        Response::success($data, $more);
+        $this->res->success($data, $more);
     }
 
     protected function exitJson($data)
     {
-        Response::exitJson($data, I('jsonp'));
+        $this->res->exitJson($data, I('jsonp'));
     }
 }

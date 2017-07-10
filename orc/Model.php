@@ -35,7 +35,7 @@ class Model
     protected function db()
     {
         if (! $this->db) {
-            $this->db = DB::getInstance($this->dbKey);
+            $this->db = db($this->dbKey);
         }
         return $this->db;
     }

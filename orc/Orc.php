@@ -34,31 +34,37 @@ define('REQUEST_METHOD', isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER
 ]);
 
 // 加载配置文件路径
-Config::single()->addPath([
+di()->singleton('config', 'orc\Config');
+di('config')->addPath([
+    BASE_DIR . 'config',
     CONFIG_DIR,
     CONFIG_DIR . ENV . DS
 ]);
 
-//预加载配置文件
-if (is_array(config('preload'))){
-    foreach (config('preload') as $file) {
-        Config::single()->load($file);
-    }
+// 依赖注入
+foreach (config('di.set', []) as $alias=> $concrete) {
+    di()->set($alias, $concrete);
+}
+foreach (config('di.singletons', []) as $alias=> $concrete) {
+    di()->singleton($alias, $concrete);
+}
+
+// 预加载配置文件
+foreach (config('preload', []) as $file) {
+    di('config')->load($file);
 }
 
 // 加载语言配置路径
-Lang::addPath(APP_DIR . 'lang');
+di('lang')->addPath(APP_DIR . 'lang');
 
 // 注册所有插件
-if (config('plugin.')) {
-    foreach (config('plugin.') as $tag => $plugins) {
-        Hook::set($tag, $plugins);
-    }
+foreach (config('plugin.', []) as $tag => $plugins) {
+    Hook::set($tag, $plugins);
 }
 
 // URL路由、请求分发
-$pathInfo = parse_url(URL::getCurrentURL(), PHP_URL_PATH);
-Response::output(Router::ins($pathInfo)->dispatch());
+$pathInfo = parse_url(di('url')->getCurrentURL(), PHP_URL_PATH);
+di('res')->output(di('router',$pathInfo)->dispatch());
 
 
 

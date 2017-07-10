@@ -9,13 +9,13 @@ namespace orc;
 class Lang
 {
 
-    private static $config = [];
+    protected $config = [];
 
-    private static $path = null;
+    protected $path = null;
 
-    private static $lang = 'zh-cn';
+    protected $lang = 'zh-cn';
 
-    private static $defaultFile = 'main';
+    protected $defaultFile = 'main';
 
     /**
      * 设置配置目录
@@ -23,9 +23,9 @@ class Lang
      * @param string $path
      *            配置路径
      */
-    public static function addPath($path)
+    public function addPath($path)
     {
-        self::$path = fmtdir($path);
+        $this->path = fmtdir($path);
     }
 
     /**
@@ -37,16 +37,16 @@ class Lang
      *            可能存在的文本参数
      * @return string
      */
-    public static function get($key = '', $params = null)
+    public function get($key = '', $params = null)
     {
         if ($params !== null) {
             $params = (array) $params;
         }
         $key = explode('.', $key, 2);
         if (! isset($key[1])) {
-            array_unshift($key, self::$defaultFile);
+            array_unshift($key, $this->defaultFile);
         }
-        $data = self::load($key[0]);
+        $data = $this->load($key[0]);
         if (! empty($key[1])) {
             $data = isset($data[$key[1]]) ? $data[$key[1]] : null;
         }
@@ -62,9 +62,9 @@ class Lang
      *
      * @param string $lang            
      */
-    public static function setLang($lang)
+    public function setLang($lang)
     {
-        self::$lang = $lang;
+        $this->lang = $lang;
     }
 
     /**
@@ -73,12 +73,12 @@ class Lang
      * @param string $filename            
      * @return mixed
      */
-    public static function load($filename)
+    public function load($filename)
     {
-        $file = self::$path . self::$lang . '/' . $filename . ".php";
-        if (! isset(self::$config[$filename])) {
-            self::$config[$filename] = parse_file($file);
+        $file = $this->path . $this->lang . '/' . $filename . ".php";
+        if (! isset($this->config[$filename])) {
+            $this->config[$filename] = parse_file($file);
         }
-        return self::$config[$filename];
+        return $this->config[$filename];
     }
 }

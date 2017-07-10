@@ -9,7 +9,7 @@ namespace orc;
 class URL
 {
 
-    public static function getCurrentURL()
+    public function getCurrentURL()
     {
         static $url = null;
         if ($url) {
@@ -24,11 +24,11 @@ class URL
         return $url;
     }
 
-    public static function getHost($url = '')
+    public function getHost($url = '')
     {
         $host = '';
         if ($url === '') {
-            $url = self::getCurrentURL();
+            $url = $this->getCurrentURL();
         }
         $url = parse_url($url);
         $host = $url['host'];
@@ -38,17 +38,17 @@ class URL
         return $host;
     }
 
-    public static function setURLQuery(array $params, $url = '')
+    public function setQuery(array $params, $url = '')
     {
         $str = '';
         if ($url === '') {
-            $url = self::getCurrentURL();
+            $url = $this->getCurrentURL();
         }
         $rs = parse_url($url);
         if (isset($rs['scheme'])) {
             $str .= $rs['scheme'] . "//";
         }
-        $str .= self::getHost($url);
+        $str .= $this->getHost($url);
         if (isset($rs['path'])) {
             $str .= $rs['path'];
         }
@@ -63,7 +63,7 @@ class URL
         return $str;
     }
 
-    public static function getRewriteURL()
+    public function getRewriteURL()
     {}
 
     /**

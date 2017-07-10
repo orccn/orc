@@ -9,8 +9,6 @@ namespace orc;
 class Config
 {
 
-    use traits\Instance;
-    
     private $config = [];
 
     private $paths = [];
@@ -47,7 +45,7 @@ class Config
         if (! isset($key[1])) {
             array_unshift($key, $this->defaultFile);
         }
-        $data = self::load($key[0]);
+        $data = $this->load($key[0]);
         if (! empty($key[1])) {
             $data = isset($data[$key[1]]) ? $data[$key[1]] : null;
         }

@@ -13,7 +13,7 @@ class DI
 
     private $singletons = [];
 
-    public function ins()
+    public static function ins()
     {
         static $instance = null;
         if (!$instance) {
@@ -22,19 +22,6 @@ class DI
         return $instance;
     }
     
-    public function __get($alias)
-    {
-        if ($this->deps[$alias]['isSingleton']) {
-            return $this->get($alias);
-        }
-        throw new Exception("singleton $alias not exists.");
-    }
-
-    public function __set($alias, $concrete)
-    {
-        $this->singleton($alias, $concrete);
-    }
-
     public function set($alias, $concrete, $setSingleton = false)
     {
         $this->deps[$alias] = [

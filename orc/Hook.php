@@ -9,7 +9,7 @@ namespace orc;
 class Hook
 {
 
-    private static $tags = [];
+    protected $tags = [];
 
     /**
      * 动态添加插件到某个标签
@@ -20,15 +20,15 @@ class Hook
      *            插件名称
      * @return void
      */
-    public static function set($tag, $name)
+    public function set($tag, $name)
     {
-        if (! isset(self::$tags[$tag])) {
-            self::$tags[$tag] = [];
+        if (! isset($this->tags[$tag])) {
+            $this->tags[$tag] = [];
         }
         if (is_array($name)) {
-            self::$tags[$tag] = array_merge(self::$tags[$tag], $name);
+            $this->tags[$tag] = array_merge($this->tags[$tag], $name);
         } else {
-            self::$tags[$tag][] = $name;
+            $this->tags[$tag][] = $name;
         }
     }
 
@@ -39,12 +39,12 @@ class Hook
      *            插件位置 留空获取全部
      * @return array
      */
-    public static function get($tag = '')
+    public function get($tag = '')
     {
         if (empty($tag)) {
-            return self::$tags;
+            return $this->tags;
         } else {
-            return self::$tags[$tag];
+            return $this->tags[$tag];
         }
     }
 
@@ -57,13 +57,13 @@ class Hook
      *            传入参数
      * @return void
      */
-    public static function trigger($tag, &$params = null)
+    public function trigger($tag, &$params = null)
     {
-        if (! isset(self::$tags[$tag])){
+        if (! isset($this->tags[$tag])){
             return null;
         }
-        foreach (self::$tags[$tag] as $name) {
-            self::exec($name, $tag, $params);
+        foreach ($this->tags[$tag] as $name) {
+            $this->exec($name, $tag, $params);
         }
     }
 

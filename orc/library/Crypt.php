@@ -19,9 +19,9 @@ class Crypt
      * @param int $expiry            
      * @return string 加密后的加密字串
      */
-    public static function encrypt($str, $key, $expiry = 0)
+    public function encrypt($str, $key, $expiry = 0)
     {
-        return self::cryptCode($str, "encode", $expiry);
+        return $this->cryptCode($str, "encode", $expiry);
     }
 
     /**
@@ -34,9 +34,9 @@ class Crypt
      * @param int $expiry            
      * @return string 解密后的字串
      */
-    public static function decrypt($str, $key)
+    public function decrypt($str, $key)
     {
-        return self::cryptCode($str, "decode");
+        return $this->cryptCode($str, "decode");
     }
 
     /**
@@ -51,7 +51,7 @@ class Crypt
      *            关键密钥
      * @return string 加密或解密串
      */
-    private static function cryptCode($str, $operation = "decode", $expiry = 0, $key = '')
+    private function cryptCode($str, $operation = "decode", $expiry = 0, $key = '')
     {
         $ckeyLength = 4;
         $key = md5($key);
