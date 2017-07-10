@@ -14,13 +14,13 @@ class Loader
     public function rigist($path = null)
     {
         if ($path) {
-            self::addPath($path);
+            $this->addPath($path);
         }
         $vendorAutoFile = '../vendor/autoload.php';
         if (is_file($vendorAutoFile)) {
             require $vendorAutoFile;
         }
-        spl_autoload_register('orc\Loader::autoload');
+        spl_autoload_register(['orc\Loader','autoload']);
     }
 
     /**
