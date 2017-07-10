@@ -59,7 +59,7 @@ di('lang')->addPath(APP_DIR . 'lang');
 
 // 注册所有插件
 foreach (config('plugin.', []) as $tag => $plugins) {
-    Hook::set($tag, $plugins);
+    di('hook')->set($tag, $plugins);
 }
 
 // URL路由、请求分发
