@@ -80,7 +80,7 @@ class Auth
             'idField' => 'door_code',
             'parentField' => 'door_parent'
         ];
-        $menuTree = Tree::ins($option)->getTree($arr, 0);
+        $menuTree = di('tree',$option)->getTree($arr, 0);
         $html = self::createLeftMenuHtml($menuTree);
         return $html;
     }

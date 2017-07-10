@@ -14,7 +14,7 @@ class OpaccountController extends AdminBase
         if (Comm::isAjax()){
             $order = DataTable::getOrder(array_column($fieldList, 'field_en'));
             $accList = OpaccountModel::single()->order($order)->datatable();
-            Response::exitJson($accList);
+            di('res')->exitJson($accList);
         }else{
             $this->assign('tableHeader',DataTable::getHeader($fieldList));
             $this->assign('tableColumns',DataTable::getColumns($fieldList));

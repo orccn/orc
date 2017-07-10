@@ -13,7 +13,7 @@ class UserController extends AdminBase
     {
         if (Comm::isAjax()) {
             $userList = UserModel::single()->getUserByUnit(I('unit_code'));
-            Response::exitJson([
+            di('res')->exitJson([
                 'data' => $userList
             ]);
         } else {

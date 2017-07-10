@@ -14,10 +14,10 @@ class DataTable
     {
         $fieldList = FieldModel::single()->getFieldListByUrl('opaccount/index');
         if ($fieldList===false){
-            Response::error('该模块未开启字段控制功能');
+            di('res')->error('该模块未开启字段控制功能');
         }
         if (empty($fieldList)){
-            Response::error('该模块未添加控制字段');
+            di('res')->error('该模块未添加控制字段');
         }
         return $fieldList;
     }
@@ -25,16 +25,16 @@ class DataTable
     public static function getOrder($fields)
     {
         if (empty($fields)){
-            Response::error("没有可允许的排序字段");
+            di('res')->error("没有可允许的排序字段");
         }
         $columns = I('columns');
         $order = I('order');
         if (!isset($columns[$order[0]['column']]['data'])){
-            Response::error("前端排序字段传递错误");
+            di('res')->error("前端排序字段传递错误");
         }
         $orderField = $columns[$order[0]['column']]['data'];
         if (!in_array($orderField, $fields)){
-            Response::error("排序字段不存在");
+            di('res')->error("排序字段不存在");
         }
         $orderType = $order[0]['dir'] == 'asc' ? 'asc' : 'desc';
         return "$orderField $orderType";

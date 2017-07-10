@@ -15,7 +15,7 @@ class MenuController extends AdminBase
             'idField' => 'door_code',
             'parentField' => 'door_parent'
         ];
-        $sortMenu = Tree::ins($option)->getList($menuList, 0);
+        $sortMenu = di('tree',$option)->getList($menuList, 0);
         $this->assign('sortMenu', $sortMenu);
         $this->assign('menuList', array_column($menuList, null, 'door_code'));
         $this->showFrame('menu');
@@ -42,8 +42,8 @@ class MenuController extends AdminBase
             'parentField' => 'door_parent',
             'textField' => 'door_name'
         ];
-        $tree = Tree::ins($option)->getJSTreeData($unitList, 0);
-        Response::outputJson($tree);
+        $tree = di('tree',$option)->getJSTreeData($unitList, 0);
+        di('res')->outputJson($tree);
     }
 
     function edit()

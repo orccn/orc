@@ -54,7 +54,7 @@ class AdminBase extends Controller
     
     protected function redirect($url, $delay = 0)
     {
-        Response::redirect($url, $delay);
+        di('res')->redirect($url, $delay);
     }
 
     protected function fetchFrame($file = '')
@@ -65,7 +65,7 @@ class AdminBase extends Controller
 
     protected function showFrame($file = '')
     {
-        Response::output($this->fetchFrame($file));
+        di('res')->output($this->fetchFrame($file));
     }
 
     /**
@@ -104,7 +104,7 @@ class AdminBase extends Controller
             if (!is_array($rules)){
                 $rules = explode('|', $rules);
             }
-            $validator = Validator::ins($data, $nameCN);
+            $validator = di('validator',$data, $nameCN);
             foreach ($rules as $k => $v) {
                 if (is_string($k)) {
                     $ruleAndParams = $k;
