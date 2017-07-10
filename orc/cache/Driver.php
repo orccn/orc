@@ -8,7 +8,6 @@ namespace orc\cache;
 
 abstract class Driver
 {
-    use \orc\traits\Instance;
 
     protected $handler = null;
 

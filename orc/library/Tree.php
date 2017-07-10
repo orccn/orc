@@ -8,8 +8,7 @@ namespace orc\library;
 
 class Tree
 {
-    use \orc\traits\Instance;
-
+    
     protected $fields = [
         'idField' => 'id',
         'parentField' => 'parent',

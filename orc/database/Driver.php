@@ -8,7 +8,6 @@ namespace orc\database;
 
 abstract class Driver
 {
-    use \orc\traits\Instance;
 
     protected $conn = null;
 

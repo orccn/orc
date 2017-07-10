@@ -6,6 +6,7 @@
  */
 use orc\Config;
 use orc\Lang;
+use orc\DI;
 
 function I($name, $all = false)
 {
@@ -44,7 +45,10 @@ function I($name, $all = false)
             return '';
     }
     
-    $filter = config('input_filter') ? config('input_filter') : ['trim','htmlspecialchars'];
+    $filter = config('input_filter') ? config('input_filter') : [
+        'trim',
+        'htmlspecialchars'
+    ];
     if ($all) {
         return array_map_recursive($filter, $input);
     }
@@ -52,6 +56,18 @@ function I($name, $all = false)
         return '';
     }
     return array_map_recursive($filter, $input[$name]);
+}
+
+function di($alias = null, $args = [])
+{
+    if (is_null($alias)) {
+        return DI::ins();
+    } else {
+        if (! is_array($args)) {
+            $args = array_slice(func_get_args(), 1);
+        }
+        return di()->get($alias, $args);
+    }
 }
 
 /**
@@ -77,17 +93,17 @@ function pre($var)
 {
     echo '<pre>';
     print_r($var);
-    exit;
+    exit();
 }
 
-function config($key, $value = null)
+function config($key, $default = null)
 {
-    return Config::get($key, $value);
+    return di('config')->get($key, $default);
 }
 
-function lang($key = '', $value = null)
+function lang($key = '', $params = null)
 {
-    return Lang::get($key, $value);
+    return di('lang')->get($key, $params);
 }
 
 function gvar($key, $value = null)
@@ -114,6 +130,22 @@ function cache($key)
         } else {
             E("class {$class} not exists");
         }
+    }
+    return $instances[$key];
+}
+
+function db($key = 'default')
+{
+    static $instances = [];
+    if (! isset(self::$instances[$key])) {
+        $config = config("database.{$key}");
+        if (! $config) {
+            E("database.{$key} not exists");
+        }
+        $config['charset'] = empty($config['charset']) ? 'utf8' : strtolower($config['charset']);
+        $config['type'] = empty($config['type']) ? 'mysql' : strtolower($config['type']);
+        $class = "orc\\database\\" . ucfirst($config['type']);
+        self::$instances[$key] = new $class($config);
     }
     return $instances[$key];
 }
