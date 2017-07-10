@@ -83,23 +83,23 @@ class Router
         // 路由分配
         $className = $this->getClassName();
         if (! class_exists($className)) {
-            Response::show404();
+            di('res')->show404();
         }
         
         // check controller
         $controller = new \ReflectionClass($className);
         if ($controller->isAbstract()) {
-            Response::show404();
+            di('res')->show404();
         }
         
         // check action
         $action = $this->getActionName();
         if (! method_exists($className, $action)) {
-            Response::show404();
+            di('res')->show404();
         }
         $method = $controller->getMethod($action);
         if (! $method || ! $method->isPublic()) {
-            Response::show404();
+            di('res')->show404();
         }
         
         // dispatch

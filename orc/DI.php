@@ -67,9 +67,6 @@ class DI
             }
             return $this->singletons[$alias];
         } else {
-            if (! is_array($args)) {
-                $args = array_slice(func_get_args(), 1);
-            }
             return $this->getObject($concrete, $args);
         }
     }
