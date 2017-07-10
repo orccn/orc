@@ -58,15 +58,12 @@ function I($name, $all = false)
     return array_map_recursive($filter, $input[$name]);
 }
 
-function di($alias = null, $args = [])
+function di($alias = null)
 {
     if (is_null($alias)) {
         return DI::ins();
     } else {
-        if (! is_array($args)) {
-            $args = array_slice(func_get_args(), 1);
-        }
-        return di()->get($alias, $args);
+        return di()->get($alias, array_slice(func_get_args(), 1));
     }
 }
 
@@ -137,7 +134,7 @@ function cache($key)
 function db($key = 'default')
 {
     static $instances = [];
-    if (! isset(self::$instances[$key])) {
+    if (! isset($instances[$key])) {
         $config = config("database.{$key}");
         if (! $config) {
             E("database.{$key} not exists");
@@ -145,7 +142,7 @@ function db($key = 'default')
         $config['charset'] = empty($config['charset']) ? 'utf8' : strtolower($config['charset']);
         $config['type'] = empty($config['type']) ? 'mysql' : strtolower($config['type']);
         $class = "orc\\database\\" . ucfirst($config['type']);
-        self::$instances[$key] = new $class($config);
+        $instances[$key] = new $class($config);
     }
     return $instances[$key];
 }
